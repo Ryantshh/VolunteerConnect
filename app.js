@@ -1,13 +1,6 @@
 // Firebase configuration (replace with your own Firebase config)
 const firebaseConfig = {
-    apiKey: "AIzaSyBDpVjwYiXgIPxHpiovGyucpjjjUEkW0k4",
-    authDomain: "volunteerconnect-19a5a.firebaseapp.com",
-    databaseURL: "https://volunteerconnect-19a5a-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "volunteerconnect-19a5a",
-    storageBucket: "volunteerconnect-19a5a.appspot.com",
-    messagingSenderId: "459465867690",
-    appId: "1:459465867690:web:c3dad602925bbb7b29abd3",
-    measurementId: "G-XKKEQK9F35"
+    
   };
   
   // Initialize Firebase
