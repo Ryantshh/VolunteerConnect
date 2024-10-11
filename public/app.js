@@ -37,7 +37,7 @@ if (loginForm) {
 
         auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                window.location.href = 'homepage.html'; // Redirect to homepage after sign-up
+                window.location.href = 'questionaire/questionnaire.html'; // Redirect to questionnaire after sign-up
                 console.log('Login successful:', userCredential.user);
             })
             .catch((error) => {
