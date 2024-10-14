@@ -1,0 +1,69 @@
+<!-- redirect.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+
+        .animation {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .loader {
+            border: 16px solid #f3f3f3; /* Light grey */
+            border-top: 16px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 2s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="animation" id="redirectMessage"></div>
+        <div class="loader"></div>
+    </div>
+
+    <script>
+        // Get the redirect type from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectType = urlParams.get('type');
+
+        // Set the message based on redirect type
+        const redirectMessage = document.getElementById('redirectMessage');
+        if (redirectType === 'login') {
+            redirectMessage.textContent = 'Redirecting to login page...';
+        } else if (redirectType === 'signup') {
+            redirectMessage.textContent = 'Redirecting to sign-up page...';
+        }
+
+        // Redirect to the actual page after 3 seconds
+        setTimeout(() => {
+            if (redirectType === 'login') {
+                window.location.href = 'login.html'; // Replace with your actual login page URL
+            } else if (redirectType === 'signup') {
+                window.location.href = 'signup.html'; // Replace with your actual signup page URL
+            }
+        }, 3000); // 3000 ms = 3 seconds
+    </script>
+</body>
+</html>
