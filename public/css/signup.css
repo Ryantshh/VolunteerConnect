@@ -1,6 +1,5 @@
 body {
     font-family: 'Roboto', sans-serif;
-    display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -97,4 +96,22 @@ p {
 .button:hover{
     background-color: lightgray;
     cursor: pointer;
+}
+
+
+.navbar{
+    border-bottom: 1px solid #ddd;
+}
+
+.students-col {
+    height: 100vh; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.students{
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover;
 }
