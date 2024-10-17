@@ -5,22 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/login.css">
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>    
     <script src="config.js"></script>
 </head>
 
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <input type="email" id="loginEmail" placeholder="Email" required>
-            <input type="password" id="loginPassword" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        <p id="loginMessage"></p>
-        <p>Don't have an account? <a href="index.html">Sign up here</a></p>
+    <div class="login-container">
+        <img src="your-logo-here.png" alt="Volunteer Connect Logo">
+        <h1>Welcome Back!</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lobortis maximus.</p>
+
+        <a href="#" class="button google"><img src="google-icon.png" alt="Google Icon"> Continue with Google</a>
+        <a href="#" class="button facebook"><img src="facebook-icon.png" alt="Facebook Icon"> Continue with Facebook</a>
+        <a href="#" class="button apple"><img src="apple-icon.png" alt="Apple Icon"> Continue with Apple</a>
+
+        <div class="divider">OR</div>
+
+        <a href="#" class="button email-button">Sign up with email</a>
+
+        <div class="footer">
+            By signing up, you agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>, including <a href="#">cookie use</a>.
+        </div>
     </div>
 
     <script src="app.js"></script>
