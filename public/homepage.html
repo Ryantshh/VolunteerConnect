@@ -14,18 +14,23 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
+            <!-- Navbar Brand -->
             <a class="navbar-brand" href="#">
-                <img src="images/Volunteer.png" alt="logo" />
+                <img src="images/Volunteer.png" alt="logo"/>
             </a>
+
+            <!-- Toggler for mobile view -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+            <!-- Navbar Links-->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link active" id="active" href="#">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Explore</a>
@@ -37,9 +42,11 @@
                         <a class="nav-link" href="#">For You</a>
                     </li>
                 </ul>
-                <div class="d-flex">
-                    <button id="signin" class="btn btn-outline-dark" type="button">Sign In</button>
-                </div>
+            </div>
+
+            <!-- Sign In Button on the far right -->
+            <div class="d-flex">
+                <button id="signin" class="btn btn-outline-dark" type="button">Sign In</button>
             </div>
         </div>
     </nav>
@@ -71,7 +78,8 @@
             </div>
             <div class="carousel-item">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/PCVA1tkxC0k?si=ah36ZnVKMCvRe0Y2" 
+                    <iframe class="embed-responsive-item"
+                     src="https://www.youtube.com/embed/PCVA1tkxC0k?si=ah36ZnVKMCvRe0Y2" 
                     title="YouTube video player" frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
@@ -79,7 +87,7 @@
             </div>
             <div class="carousel-item">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="560" height="315" 
+                    <iframe class="embed-responsive-item"
                     src="https://www.youtube.com/embed/c4LCe9uiGj0?si=E55Z-JR9CaQ8zjJh" 
                     title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
