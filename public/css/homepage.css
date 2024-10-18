@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+/* Header */
+.navbar {
+    border-bottom: 1px solid #eaeaea;
+}
+
+.navbar-brand img {
+    border-radius: 50%;
+    width: 60px;
+    height: 50px;
+}
+
+/* Main Content */
+.main-content {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.main-content h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.main-content p {
+    font-size: 1rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+}
+
+.main-content .btn-explore {
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 25px;
+}
+
+.main-content .btn-explore:hover {
+    background-color: red;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 25px;
+}
+
+#signin:hover{
+    background-color: red;
+    color:white;
+
+}
+
+/* Carousel Section */
+.carousel {
+    margin-top: 30px;
+    position: relative;
+    text-align: center;
+}
+
+.carousel-item iframe {
+    width: 56%;
+    height: 450px; /* Larger video height */
+}
+
+/* Position controls on the sides */
+.carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5%; /* Adjust width for better positioning */
+    height: 100%; /* Ensure the buttons span the height of the carousel */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-control-prev {
+    left: 16%; /* Align to the left side */
+}
+
+.carousel-control-next {
+    right: 16%; /* Align to the right side */
+}
+
+/* Customize the appearance of the controls */
+.carousel-control-prev-icon, .carousel-control-next-icon {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    padding: 15px;
+    border-radius: 50%;
+}
