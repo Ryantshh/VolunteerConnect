@@ -15,7 +15,6 @@
             background-color: #f7f7f7;
         }
 
-        /* Full-page container without border or shadow */
         .container {
             height: 100%;
             display: flex;
@@ -37,20 +36,24 @@
         /* Logo styling */
         .logo-container {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 2px;
+            left: 2px;
         }
 
         .logo {
-            max-width: 80px;
+            max-width: 150px;
+            height: auto;
         }
 
-        /* Header (h2) */
+        /* Header (h2) with larger font */
         h2 {
             text-align: center;
+            font-size: 2rem;
             color: #333;
+            margin-bottom: 1rem;
         }
 
+        /* Scrollable list styling */
         .scrollable-list {
             max-height: 300px;
             overflow-y: auto;
@@ -61,7 +64,7 @@
 
         label {
             margin-left: 10px;
-            font-size: 14px;
+            font-size: 1.1rem;
         }
 
         /* Button groups with back on the left and next on the right */
@@ -71,8 +74,10 @@
             margin-top: 20px;
         }
 
+        /* Custom button styling */
         .btn-custom {
-            padding: 10px 20px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
             background-color: #007bff;
             color: white;
             border: none;
@@ -89,7 +94,7 @@
             background-color: #0056b3;
         }
 
-        /* Progress bar */
+        /* Progress bar styling */
         .progress-container {
             width: 100%;
             background-color: #f3f3f3;
@@ -99,37 +104,52 @@
         }
 
         .progress-bar {
-            height: 15px;
+            height: 20px;
             background-color: #007bff;
             transition: width 0.4s ease;
         }
 
-        /* Footer (progress bar and navigation) */
-        footer {
-            margin-top: auto;
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .btn-custom {
+                width: 100%;
+            }
+
+            .character-space {
+                height: 100px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
 
 <body>
-
-    <div id="app" class="container">
+    <div style="display: flex; justify-content: flex-end;">
         <!-- Space for animated character -->
         <div class="character-space">
-            <img src="path_to_animated_character.gif" alt="Animated Character" class="character-img">
+            <img src="path_to_animated_character.gif" alt="Animated Character" class="character-img img-fluid">
         </div>
 
         <!-- Logo -->
         <div class="logo-container">
-            <img src="path_to_your_logo.png" alt="Logo" class="logo">
+            <img src="logo.png" alt="Logo" class="logo">
         </div>
 
+    </div>
+
+
+    <div id="app" class="container">
         <!-- Interests Page -->
         <div v-if="currentStep === 1" class="form-page active">
             <h2>Select Your Interests</h2>
             <div class="scrollable-list">
-                <div v-for="interest in interestsList" :key="interest">
-                    <input type="checkbox" v-model="formData.interests" :value="interest"> <label>{{ interest }}</label>
+                <div v-for="interest in interestsList" :key="interest" class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" v-model="formData.interests" :value="interest"
+                        :id="interest">
+                    <label class="form-check-label" :for="interest">{{ interest }}</label>
                 </div>
             </div>
             <!-- First page next button on the right -->
@@ -143,8 +163,10 @@
         <div v-if="currentStep === 2" class="form-page active">
             <h2>Select Your Skills</h2>
             <div class="scrollable-list">
-                <div v-for="skill in skillsList" :key="skill">
-                    <input type="checkbox" v-model="formData.skills" :value="skill"> <label>{{ skill }}</label>
+                <div v-for="skill in skillsList" :key="skill" class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" v-model="formData.skills" :value="skill"
+                        :id="skill">
+                    <label class="form-check-label" :for="skill">{{ skill }}</label>
                 </div>
             </div>
             <!-- Back on the left, next on the right -->
@@ -158,8 +180,10 @@
         <div v-if="currentStep === 3" class="form-page active">
             <h2>Select Your Availability Days</h2>
             <div class="scrollable-list">
-                <div v-for="day in daysOfWeek" :key="day">
-                    <input type="checkbox" v-model="formData.availability" :value="day"> <label>{{ day }}</label>
+                <div v-for="day in daysOfWeek" :key="day" class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" v-model="formData.availability" :value="day"
+                        :id="day">
+                    <label class="form-check-label" :for="day">{{ day }}</label>
                 </div>
             </div>
             <!-- Back on the left, next on the right -->
@@ -174,14 +198,14 @@
         <div v-if="currentStep === 4" class="form-page active">
             <h2>Enter Your Address and Postal Code</h2>
             <div class="mb-3">
-                <label for="address">Full Address (optional)</label>
+                <label for="address" class="form-label">Full Address (optional)</label>
                 <input type="text" v-model="formData.address" class="form-control" placeholder="Enter your address">
             </div>
             <div class="mb-3">
-                <label for="postalCode">Postal Code (required)</label>
+                <label for="postalCode" class="form-label">Postal Code (required)</label>
                 <input type="text" v-model="formData.postalCode" class="form-control"
                     placeholder="Enter your postal code" required @input="validatePostalCode">
-                <p class="error" v-if="postalCodeError">{{ postalCodeError }}</p>
+                <p class="error text-danger" v-if="postalCodeError">{{ postalCodeError }}</p>
             </div>
             <!-- Back on the left, submit on the right -->
             <div class="btn-group">
@@ -227,12 +251,11 @@
                     ],
                     // Skills options
                     skillsList: [
-                        'First Aid/CPR', 'Teaching', 'Public Speaking', 'Fundraising', 'Event Planning', 'Communication',
-                        'Leadership', 'Project Management', 'Mentoring/Coaching', 'Social Media Management', 'Grant Writing',
-                        'Graphic Design', 'Web Development', 'Data Analysis', 'Tutoring', 'Photography/Videography',
-                        'Technical Support', 'Healthcare Assistance', 'Food Preparation', 'Marketing'
+                        'First Aid/CPR', 'Teaching', 'Public Speaking', 'Fundraising', 'Event Planning', 'Communication', 'Leadership', 'Project Management', 'Mentoring/Coaching',
+                        'Social Media Management', 'Grant Writing', 'Graphic Design', 'Web Development', 'Data Analysis',
+                        'Tutoring', 'Photography/Videography', 'Technical Support', 'Healthcare Assistance', 'Food Preparation', 'Marketing'
                     ],
-                    // Days of the week
+                    // Days of the week options
                     daysOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
                 };
             },
