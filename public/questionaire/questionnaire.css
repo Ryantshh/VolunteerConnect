@@ -1,0 +1,101 @@
+/* General body styling with a gradient background */
+body {
+    background: linear-gradient(135deg, #e0f7fa, #fce4ec);
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styling for the questionnaire container */
+.questionnaire-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 20px;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+/* Question heading */
+h2 {
+    font-size: 22px;
+    margin-bottom: 25px;
+    color: #555;
+}
+
+/* Option container for buttons or input */
+.option-container {
+    margin-bottom: 25px;
+}
+
+/* Custom button styles */
+.custom-btn {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.custom-btn:hover {
+    background-color: #f5f5f5;
+}
+
+.custom-btn.active {
+    background-color: #e1bee7;
+    border-color: #ce93d8;
+    box-shadow: 0 4px 8px rgba(206, 147, 216, 0.4);
+}
+
+/* Custom input field */
+.custom-input {
+    padding: 15px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 16px;
+    outline: none;
+    box-shadow: inset 0px 4px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 20px;
+    transition: border 0.3s ease;
+}
+
+.custom-input:focus {
+    border-color: #b39ddb;
+}
+
+/* Navigation buttons */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submit-btn {
+    background-color: #64b5f6;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #42a5f5;
+}
+
+.submit-btn:disabled {
+    background-color: #b3e5fc;
+    cursor: not-allowed;
+}
