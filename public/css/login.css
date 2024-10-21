@@ -1,11 +1,11 @@
 body {
     font-family: 'Roboto', sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
     margin: 0;
     background-color: #f9f9f9;
+    display: flex; /* Align body content vertically */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
 }
 
 .login-container {
@@ -48,9 +48,13 @@ p {
     margin-right: 10px;
 }
 
-.google { background-color: white; }
-.facebook { background-color: white; }
-.apple { background-color: white; }
+.google { 
+    background-color: white;
+    margin-top: 10px; /* Added to ensure space after the form */
+    padding: 12px 0;  /* Ensures padding for better display */
+    width: 100%; /* Fixes button cutoff */
+}
+
 .email-button {
     background-color: black;
     color: white;
@@ -89,7 +93,6 @@ p {
     text-decoration: none;
 }
 
-
 .volunteer-logo {
     margin-bottom: 10%;
 }
@@ -97,4 +100,35 @@ p {
 .button:hover{
     background-color: lightgray;
     cursor: pointer;
+}
+
+.navbar {
+    border-bottom: 1px solid #ddd;
+}
+
+.students-col {
+    height: 100vh; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.students {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover;
+}
+
+.row {
+    min-height: 100vh; /* Ensure row takes up full height */
+    display: flex; /* Flexbox for vertical centering */
+    align-items: center; /* Center content vertically */
+    overflow: hidden;
+}
+
+.content {
+    position: relative;
+    padding: 20px; /* Adjust padding rather than using top */
+    width: 100%;
+    max-width: 600px;
 }
