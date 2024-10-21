@@ -5,12 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Volunteer Questionnaire</title>
+    <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Vue.js 3.2.37 Script -->
     <script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.min.js"></script>
     <link rel="stylesheet" href="questionnaire.css">
-    <style>
-    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="../config.js"></script> <!-- Firebase config file -->
+
 </head>
 
 <body>
@@ -42,6 +47,13 @@
             </nav>
 
         </div>
+
+        <!-- Message bar for displaying success or error notifications -->
+        <div v-if="showMessageBar"
+            style="position: fixed; top: 0; left: 0; width: 100%; background-color: green; color: white; text-align: center; padding: 10px; font-size: 16px; z-index: 1000;">
+            {{ submissionMessage }}
+        </div>
+
         <div class="myContainer">
             <!-- Interests Page -->
             <div v-if="currentStep === 1" class="form-page active">
@@ -127,7 +139,7 @@
                 <div class="mb-3">
                     <label for="postalCode" class="form-label">Postal Code (required)</label>
                     <input type="text" v-model="formData.postalCode" class="form-control"
-                        placeholder="Enter your postal code" required >
+                        placeholder="Enter your postal code" required>
                     <p class="error text-danger" v-if="postalCodeError">{{ postalCodeError }}</p>
                 </div>
                 <!-- Progress Bar directly below the form -->
@@ -151,6 +163,8 @@
         const app = Vue.createApp({
             data() {
                 return {
+                    submissionMessage: '',
+                    showMessageBar: false,
                     currentStep: 1,  // Track the current step number
                     formData: {
                         interests: [],
@@ -176,7 +190,7 @@
                     // Days of the week options
                     daysOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
                     //form questions
-                    questions: ['Now let’s find the best place to start! What are your main interests?','Now what are your main skills?','What are your available days?','To help us match you with the nearest and most suitable volunteering opportunities, please provide your home location.']
+                    questions: ['Now let’s find the best place to start! What are your main interests?', 'Now what are your main skills?', 'What are your available days?', 'To help us match you with the nearest and most suitable volunteering opportunities, please provide your home location.']
 
                 };
             },
@@ -198,9 +212,9 @@
                     }
                 },
                 validatePostalCode() {
-                    const postalCodePattern = /^[0-9]{8}$/;
+                    const postalCodePattern = /^[0-9]{6}$/;
                     if (!postalCodePattern.test(this.formData.postalCode)) {
-                        this.postalCodeError = 'Postal code must be exactly 8 digits.';
+                        this.postalCodeError = 'Postal code must be exactly 6 digits.';
                         this.isPostalCodeValid = false;
                     } else {
                         this.postalCodeError = '';
@@ -210,8 +224,99 @@
                 submitForm() {
                     this.validatePostalCode();
                     if (this.isPostalCodeValid) {
-                        console.log(this.formData);
-                        alert('Form submitted successfully! Check the console for data.');
+                        // Initialize Firebase
+                        firebase.initializeApp(firebaseConfig);
+
+                        // Firestore and Auth reference
+                        const db = firebase.firestore();
+                        const auth = firebase.auth();
+
+                        firebase.auth().onAuthStateChanged((user) => {
+                            if (user) {
+                                // User is logged in
+                                const uid = user.uid;  // Get the authenticated user's UID
+
+                                // Data to upload to Firestore
+                                const userData = {
+                                    interests: this.formData.interests,
+                                    skills: this.formData.skills,
+                                    location: this.formData.postalCode,
+                                    uid: uid  // Store the authenticated user's UID
+                                };
+
+                                // Check if the document for this user exists
+                                db.collection('UserQuestionnaire').where('uid', '==', uid).get()
+                                    .then((querySnapshot) => {
+                                        if (!querySnapshot.empty) {
+                                            // If document exists, update the existing document
+                                            const docId = querySnapshot.docs[0].id; // Get the document ID of the first match
+                                            db.collection('UserQuestionnaire').doc(docId).update(userData)
+                                                .then(() => {
+                                                    console.log('Document successfully updated!');
+                                                    this.submissionMessage = "Form updated successfully!";
+                                                    this.showMessageBar = true;  // Show the message bar
+
+                                                    // Hide message bar after 3 seconds and redirect
+                                                    setTimeout(() => {
+                                                        this.showMessageBar = false;
+                                                        window.location.href = 'homepage.html';  // Redirect after success
+                                                    }, 3000);
+                                                })
+                                                .catch((error) => {
+                                                    console.error('Error updating document: ', error);
+                                                    this.submissionMessage = "Error updating form: " + error.message;
+                                                    this.showMessageBar = true;
+
+                                                    // Hide message bar after 3 seconds
+                                                    setTimeout(() => {
+                                                        this.showMessageBar = false;
+                                                    }, 3000);
+                                                });
+                                        } else {
+                                            // If no document exists, create a new one
+                                            db.collection('UserQuestionnaire').add(userData)
+                                                .then(() => {
+                                                    console.log('Document successfully written!');
+                                                    this.submissionMessage = "Form submitted successfully!";
+                                                    this.showMessageBar = true;  // Show the message bar
+
+                                                    // Hide message bar after 3 seconds and redirect
+                                                    setTimeout(() => {
+                                                        this.showMessageBar = false;
+                                                        window.location.href = 'homepage.html';  // Redirect after success
+                                                    }, 3000);
+                                                })
+                                                .catch((error) => {
+                                                    console.error('Error writing document: ', error);
+                                                    this.submissionMessage = "Error submitting form: " + error.message;
+                                                    this.showMessageBar = true;
+
+                                                    // Hide message bar after 3 seconds
+                                                    setTimeout(() => {
+                                                        this.showMessageBar = false;
+                                                    }, 3000);
+                                                });
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        console.error('Error checking for existing document: ', error);
+                                        this.submissionMessage = "Error checking for existing data: " + error.message;
+                                        this.showMessageBar = true;
+
+                                        // Hide message bar after 3 seconds
+                                        setTimeout(() => {
+                                            this.showMessageBar = false;
+                                        }, 3000);
+                                    });
+
+                            } else {
+                                // User is not logged in
+                                alert('You must be logged in to submit the form.');
+                                // Optionally, redirect to a login page
+                                window.location.href = "/";
+                            }
+                        });
+
                     }
                 }
             }
