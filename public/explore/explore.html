@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Top Matches & Explore</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   <style>
-   body {
+    body {
       font-family: Arial, sans-serif;
     }
 
@@ -19,35 +21,42 @@
       justify-content: center;
       align-items: center;
       background-color: #f8f9fa;
-      border-bottom: 1px solid #eaeaea; /* Add bottom border for consistency */
+      border-bottom: 1px solid #eaeaea;
+      /* Add bottom border for consistency */
     }
 
     /* Navbar Brand */
     .navbar-brand img {
       border-radius: 50%;
       width: 60px;
-      height: 50px; /* Align with the second chunk of code */
+      height: 50px;
+      /* Align with the second chunk of code */
     }
 
     .navbar-nav {
-      width: 40%; /* Adjust this width for spacing */
-      justify-content: space-around; /* Align links with spacing */
+      width: 40%;
+      /* Adjust this width for spacing */
+      justify-content: space-around;
+      /* Align links with spacing */
     }
 
     /* Navbar Links */
     #active {
-      font-weight: bolder; /* Active page bolder */
+      font-weight: bolder;
+      /* Active page bolder */
     }
 
     .navbar-nav .nav-link {
       color: #333;
       position: relative;
-      transition: color 0.3s ease; /* Smooth transition for color change */
+      transition: color 0.3s ease;
+      /* Smooth transition for color change */
     }
 
     /* Hover effect on nav links */
     .navbar-nav .nav-link:hover {
-      color: red; /* Red hover effect */
+      color: red;
+      /* Red hover effect */
     }
 
     /* Slide-up underline effect on hover */
@@ -70,74 +79,94 @@
     }
 
     /* Profile and Log Out Button */
-    #profile, #logout {
+    #profile,
+    #logout {
       border: 1px solid #333;
-      transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transitions */
+      transition: background-color 0.3s ease, color 0.3s ease;
+      /* Smooth transitions */
     }
 
-    #profile:hover, #logout:hover {
+    #profile:hover,
+    #logout:hover {
       background-color: red;
       color: white;
-      border: 1px solid red; /* Red hover effect */
+      border: 1px solid red;
+      /* Red hover effect */
     }
 
     /* Recommended Card styling */
     .recommended-card {
-      border: 2px solid #f0ad4e; /* Highlighted border for top picks */
+      border: 2px solid #f0ad4e;
+      /* Highlighted border for top picks */
       border-radius: 10px;
-      width: 100%; /* Adjust width to take full column */
-      height: 100%; /* Set a fixed height for uniformity */
-      margin: 0 15px; /* Margin for spacing */
+      width: 100%;
+      /* Adjust width to take full column */
+      height: 100%;
+      /* Set a fixed height for uniformity */
+      margin: 0 15px;
+      /* Margin for spacing */
       display: flex;
       flex-direction: column;
     }
 
     .recommended-card img {
-      height: 150px; /* Fixed image height */
-      object-fit: cover; /* Ensure image fits within the space */
+      height: 150px;
+      /* Fixed image height */
+      object-fit: cover;
+      /* Ensure image fits within the space */
     }
 
 
-     .recommended-card-body {
-      
-      flex-grow: 1; /* Allow content to grow and push the button */
+    .recommended-card-body {
+
+      flex-grow: 1;
+      /* Allow content to grow and push the button */
     }
 
 
 
     /* General styling for non-recommended cards */
     .general-card {
-      border: 1px solid #e0e0e0; /* Regular border for other cards */
+      border: 1px solid #e0e0e0;
+      /* Regular border for other cards */
       border-radius: 8px;
-      height: 350px; /* Set a fixed height for uniformity */
+      height: 350px;
+      /* Set a fixed height for uniformity */
       display: flex;
-      flex-direction: column; /* Ensure flexbox stacking */
+      flex-direction: column;
+      /* Ensure flexbox stacking */
       justify-content: space-between;
     }
 
     .general-card-body {
       display: flex;
       flex-direction: column;
-      flex-grow: 1; /* Allow content to grow and push the button */
+      flex-grow: 1;
+      /* Allow content to grow and push the button */
     }
 
     .general-card .card-text {
-      flex-grow: 1; /* Make the text container flexible to push the button down */
+      flex-grow: 1;
+      /* Make the text container flexible to push the button down */
     }
 
     .general-card a {
-      margin-top: auto; /* Push the button to the bottom */
-      align-self: flex-start; /* Align the button to the bottom left */
+      margin-top: auto;
+      /* Push the button to the bottom */
+      align-self: flex-start;
+      /* Align the button to the bottom left */
     }
 
     /* Ensure carousel controls are visible */
-    .carousel-control-prev, .carousel-control-next {
+    .carousel-control-prev,
+    .carousel-control-next {
       width: 5%;
     }
 
     .carousel-control-prev-icon,
     .carousel-control-next-icon {
-      background-color: black; /* Ensure the buttons are visible */
+      background-color: black;
+      /* Ensure the buttons are visible */
       border-radius: 50%;
     }
 
@@ -148,7 +177,8 @@
 
     /* General card styling */
     .general-card img {
-      height: 150px; /* Fixed image height */
+      height: 150px;
+      /* Fixed image height */
       object-fit: cover;
     }
 
@@ -163,7 +193,8 @@
         width: 100%;
       }
 
-      .carousel-control-prev, .carousel-control-next {
+      .carousel-control-prev,
+      .carousel-control-next {
         width: 10%;
       }
 
@@ -174,48 +205,50 @@
     }
   </style>
 </head>
+
 <body>
   <div id="app">
     <!-- Full Width Navigation Bar with centered icons -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container-fluid">
-            <!-- Navbar Brand -->
-            <a class="navbar-brand" href="#">
-                <img src="volunteer.png" />
-            </a>
+      <div class="container-fluid">
+        <!-- Navbar Brand -->
+        <a class="navbar-brand" href="#">
+          <img src="volunteer.png" />
+        </a>
 
-            <!-- Toggler for mobile view -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <!-- Toggler for mobile view -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <!-- Navbar Links-->
-            <div class="collapse navbar-collapse justify-content-center ms-2" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="active" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Explore</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Calendar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Donate</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">For You</a>
-                    </li>
-                </ul>
-            </div>
-
-            <!-- Sign In Button on the far right -->
-            <div class="d-flex">
-                <button id="profile" class="btn btn-outline-dark me-2" type="button">My Profile</button>
-                <button id="logout" class="btn btn-outline-dark" type="button">Log Out</button>
-            </div>
+        <!-- Navbar Links-->
+        <div class="collapse navbar-collapse justify-content-center ms-2" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" id="active" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Explore</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Calendar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Donate</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">For You</a>
+            </li>
+          </ul>
         </div>
+
+        <!-- Sign In Button on the far right -->
+        <div class="d-flex">
+          <button id="profile" class="btn btn-outline-dark me-2" type="button">My Profile</button>
+          <button id="logout" class="btn btn-outline-dark" type="button">Log Out</button>
+        </div>
+      </div>
     </nav>
 
     <!-- Matches Section (Carousel) -->
@@ -229,88 +262,40 @@
           <div class="carousel-item active">
             <div class="row">
               <!-- Recommended Card (Highlighted) 1  -->
-              <div class="col-md-3">
-                <div class="card recommended-card shadow-lg">
-                  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Recommended</h5>
-                    <span class="badge badge-warning">Top Pick</span>
-                  </div>
-                  <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-                  <div class="recommended-card-body d-flex align-items-center">
-                    <div class="progress flex-grow-1" style="height: 20px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85% Match</div>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title">Recommended Listing</h5>
-                    <p class="card-text">Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.</p>
-                    <a href="#" class="btn btn-outline-primary">View Details</a>
-                  </div>
-                </div>
-              </div>
 
-              <!-- Recommended Card (Highlighted) 2 -->
-              <div class="col-md-3">
-                <div class="card recommended-card shadow-sm">
-                  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Recommended</h5>
-                    <span class="badge badge-warning">Top Pick</span>
-                  </div>
-                  <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-                  <div class="recommended-card-body d-flex align-items-center">
-                    <div class="progress flex-grow-1" style="height: 20px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 90%;" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100">90% Match</div>
+              <div class="col-md-3" v-for="(card, index) in recommendedCards" :key="index">
+                <div v-if="card.matchPercentage>=80">
+                  <div class="card recommended-card shadow-lg">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                      <h5 class="mb-0">{{ card.title }}</h5>
+                      <span class="badge badge-warning">{{ card.badgeText }}</span>
+                    </div>
+                    <img class="card-img-top" :src="card.imageUrl" alt="Listing Image">
+                    <div class="recommended-card-body d-flex align-items-center">
+                      <div class="progress flex-grow-1" style="height: 20px;">
+                        <div class="progress-bar bg-success" role="progressbar"
+                          :style="{ width: card.matchPercentage + '%' }" :aria-valuenow="card.matchPercentage"
+                          aria-valuemin="0" aria-valuemax="100">
+                          {{ card.matchPercentage }}% Match
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{ card.title }}</h5>
+                      <p class="card-text">{{ card.description }}</p>
+                      <a href="#" class="btn btn-outline-primary">View Details</a>
                     </div>
                   </div>
-                  <div class="card-body">
-                    <h5 class="card-title">Listing Title</h5>
-                    <p class="card-text">Short description of the listing.</p>
-                    <a href="#" class="btn btn-outline-primary">View Details</a>
-                  </div>
+
                 </div>
               </div>
+              <!-- Recommended Card (Highlighted) 2 -->
+
               <!-- Recommended Card (Highlighted) 3 -->
 
-              <div class="col-md-3">
-                <div class="card recommended-card shadow-lg">
-                  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Recommended</h5>
-                    <span class="badge badge-warning">Top Pick</span>
-                  </div>
-                  <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-                  <div class="recommended-card-body d-flex align-items-center">
-                    <div class="progress flex-grow-1" style="height: 20px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85% Match</div>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title">Recommended Listing</h5>
-                    <p class="card-text">Short description of the recommended listing.</p>
-                    <a href="#" class="btn btn-outline-primary">View Details</a>
-                  </div>
-                </div>
-              </div>
+
 
               <!-- Recommended Card (Highlighted) 4  -->
-              <div class="col-md-3">
-                <div class="card recommended-card shadow-lg">
-                  <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">Recommended</h5>
-                    <span class="badge badge-warning">Top Pick</span>
-                  </div>
-                  <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-                  <div class="recommended-card-body d-flex align-items-center">
-                    <div class="progress flex-grow-1" style="height: 20px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 85%;" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100">85% Match</div>
-                    </div>
-                  </div>
-                  <div class="card-body">
-                    <h5 class="card-title">Recommended Listing</h5>
-                    <p class="card-text">Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.Short description of the recommended listing.</p>
-                    <a href="#" class="btn btn-outline-primary">View Details</a>
-                  </div>
-                </div>
-              </div>
 
 
 
@@ -335,124 +320,95 @@
       <h2 class="section-title">Explore</h2>
       <!-- Explore Cards in Rows of 4 -->
 
-       
+
       <div class="row row-spacing">
         <!-- Explore Row1 card 1 -->
-        <div class="col-md-3">
+        <!-- Dynamically generate cards for each recommended listing -->
+        <div class="col-md-3" v-for="(card, index) in filteredCards" :key="index">
+
           <div class="card general-card shadow-sm">
-            <img class="card-img-top" src="volunteer.png" alt="Listing Image">
+            <img class="card-img-top" :src="card.imageUrl" alt="Listing Image">
             <div class="general-card-body">
-              <h5 class="card-title">Listing Title</h5>
-              <p class="card-text">Short description of the listing, highlighting general information.</p>
+              <h5 class="card-title">{{ card.title }}</h5>
+              <p class="card-text">{{ card.description }}</p>
               <a href="#" class="btn btn-outline-secondary">View Details</a>
             </div>
           </div>
+
+
         </div>
 
 
-         <!-- Explore Row1 card 2 -->
-        <div class="col-md-3">
-          <div class="card general-card shadow-sm">
-            <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-            <div class="general-card-body">
-              <h5 class="card-title">Listing Title</h5>
-              <p class="card-text">Short description of the listing, highlighting general information.</p>
-              <a href="#" class="btn btn-outline-secondary">View Details</a>
-            </div>
-          </div>
-        </div>
-
-         <!-- Explore Row1 card 3 -->
-         <div class="col-md-3">
-          <div class="card general-card shadow-sm">
-            <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-            <div class="general-card-body">
-              <h5 class="card-title">Listing Title</h5>
-              <p class="card-text">Short description of the listing, highlighting general information.</p>
-              <a href="#" class="btn btn-outline-secondary">View Details</a>
-            </div>
-          </div>
-        </div>
+        <!-- Explore Row1 card 2 -->
 
 
-         <!-- Explore Row1 card 4 -->
-         <div class="col-md-3">
-          <div class="card general-card shadow-sm">
-            <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-            <div class="general-card-body">
-              <h5 class="card-title">Listing Title</h5>
-              <p class="card-text">Short description of the listing, highlighting general information.</p>
-              <a href="#" class="btn btn-outline-secondary">View Details</a>
-            </div>
-          </div>
-        </div>
+        <!-- Explore Row1 card 3 -->
+
+
+
+        <!-- Explore Row1 card 4 -->
+
 
 
         <!-- Repeat for 3 more cards -->
       </div>
 
-      <!-- Second Row of 4 Cards -->
-      <div class="row row-spacing">
 
-        <!-- Explore Row2 card 1 -->
-        <div class="col-md-3">
-          <div class="card general-card shadow-sm">
-            <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-            <div class="general-card-body">
-              <h5 class="card-title">Listing Title</h5>
-              <p class="card-text">Short description of the listing, highlighting general information.</p>
-              <a href="#" class="btn btn-outline-secondary">View Details</a>
-            </div>
-          </div>
-        </div>
-        
-
-
-        <!-- Explore Row2 card 2 -->
-        <div class="col-md-3">
-          <div class="card general-card shadow-sm">
-            <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-            <div class="general-card-body">
-              <h5 class="card-title">Listing Title</h5>
-              <p class="card-text">Short description of the listing, highlighting general information.</p>
-              <a href="#" class="btn btn-outline-secondary">View Details</a>
-            </div>
-          </div>
-        </div>
-
-
-         <!-- Explore Row2 card 3 -->
-        <div class="col-md-3">
-          <div class="card general-card shadow-sm">
-            <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-            <div class="general-card-body">
-              <h5 class="card-title">Listing Title</h5>
-              <p class="card-text">Short description of the listing, highlighting general information.</p>
-              <a href="#" class="btn btn-outline-secondary">View Details</a>
-            </div>
-          </div>
-        </div>
-
-       
-
-
-         <!-- Explore Row2 card 4 -->
-         <div class="col-md-3">
-          <div class="card general-card shadow-sm">
-            <img class="card-img-top" src="volunteer.png" alt="Listing Image">
-            <div class="general-card-body">
-              <h5 class="card-title">Listing Title</h5>
-              <p class="card-text">Short description of the listing, highlighting general information.</p>
-              <a href="#" class="btn btn-outline-secondary">View Details</a>
-            </div>
-          </div>
-        </div>
-
-      </div>
     </div>
   </div>
 
-  <!-- Bootstrap JS -->
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          recommendedCards: [
+            {
+              title: 'Recommended Listing ',
+              description: 'Short description of the recommended listing 1.',
+              imageUrl: 'volunteer.png',
+              matchPercentage: 85,
+              badgeText: 'Top Picks',
+            },
+            {
+              title: 'Recommended Listing',
+              description: 'Short description of the recommended listing 2.',
+              imageUrl: 'volunteer.png',
+              matchPercentage: 90,
+              badgeText: 'Top Picks',
+            },
+            {
+              title: 'Recommended Listing',
+              description: 'Short description of the recommended listing 3.',
+              imageUrl: 'volunteer.png',
+              matchPercentage: 75,
+              badgeText: 'Top Picks',
+            },
+            {
+              title: 'Recommended Listing',
+              description: 'Short description of the recommended listing 3.',
+              imageUrl: 'volunteer.png',
+              matchPercentage: 75,
+              badgeText: 'Top Picks',
+            }, {
+              title: 'Recommended Listing',
+              description: 'Short description of the recommended listing 3.',
+              imageUrl: 'volunteer.png',
+              matchPercentage: 75,
+              badgeText: 'Top Picks',
+            },
+            // Add more card data objects as needed
+          ]
+        };
+      },
+      computed: {
+        filteredCards() {
+          // Filter the recommendedCards array to only show cards with matchPercentage < 80
+          return this.recommendedCards.filter(card => card.matchPercentage < 80);
+        }
+      }
+    }).mount("#app")
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
