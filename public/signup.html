@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Log In</title>
+		<title>Sign Up</title>
 		<link rel="stylesheet" />
 		<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
@@ -177,9 +177,9 @@
 				<div class="col p-5 text-center content">
 					<img src="images/Volunteer.png" style="height: 100px" />
 
-					<h1>Welcome Back to Volunteer Connect!</h1>
+					<h1>Welcome  to Volunteer Connect!</h1>
 
-					<p>Log in to continue connecting with fellow volunteers!</p>
+					<p>Join us today to make a difference!</p>
 
 					<form>
 						<div class="input-container">
@@ -210,6 +210,27 @@
 									style="height: 20px"
 								/>
 							</span>
+							
+						</div>
+
+						<div class="input-container">
+							<label for="password" class="form-label">Confirm password</label>
+							<input
+								type="password"
+								class="form-control"
+								id="cfm_password"
+								placeholder="Confirm your password"
+								required
+							/>
+							<span class="icon-container" onclick="togglePassword()">
+								<img
+									src="images/hide.png"
+									alt="Toggle Password"
+									id="toggleIcon"
+									style="height: 20px"
+								/>
+							</span>
+							
 						</div>
 
 						<button type="submit" class="btn btn-primary">Sign in</button>
@@ -231,7 +252,7 @@
 					</a>
 
 					<br /><br />
-					<p>Need an account? <a href="signup.html">Create one</a></p>
+					<p>Already have an account? <a href="login.html">Sign in</a></p>
 				</div>
 
 				<div class="col students-col">
