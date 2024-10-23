@@ -258,19 +258,15 @@
     </nav>
 
     <!-- Matches Section (Carousel) -->
-    <div class="container matches">
-      <h2 class="section-title">Your top matches</h2>
-
-      <!-- Top Matches Section Carousel -->
-      <div id="topMatchesCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <!-- First set of 4 cards -->
-          <div class="carousel-item active">
+    <div v-if="showMatchBar=true">
+      <div class="container matches">
+        <h2 class="section-title">Your top matches</h2>
+        <!-- Top Matches Section Carousel -->
+        <div id="topMatchesCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
             <div class="row">
-              <!-- Recommended Card (Highlighted) 1  -->
-
-              <div class="col-md-3" v-for="(card, index) in recommendedCards" :key="index">
-                <!-- <div v-if="card.matchPercentage>=80"> -->
+              <div class="col-md-3" v-for="(card, index) in recommendedCards" :class="{ active: index === 0 }"
+                :key="index">
                 <div class="card recommended-card shadow-lg">
                   <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h5 class="mb-0">{{ card.title }}</h5>
@@ -279,9 +275,9 @@
                   <img class="card-img-top" :src="card.imageUrl" alt="Listing Image">
                   <div class="recommended-card-body d-flex align-items-center">
                     <div class="progress flex-grow-1" style="height: 20px;">
-                      <div class="progress-bar bg-success" role="progressbar" :style="{ width: 90 + '%' }"
+                      <div class="progress-bar bg-success" role="progressbar" :style="{ width: card.matchScore + '%' }"
                         :aria-valuenow="card.matchPercentage" aria-valuemin="0" aria-valuemax="100">
-                        <!-- {{ card.matchPercentage }}% Match -->
+                        {{ card.matchScore }}% Match
                       </div>
                     </div>
                   </div>
@@ -291,74 +287,50 @@
                     <a href="#" class="btn btn-outline-primary">View Details</a>
                   </div>
                 </div>
-
-                <!-- </div> -->
               </div>
-              <!-- Recommended Card (Highlighted) 2 -->
-
-              <!-- Recommended Card (Highlighted) 3 -->
-
-
-
-              <!-- Recommended Card (Highlighted) 4  -->
-
-
-
             </div>
-          </div>
-        </div>
 
-        <!-- Carousel Controls -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#topMatchesCarousel" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#topMatchesCarousel" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+          </div>
+
+          <!-- Carousel Controls -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#topMatchesCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#topMatchesCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
       </div>
     </div>
 
     <!-- Explore Section (No Carousel) -->
     <div class="container mt-5 explore">
       <h2 class="section-title">Explore</h2>
-      <!-- Explore Cards in Rows of 4 -->
-
 
       <div class="row row-spacing">
         <!-- Explore Row1 card 1 -->
         <!-- Dynamically generate cards for each recommended listing -->
-        <div class="col-md-3" v-for="(card, index) in recommendedCards" :key="index">
+        <div class="col-md-3" v-for="(card, index) in remainingRecommendedCards" :key="index">
 
           <div class="card general-card shadow-sm">
             <img class="card-img-top" :src="card.imageUrl" alt="Listing Image">
             <div class="general-card-body">
               <h5 class="card-title">{{ card.title }}</h5>
               <p class="card-text">{{ card.description }}</p>
+              <div class="progress flex-grow-1" style="height: 20px;">
+                <div v-if="showMatchBar" class="progress-bar bg-success" role="progressbar"
+                  :style="{ width: card.matchScore + '%' }" :aria-valuenow="card.matchPercentage" aria-valuemin="0"
+                  aria-valuemax="100">
+                  {{ card.matchScore }}% Match
+                </div>
+              </div>
               <a href="#" class="btn btn-outline-secondary">View Details</a>
             </div>
           </div>
-
-
         </div>
-
-
-        <!-- Explore Row1 card 2 -->
-
-
-        <!-- Explore Row1 card 3 -->
-
-
-
-        <!-- Explore Row1 card 4 -->
-
-
-
-        <!-- Repeat for 3 more cards -->
       </div>
-
-
     </div>
   </div>
 
@@ -366,138 +338,177 @@
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-
+    const apiKey=googleMapsApiKey;
     // Vue instance
     const app = Vue.createApp({
       data() {
         return {
-          info: [],
-          userQuestionnaireData: [],  // Array to store user data from 'userQuestionnaire'
-          showMatchBar: false,  // Controls visibility of match bar
-          recommendedCards: []  // Array to store fetched listings
+          recommendedCards: [],  // Array to store fetched listings and match scores
+          showMatchBar: false  // Controls visibility of match bar
         };
       },
       methods: {
         // Fetch listings from Firestore
         async fetchListings() {
+          const db = firebase.firestore();  // Access Firestore
 
-          const db = firebase.firestore();  // Access Firestore using the compat syntax
-          if (db) {
-            console.log("firestore works")
-          }
+          try {
+            const querySnapshot = await db.collection('listings').get();
+            const info = [];
 
-          // Fetch the 'listings' collection from Firestore
-          db.collection('listings').get()
-            .then((querySnapshot) => {
-              const info = [];   // Temporary array to hold the fetched listings data
-              // Loop through each document in the querySnapshot
-
-              querySnapshot.forEach((doc) => {
-                const data = doc.data();  // Get the document data
-
-                // Push data into info array
-                info.push({
-                  title: data.title || 'No title',
-                  description: data.description || 'No description',
-                  imageUrl: data.imageUrl || 'default-image.png',
-                  location: data.location || 'No location',
-                  skills: data.skills || [],
-                  category: data.category || [],
-                  daysOfWeek: data.daysOfWeek || []
-                });
+            // Loop through each document in the querySnapshot
+            querySnapshot.forEach((doc) => {
+              const data = doc.data();  // Get the document data
+              info.push({
+                title: data.title || 'No title',
+                description: data.description || 'No description',
+                imageUrl: data.imageUrl || 'default-image.png',
+                location: data.location || 'No location',
+                skills: data.skills || ['None'],
+                category: data.category || ['None'],
+                daysOfWeek: data.daysOfWeek || ['None']
               });
-
-              // Assign the fetched data to Vue's reactive state
-              this.recommendedCards = info;
-
-              // Log the data to ensure it is fetched correctly
-              console.log("Fetched listings:", this.recommendedCards);
-            })
-            .catch((error) => {
-              // Handle any errors that occur during data fetching
-              console.error('Error fetching listings:', error);
             });
-            this.calculateMatch();
+
+            // Assign the fetched data to Vue's reactive state
+            this.recommendedCards = info;
+
+            // Log the data to ensure it is fetched correctly
+            console.log("Fetched listings:", this.recommendedCards);
+
+            // Now fetch user data and calculate match
+            this.fetchUserData();
+
+          } catch (error) {
+            // Handle any errors that occur during data fetching
+            console.error('Error fetching listings:', error);
+          }
         },
 
         // Fetch user data based on authentication state
-        fetchUserData() {
-          firebase.initializeApp(firebaseConfig);
-
+        async fetchUserData() {
           const db = firebase.firestore();  // Access Firestore using the compat syntax
-          
-          console.log("userdata")
-          // Listen for authentication state changes to ensure user is logged in
-          firebase.auth().onAuthStateChanged((user) => {
+
+          firebase.auth().onAuthStateChanged(async (user) => {
             if (user) {
               const uid = user.uid;  // Get the logged-in user's UID
-              console.log(uid)
-              // Query Firestore to get data from 'userQuestionnaire' for this UID
-              db.collection('UserQuestionnaire')
-                .where('uid', '==', uid)
-                .get()
-                .then((querySnapshot) => {
-          
-                  if (querySnapshot.empty) {
-                    console.log("No document found in userQuestionnaire for UID:", uid);  // Log if no document exists
-                  } else {
-                    querySnapshot.forEach((doc) => {
-                      const data = doc.data();  // Get the document data
-                      console.log("User data found:", data);  // Log fetched data
+              console.log("User ID:", uid);
 
-                      // Store the user's data in the Vue instance
-                      this.userQuestionnaireData = {
-                        uid: data.uid,  // Store the user's UID
-                        interests: data.interests || [],  // Array of interests
-                        skills: data.skills || [],  // Array of skills
-                        location: data.location || 'No location'  // Location (e.g., postal code)
-                      };
-                      
+              try {
+                const querySnapshot = await db.collection('UserQuestionnaire')
+                  .where('uid', '==', uid).get();
 
-                      // Set the match bar to visible
-                      this.showMatchBar = true;
-                    });
-                  }
-                })
-                .catch((error) => {
-                  console.error("Error fetching user data:", error);
-                });
+                if (!querySnapshot.empty) {
+                  querySnapshot.forEach((doc) => {
+                    const data = doc.data();  // Get the document data
+                    console.log("User data found:", data);
+
+                    // Store the user's data in a local variable
+                    const userQuestionnaireData = {
+                      uid: data.uid,  // Store the user's UID
+                      interests: data.interests || [],  // Array of interests
+                      skills: data.skills || [],  // Array of skills
+                      location: data.location || 'No location',  // Location (e.g., postal code)
+                      availability: data.availability || []  // User's available days
+                    };
+
+                    // Show match bar and calculate the match score using listings and user data
+                    this.showMatchBar = true;
+                    this.calculateMatch(userQuestionnaireData);
+
+                  });
+                } else {
+                  console.log("No document found in userQuestionnaire for UID:", uid);
+                }
+
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+              }
+
             } else {
               console.log("No user is logged in.");
+              this.showMatchBar = false;  // Hide match bar if no user is logged in
             }
-            this.fetchListings();
           });
         },
 
-        calculateMatch(){
-          const userdata=this.userQuestionnaireData;
-          const listingdata=this.recommendedCards;
-          
-          if(userdata!=[]){
-            this.showMatchBar=true;
+        // Calculate the match score for each listing
+        calculateMatch(userData) {
+          if (userData && this.recommendedCards.length) {
+            this.showMatchBar = true;
 
+            // Loop through each listing and calculate match score
+            this.recommendedCards = this.recommendedCards.map((listing) => {
+              const matchScore = this.calculateMatchScore(userData, listing);
+              return {
+                ...listing,  // Spread operator to keep other listing data intact
+                matchScore  // Add/Update matchScore property
+              };
+            });
+            // Sort listings based on matchScore descending once
+            this.recommendedCards.sort((a, b) => b.matchScore - a.matchScore);
+
+            console.log("Listings with match scores:", this.recommendedCards);
+
+          } else {
+            this.showMatchBar = false;
           }
+        },
 
+        // Calculate the match score based on user and listing data
+        calculateMatchScore(user, listing) {
+          // Weights for each criterion
+          const weights = {
+            interests: 0.3,
+            skills: 0.3,
+            location: 0.2,
+            availability: 0.2
+          };
+
+          // Interest match calculation
+          const interestMatch = user.interests.some(interest => listing.category.includes(interest)) ? 100 : 0;
+
+          // Skills match calculation
+          const matchedSkills = listing.skills.filter(skill => user.skills.includes(skill)).length;
+          const skillsMatch = (matchedSkills / listing.skills.length) * 100;
+
+          // Location match (for now assume 100%)
+          const locationMatch = 100;
+
+          // Availability match calculation
+          const matchedDays = listing.daysOfWeek.filter(day => user.availability.includes(day)).length;
+          const availabilityMatch = (matchedDays / listing.daysOfWeek.length) * 100;
+
+          // Total match score calculation
+          const totalMatchScore = Math.round(
+            (weights.interests * interestMatch) +
+            (weights.skills * skillsMatch) +
+            (weights.location * locationMatch) +
+            (weights.availability * availabilityMatch)
+          );
+
+          return totalMatchScore;
         }
-
-
-
-
-
-
-
-
-
-
-
+      },
+      // Automatically fetch listings when the component is created
+      created() {
+        this.fetchListings();  // Fetch listings first
       },
 
-      // Automatically fetch data when the component is created
-      created() {
+      computed: {
+        // Top recommended cards for the "For You" section (Top 8)
+        topRecommendedCards() {
+          // Return the top 8
+          return this.recommendedCards.slice(0, 8);
+        },
 
-        // this.fetchListings();  // Fetch listings when the component is created
-        this.fetchUserData();  // Fetch user data when the component is created
+        // Remaining cards for the "Explore" section
+        remainingRecommendedCards() {
+          // Return the rest of the listings after the top 8
+          return this.recommendedCards.slice(8);
+        }
       }
+
     });
 
     // Mount the Vue app
