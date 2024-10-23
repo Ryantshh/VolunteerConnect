@@ -5,9 +5,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Sign Up</title>
 		<link rel="stylesheet" />
-		<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-		<script src="config.js"></script>
 		<link
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
 			rel="stylesheet"
@@ -177,28 +174,28 @@
 				<div class="col p-5 text-center content">
 					<img src="images/Volunteer.png" style="height: 100px" />
 
-					<h1>Welcome  to Volunteer Connect!</h1>
+					<h1>Welcome to Volunteer Connect!</h1>
 
 					<p>Join us today to make a difference!</p>
 
-					<form>
+					<form id="signUpForm">
 						<div class="input-container">
-							<label for="email" class="form-label">Email address</label>
+							<label for="signUpEmail" class="form-label">Email address</label>
 							<input
 								type="email"
 								class="form-control"
-								id="email"
+								id="signUpEmail"
 								placeholder="Enter your email"
 								required
 							/>
 						</div>
 
 						<div class="input-container">
-							<label for="password" class="form-label">Password</label>
+							<label for="signUpPassword" class="form-label">Password</label>
 							<input
 								type="password"
 								class="form-control"
-								id="password"
+								id="signUpPassword"
 								placeholder="Enter your password"
 								required
 							/>
@@ -210,11 +207,12 @@
 									style="height: 20px"
 								/>
 							</span>
-							
 						</div>
 
 						<div class="input-container">
-							<label for="password" class="form-label">Confirm password</label>
+							<label for="cfm_password" class="form-label"
+								>Confirm password</label
+							>
 							<input
 								type="password"
 								class="form-control"
@@ -230,7 +228,6 @@
 									style="height: 20px"
 								/>
 							</span>
-							
 						</div>
 
 						<button type="submit" class="btn btn-primary">Sign in</button>
@@ -238,8 +235,8 @@
 
 					<div class="divider my-3">OR</div>
 
-					<a
-						href="#"
+					<button
+						id="googleSignInButton"
 						class="btn btn-outline-primary google d-inline-flex align-items-center justify-content-center"
 						style="width: 100%; padding: 10px; margin-top: 10px"
 					>
@@ -249,7 +246,7 @@
 							style="height: 20px; margin-right: 10px"
 						/>
 						Continue with Google
-					</a>
+					</button>
 
 					<br /><br />
 					<p>Already have an account? <a href="login.html">Sign in</a></p>
@@ -260,6 +257,12 @@
 				</div>
 			</div>
 		</div>
+
+		<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+		<script src="config.js"></script>
 		<script src="app.js"></script>
 		<script
 			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

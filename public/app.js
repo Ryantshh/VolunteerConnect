@@ -1,7 +1,3 @@
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-
 // Sign Up Logic
 const signUpForm = document.getElementById('signUpForm');
 if (signUpForm) {
@@ -46,3 +42,33 @@ if (loginForm) {
             });
     });
 }
+
+const googleSignInButton = document.getElementById('googleSignInButton');
+googleSignInButton.addEventListener('click', () => {
+    auth.signInWithPopup(googleProvider)
+      .then((result) => {
+        // Check if user exists in Firestore
+        const user = result.user;
+        db.collection('users').doc(user.uid).get()
+          .then((doc) => {
+            if (!doc.exists) {
+              // If new user, store user info in Firestore
+              db.collection('users').doc(user.uid).set({
+                uid: user.uid,
+                email: user.email,
+                name: user.displayName,
+                profilePic: user.photoURL,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+              });
+            }
+          });
+        alert("Google sign-in successful!");
+        window.location.href = "profile.html";  // Redirect to profile page
+      })
+      .catch((error) => {
+        console.error("Error signing in with Google:", error.message);
+        alert("Error signing in with Google: " + error.message);
+      });
+  });
+
+
