@@ -379,7 +379,7 @@
       },
       methods: {
         // Fetch listings from Firestore
-        fetchListings() {
+        async fetchListings() {
 
           const db = firebase.firestore();  // Access Firestore using the compat syntax
           if (db) {
@@ -417,6 +417,7 @@
               // Handle any errors that occur during data fetching
               console.error('Error fetching listings:', error);
             });
+            this.calculateMatch();
         },
 
         // Fetch user data based on authentication state
@@ -466,7 +467,29 @@
             }
             this.fetchListings();
           });
+        },
+
+        calculateMatch(){
+          const userdata=this.userQuestionnaireData;
+          const listingdata=this.recommendedCards;
+          
+          if(userdata!=[]){
+            this.showMatchBar=true;
+
+          }
+
         }
+
+
+
+
+
+
+
+
+
+
+
       },
 
       // Automatically fetch data when the component is created
