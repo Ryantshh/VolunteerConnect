@@ -1,24 +1,14 @@
-.editInput {
-    display: none;
-}
-.button-container {
-    display: inline-block;
-    margin-right: 5px;
-}
-.removeButton {
-    cursor: pointer;
-    color: red;
-    margin-left: 5px;
-}
-
 /* profile.css */
 
 /* Global Style */
 body {
-    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Full viewport height */
     background-color: #f5f5f5;
-    color: #333;
-    padding: 20px;
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
 /* Page Title */
@@ -26,28 +16,32 @@ h1 {
     text-align: center;
     color: #ee4b2b;
     margin-bottom: 30px;
+    font-size: 2rem;
 }
 
 /* Section Titles */
 h3 {
-    color: #555;
+    color: #333;
     margin-top: 20px;
-    font-weight: bold;
+    font-weight: 600;
     border-bottom: 2px solid #ee4b2b;
     padding-bottom: 5px;
     display: inline-block;
+    font-size: 1.25rem;
 }
 
 /* Field Styling */
 .field {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .field label {
     font-weight: bold;
-    width: 100px;
+    color: #555;
+    min-width: 100px;
 }
 
 .field span, .field input {
@@ -57,58 +51,90 @@ h3 {
 .editInput {
     padding: 8px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 6px;
     display: none;
+    transition: border-color 0.3s;
+}
+
+.editInput:focus {
+    border-color: #ee4b2b;
 }
 
 /* Button Styling */
-.editButton, .saveButton, .button-container button, button {
+button, .editButton, .saveButton, .button-container button {
     background-color: #ee4b2b;
     color: #fff;
     border: none;
-    border-radius: 4px;
-    padding: 6px 12px;
+    border-radius: 8px;
+    padding: 8px 16px;
     margin-left: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.editButton:hover, .saveButton:hover, .button-container button:hover, button:hover {
-    background-color: #d43f1d;
+button:hover, .editButton:hover, .saveButton:hover, .button-container button:hover {
+    background-color: #fbb1a1;
+    transform: scale(1.05);
 }
 
 /* Remove Button */
+/* Updated Remove Button (X) Styling */
 .removeButton {
-    color: #fff;
-    font-weight: bold;
-    margin-left: 5px;
+    background-color: #ffeded;
+    color: #ee4b2b;
+    border: 1px solid #ffcccc;
+    border-radius: 50%;
+    padding: 5px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, color 0.3s;
+    font-weight: bold;
 }
+
+
+
 
 /* Interests, Skills, and Available Days Display */
 #interestsDisplay, #skillsDisplay, #availableDaysDisplay {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
     margin-top: 10px;
 }
 
 .button-container {
     background-color: #fff;
     border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 5px 8px;
+    border-radius: 8px;
+    padding: 5px 12px;
     display: inline-flex;
     align-items: center;
+    gap: 8px;
     color: #333;
+    transition: box-shadow 0.3s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-container:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
 }
 
 /* Dropdown Menus */
 select {
     padding: 8px;
-    border-radius: 4px;
+    border-radius: 6px;
     border: 1px solid #ddd;
-    margin-right: 10px;
+    transition: border-color 0.3s;
+}
+
+select:focus {
+    border-color: #ee4b2b;
 }
 
 /* Responsive Design */
@@ -122,3 +148,64 @@ select {
         margin-bottom: 5px;
     }
 }
+
+    .container {
+        max-width: 600px; /* Adjust width as needed */
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff; /* Optional: white background */
+        border-radius: 8px;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+    }
+
+    .navbar {
+        border-bottom: 1px solid #eaeaea;
+    }
+    
+    .navbar-nav {
+        width: 40%; /* Adjust this width for spacing */
+        justify-content: space-around; 
+    }
+    
+    
+    /* Navbar Brand */
+    .navbar-brand img {
+        border-radius: 50%;
+        width: 60px;
+        height: 50px;
+    }
+    
+    /* Navbar Links */
+    #active{   
+         font-weight:bolder; /*active page bolder */
+    }
+    .navbar-nav .nav-link {
+        color: #333; 
+        position: relative;
+        transition: color 0.3s ease; /* Smooth transition for color change */
+    }
+    
+    /* Navbar Hover Effect */
+    .navbar-nav .nav-link:hover {
+        color: red; 
+    }
+    
+    /* Slide-up underline effect */
+    .navbar-nav .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        left: 0;
+        bottom: -5px;
+        background-color: red;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease;
+    }
+    
+    .navbar-nav .nav-link:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+    
