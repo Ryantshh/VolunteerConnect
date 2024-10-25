@@ -7,20 +7,32 @@ if (signUpForm) {
         const email = document.getElementById('signUpEmail').value;
         const password = document.getElementById('signUpPassword').value;
 
-        auth.createUserWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                document.getElementById('signUpMessage').innerText = 'Sign up successful! Redirecting to login...';
-                console.log('Sign-up successful:', userCredential.user);
-                setTimeout(() => {
-                    window.location.href = 'login.html'; // Redirect to login page after sign-up
-                }, 1000);
-            })
-            .catch((error) => {
-                document.getElementById('signUpMessage').innerText = error.message;
-                console.error('Error during sign-up:', error.message);
-            });
+      // Sign up the user with email and password using Firebase Auth
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(userCredential => {
+          // User successfully signed up
+          const user = userCredential.user;
+          const uid = user.uid;
+          const createdAt = firebase.firestore.FieldValue.serverTimestamp(); // Current timestamp
+
+          // Add the user data to Firestore
+          return firebase.firestore().collection('users').doc(uid).set({
+            uid: uid,
+            email: email,
+            createdAt: createdAt
+          });
+        })
+        .then(() => {
+          // Show success message with a countdown
+          showPopupAndRedirect();
+        })
+        .catch(error => {
+          // Handle any errors
+          console.error('Error signing up or saving data: ', error);
+          alert(error.message);
+        });
     });
-}
+  }
 
 // Login Logic
 const loginForm = document.getElementById('loginForm');
@@ -33,7 +45,7 @@ if (loginForm) {
 
         auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
-                window.location.href = 'questionaire/questionnaire.html'; // Redirect to questionnaire after sign-up
+                window.location.href = 'homepageafterlogin.html'; 
                 console.log('Login successful:', userCredential.user);
             })
             .catch((error) => {
@@ -60,10 +72,14 @@ googleSignInButton.addEventListener('click', () => {
                 profilePic: user.photoURL,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
               });
+              showPopupAndRedirect();
+            } else {
+                alert("Google sign-in successful!");
+                // insert path to profile page when created
+                //window.location.href = "";
             }
           });
-        alert("Google sign-in successful!");
-        window.location.href = "profile.html";  // Redirect to profile page
+        
       })
       .catch((error) => {
         console.error("Error signing in with Google:", error.message);
@@ -71,4 +87,40 @@ googleSignInButton.addEventListener('click', () => {
       });
   });
 
+// Function to show a popup and redirect after 5 seconds
+function showPopupAndRedirect() {
+  // Create a div element for the popup
+  const popup = document.createElement('div');
+  popup.id = 'popup';
+  popup.style.position = 'fixed';
+  popup.style.top = '50%';
+  popup.style.left = '50%';
+  popup.style.transform = 'translate(-50%, -50%)';
+  popup.style.backgroundColor = '#4caf50';
+  popup.style.color = '#fff';
+  popup.style.padding = '20px';
+  popup.style.borderRadius = '10px';
+  popup.style.textAlign = 'center';
+  popup.style.fontSize = '18px';
+  popup.style.zIndex = '9999';
+
+  // Add the message to the popup
+  popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">5</span> seconds...';
+
+  // Append the popup to the body
+  document.body.appendChild(popup);
+
+  // Countdown logic
+  let countdown = 5;
+  const interval = setInterval(() => {
+    countdown--;
+    document.getElementById('countdown').textContent = countdown;
+
+    // After 5 seconds, redirect
+    if (countdown === 0) {
+      clearInterval(interval);
+      window.location.href = './questionnaire/questionnaire.html';
+    }
+  }, 1000);
+}
 
