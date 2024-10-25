@@ -58,7 +58,7 @@
             <!-- <br><br>
             <h1 v-for="goobye in hello">{{goobye}} {{goodbye}}</h1> -->
             <br>
-            {{distance.rows[0].elements[0].distance.text}}
+            <!-- {{distance.rows[0].elements[0].distance.text}} -->
             <br>
             Test firestore connection with flask: {{testing_firestore_connection}}
     </div>
@@ -198,13 +198,13 @@ const { createApp } = Vue;
             console.error('Error fetching distance:', error);
         }); 
     }*/
-    distance_calc(){
+    /*distance_calc(){
         axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
             params: {
                 origins: "738343",
                 destinations: "Suntec Convention Centre",//"739980",
                 units: 'metric',
-                //key:"AIzaSyDMVLNAVZDmwJE61B84MR-jNsr5YHuzSSc"
+                //key:""
             }
         })
         .then(response => {
@@ -214,7 +214,7 @@ const { createApp } = Vue;
         .catch(error => {
             console.error('Error fetching distance:', error);
         }); 
-    },
+    }, */
 
     firestore_test(){
         axios.get("http://brandynchua.pythonanywhere.com/firestore_api")
