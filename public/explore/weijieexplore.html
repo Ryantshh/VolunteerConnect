@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nonprofit Listings</title>
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="testing.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Navbar Brand -->
+            <a class="navbar-brand" href="#">
+                <img src="images/Volunteer.png" alt="logo"/>
+            </a>
+
+            <!-- Toggler for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links-->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="active" href="#">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Calendar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="#">Donate</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">For You</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sign In Button on the far right -->
+            <div class="d-flex">
+                <button id="signin" class="btn" type="button">My Profile</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="jumbotron-container">
+        <div class="slideshow-container">
+            <div class="slide active"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+            <div class="slide"></div>
+        </div>
+        <div class="jumbotron-overlay"></div>
+        <div class="container">
+            <div class="jumbotron-content">
+                <h1 class="display-4">Find a Project that Best suits you</h1>
+                <p class="lead">Ready to make a difference?
+                   Start today by lending a helping hand! 
+                   Explore volunteer opportunities near you and join a community of changemakers making a positive impact every day. 
+                   </p>
+                
+                <a class="btn btn-primary btn-lg" href="https://www.every.org/about-us" target="_blank" role="button">Learn More</a>
+            </div>
+        </div>
+    </div>
+    
+
+
+    <div id="app">
+
+  <div class="container">
+    <h1 class="text-center my-4">Your Top Matches</h1>
+
+
+    <div class="scrollable-row-wrapper d-flex flex-nowrap overflow-auto">
+      <div class="card mx-2" style="min-width: 250px; flex: 1 0 auto;" v-for="card in recommendedCards" :key="card.ein">
+        <img :src="card.imageUrl" class="card-img-top" alt="Card image">
+        <div class="card-body">
+          <h5 class="card-title">{{ card.title }}</h5>
+          <p class="card-text">{{ card.description }}</p>
+          <p class="card-text"><strong>Location:</strong> {{ card.location }}</p>
+          <p class="card-text"><strong>Skills:</strong> {{ card.skills.join(', ') }}</p>
+          <p class="card-text"><strong>Days Available:</strong> {{ card.daysOfweek.join(', ') }}</p>
+        </div>
+        <div class="card-footer text-center"> 
+          <a  
+             class="btn btn-primary">
+             View Details
+          </a>
+        </div>
+      </div>
+    </div>
+    
+</div>
+
+
+
+  <div class="container">
+      
+    <div class="card-deck row g-4">
+      <h2 class ='text-center my-4'>General Listings</h2>
+      <div v-for="listing in generalListings" :key="listing.ein" class="card m-2" style="width: 18rem;">
+        <img :src="listing.imageUrl" class="card-img-top" alt="Listing image">
+        <div class="card-body">
+          <h5 class="card-title">{{ listing.title }}</h5>
+          <p class="card-text">{{ listing.description }}</p>
+          <p class="card-text"><strong>Location:</strong> {{ listing.location }}</p>
+          <p class="card-text"><strong>Skills:</strong> {{ listing.skills.join(', ') }}</p>
+          <p class="card-text"><strong>Days Available:</strong> {{ listing.daysOfweek.join(', ') }}</p>
+        </div>
+        <div class="card-footer text-center"> 
+          <!-- Donate button -->
+          <a :href="donateLink(listing.primarySlug)" 
+             target="_blank" 
+             class="btn btn-primary">
+             View Details
+          </a>
+          </div>
+      </div>
+    </div>
+
+
+    </div>
+    
+</div>
+
+  
+</div>
+<!--vue instance-->
+  <script>
+// start of 1st instance
+
+const app = Vue.createApp({
+            data() {
+                return {
+                    recommendedCards: [
+                        {
+                            ein: "123456789",
+                            slug: "card-1",
+                            title: "Helping Hands",
+                            daysOfweek: ['monday','tuesday'],
+                            description: "Helping Hands is dedicated to providing support to low-income families.",
+                            imageUrl: "volunteer.png",
+                            location: "123 Charity St, Kindness City",
+                            skills: ['education','environment'],
+                            
+                        },
+                        {
+                            ein: "987654321",
+                            slug: "card-2",
+                            title: "Green Earth",
+                            daysOfweek: ['monday','tuesday'],
+                            description: "Green Earth works on environmental conservation efforts worldwide.",
+                            imageUrl: "https://via.placeholder.com/150",
+                            location: "456 Green Way, Eco Town",
+                            skills: ['education','environment'],
+                            
+                        },
+                        {
+                            ein: "456789123",
+                            slug: "card-3",
+                            title: "Educate All",
+                            daysOfweek: ['monday','tuesday'],
+                            description: "Educate All provides resources to underserved schools and communities.",
+                            imageUrl: "https://via.placeholder.com/150",
+                            location: "789 Learning Rd, Knowledge City",
+                            skills: ['education','environment'],
+                            
+                        },
+
+                        {
+                            ein: "456789123",
+                            slug: "card-3",
+                            title: "Educate All",
+                            daysOfweek: ['monday','tuesday'],
+                            description: "Educate All provides resources to underserved schools and communities.",
+                            imageUrl: "https://via.placeholder.com/150",
+                            location: "789 Learning Rd, Knowledge City",
+                            skills: ['education','environment'],
+                            primarySlug: "educate-all"
+                        },
+                        {
+                            ein: "456789123",
+                            slug: "card-3",
+                            title: "Educate All",
+                            daysOfweek: ['monday','tuesday'],
+                            description: "Educate All provides resources to underserved schools and communities.",
+                            imageUrl: "https://via.placeholder.com/150",
+                            location: "789 Learning Rd, Knowledge City",
+                            skills: ['education','environment'],
+                           
+                        },
+                        {
+                            ein: "456789123",
+                            slug: "card-3",
+                            title: "Educate All",
+                            daysOfweek: ['monday','tuesday'],
+                            description: "Educate All provides resources to underserved schools and communities.",
+                            imageUrl: "https://via.placeholder.com/150",
+                            location: "789 Learning Rd, Knowledge City",
+                            skills: ['education','environment'],
+                            
+                        },
+                        
+                    ],
+                    showMatchBar: false,
+
+                    generalListings: [
+      {
+        ein: "1122334455",
+        slug: "listing-1",
+        title: "Community Clean-Up",
+        daysOfweek: ['wednesday','thursday'],
+        description: "Join us to help clean up local parks and neighborhoods.",
+        imageUrl: "https://via.placeholder.com/150",
+        location: "101 Clean St, Eco Village",
+        skills: ['community','environment'],
+        primarySlug: "community-clean-up",
+      },
+      {
+        ein: "2233445566",
+        slug: "listing-2",
+        title: "Food Drive",
+        daysOfweek: ['friday'],
+        description: "Help organize a food drive for those in need.",
+        imageUrl: "https://via.placeholder.com/150",
+        location: "202 Charity Rd, Kindness City",
+        skills: ['charity','organization'],
+        primarySlug: "food-drive",
+      },
+      {
+        ein: "2233445566",
+        slug: "listing-2",
+        title: "Food Drive",
+        daysOfweek: ['friday'],
+        description: "Help organize a food drive for those in need.",
+        imageUrl: "https://via.placeholder.com/150",
+        location: "202 Charity Rd, Kindness City",
+        skills: ['charity','organization'],
+        primarySlug: "food-drive",
+      },
+      {
+        ein: "2233445566",
+        slug: "listing-2",
+        title: "Food Drive",
+        daysOfweek: ['friday'],
+        description: "Help organize a food drive for those in need.",
+        imageUrl: "https://via.placeholder.com/150",
+        location: "202 Charity Rd, Kindness City",
+        skills: ['charity','organization'],
+        primarySlug: "food-drive",
+      },
+      {
+        ein: "2233445566",
+        slug: "listing-2",
+        title: "Food Drive",
+        daysOfweek: ['friday'],
+        description: "Help organize a food drive for those in need.",
+        imageUrl: "https://via.placeholder.com/150",
+        location: "202 Charity Rd, Kindness City",
+        skills: ['charity','organization'],
+        primarySlug: "food-drive",
+      },
+      // Other general listings...
+    ]
+                };
+            },
+            methods: {
+                donateLink(slug) {
+                    return `https://example.com/${slug}`;
+                },
+        
+                triggerChildSearch() {
+                    this.curOption = this.search;
+                },
+                startSlideshow() {
+                    const slides = document.querySelectorAll('.slide');
+                    let currentSlide = 0;
+
+                    setInterval(() => {
+                        slides[currentSlide].classList.remove('active');
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        slides[currentSlide].classList.add('active');
+                    }, 5000); // Change slide every 5 seconds
+                }
+            },
+            mounted() {
+                this.startSlideshow();
+            }
+        });
+
+        app.mount('#app');
+
+
+
+// end of 1st instance
+
+    // const app = Vue.createApp({
+    //     data(){
+    //         return{
+    //             search:'',
+    //             curOption:'animals',
+    //         }
+    //     },
+    //     mounted() {
+    //             this.startSlideshow();
+    //      },
+    //     methods: {
+    //         setOption(newOption){
+    //             this.curOption = newOption;
+    //             this.search = '';
+    //         },
+    //         triggerChildSearch() {
+    //             this.curOption = this.search
+    //             this.$refs.nonprofitList.triggerSearch();  // Trigger search in child component via $refs
+    //          },
+    //         startSlideshow() {
+    //             const slides = document.querySelectorAll('.slide');
+    //             let currentSlide = 0;
+                
+    //                 setInterval(() => {
+    //                     // Remove active class from current slide
+    //                     slides[currentSlide].classList.remove('active');
+                        
+    //                     // Move to next slide
+    //                     currentSlide = (currentSlide + 1) % slides.length;
+                        
+    //                     // Add active class to new slide
+    //                     slides[currentSlide].classList.add('active');
+    //                 }, 5000); // Change slide every 5 seconds
+    //             },
+    //         }
+    // });
+ </script>
+    <!-- <script src="testing.js"></script> -->
+</body>
+</html>
