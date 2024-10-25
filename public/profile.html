@@ -23,22 +23,30 @@
 				class="editInput"
 				oninput="updateNameDisplay()"
 			/>
-			<button class="editButton" onclick="editField('name')">Edit</button>
-			<button class="saveButton" onclick="saveField('name')">Save</button>
+			<div>
+				<button class="editButton" onclick="editField('name')">Edit</button>
+				<button class="saveButton" onclick="saveField('name')">Save</button>
+			</div>
 		</div>
 		<div class="field">
 			<label for="email">Email:</label>
 			<span id="emailDisplay"></span>
 			<input type="text" id="emailInput" class="editInput" />
-			<button class="editButton" onclick="editField('email')">Edit</button>
+            <div>
+                <button class="editButton" onclick="editField('email')">Edit</button>
 			<button class="saveButton" onclick="saveField('email')">Save</button>
+            </div>
+			
 		</div>
 		<div class="field">
 			<label for="postalCode">Postal Code:</label>
 			<span id="postalCodeDisplay"></span>
 			<input type="text" id="postalCodeInput" class="editInput" />
-			<button class="editButton" onclick="editField('postalCode')">Edit</button>
-			<button class="saveButton" onclick="saveField('postalCode')">Save</button>
+            <div>
+                <button class="editButton" onclick="editField('postalCode')">Edit</button>
+                <button class="saveButton" onclick="saveField('postalCode')">Save</button>
+            </div>
+			
 		</div>
 
 		<div>
@@ -48,7 +56,7 @@
 			<select id="interestsDropdown"></select>
 			<button onclick="addInterest()">Add Interest</button>
 		</div>
-        <br>
+		<br />
 		<div>
 			<h3>Skills</h3>
 
@@ -58,7 +66,7 @@
 			<select id="skillsDropdown"></select>
 			<button onclick="addSkill()">Add Skill</button>
 		</div>
-        <br>
+		<br />
 		<div>
 			<h3>Available Days</h3>
 
