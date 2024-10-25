@@ -1,0 +1,124 @@
+.editInput {
+    display: none;
+}
+.button-container {
+    display: inline-block;
+    margin-right: 5px;
+}
+.removeButton {
+    cursor: pointer;
+    color: red;
+    margin-left: 5px;
+}
+
+/* profile.css */
+
+/* Global Style */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    padding: 20px;
+}
+
+/* Page Title */
+h1 {
+    text-align: center;
+    color: #ee4b2b;
+    margin-bottom: 30px;
+}
+
+/* Section Titles */
+h3 {
+    color: #555;
+    margin-top: 20px;
+    font-weight: bold;
+    border-bottom: 2px solid #ee4b2b;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+
+/* Field Styling */
+.field {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.field label {
+    font-weight: bold;
+    width: 100px;
+}
+
+.field span, .field input {
+    flex: 1;
+}
+
+.editInput {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: none;
+}
+
+/* Button Styling */
+.editButton, .saveButton, .button-container button, button {
+    background-color: #ee4b2b;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    margin-left: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.editButton:hover, .saveButton:hover, .button-container button:hover, button:hover {
+    background-color: #d43f1d;
+}
+
+/* Remove Button */
+.removeButton {
+    color: #fff;
+    font-weight: bold;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+/* Interests, Skills, and Available Days Display */
+#interestsDisplay, #skillsDisplay, #availableDaysDisplay {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.button-container {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px 8px;
+    display: inline-flex;
+    align-items: center;
+    color: #333;
+}
+
+/* Dropdown Menus */
+select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    margin-right: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .field {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .field label {
+        width: auto;
+        margin-bottom: 5px;
+    }
+}

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>User Profile</title>
+		<link type="text/css" href="css/profile.css" rel="stylesheet" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+			crossorigin="anonymous"
+		/>
+	</head>
+	<body>
+		<h1>User Profile</h1>
+		<div class="field">
+			<label for="name">Name:</label>
+			<span id="nameDisplay"></span>
+			<input
+				type="text"
+				id="nameInput"
+				class="editInput"
+				oninput="updateNameDisplay()"
+			/>
+			<button class="editButton" onclick="editField('name')">Edit</button>
+			<button class="saveButton" onclick="saveField('name')">Save</button>
+		</div>
+		<div class="field">
+			<label for="email">Email:</label>
+			<span id="emailDisplay"></span>
+			<input type="text" id="emailInput" class="editInput" />
+			<button class="editButton" onclick="editField('email')">Edit</button>
+			<button class="saveButton" onclick="saveField('email')">Save</button>
+		</div>
+		<div class="field">
+			<label for="postalCode">Postal Code:</label>
+			<span id="postalCodeDisplay"></span>
+			<input type="text" id="postalCodeInput" class="editInput" />
+			<button class="editButton" onclick="editField('postalCode')">Edit</button>
+			<button class="saveButton" onclick="saveField('postalCode')">Save</button>
+		</div>
+
+		<div>
+			<h3>Interests</h3>
+			<div id="interestsDisplay"></div>
+			<br />
+			<select id="interestsDropdown"></select>
+			<button onclick="addInterest()">Add Interest</button>
+		</div>
+        <br>
+		<div>
+			<h3>Skills</h3>
+
+			<div id="skillsDisplay"></div>
+			<br />
+
+			<select id="skillsDropdown"></select>
+			<button onclick="addSkill()">Add Skill</button>
+		</div>
+        <br>
+		<div>
+			<h3>Available Days</h3>
+
+			<div id="availableDaysDisplay"></div>
+			<br />
+
+			<select id="daysDropdown"></select>
+			<button onclick="addAvailableDay()">Add Day</button>
+		</div>
+
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+			crossorigin="anonymous"
+		></script>
+		<script>
+			// Sample user data object
+			const userProfile = {
+				name: "John Doe",
+				email: "john.doe@example.com",
+				postalCode: "12345",
+				interests: ["Environmental", "Education"],
+				skills: ["Teaching", "Leadership"],
+				availableDays: ["Monday", "Friday"],
+			};
+
+			// Dropdown lists
+			const interestsList = [
+				"Environmental",
+				"Community Development",
+				"Education",
+				"Healthcare",
+				"Animal Welfare",
+				"Disaster Relief",
+				"Youth Services",
+				"Senior Care",
+				"Human Rights",
+				"Sports Coaching",
+				"Poverty Alleviation",
+				"Homelessness",
+				"Cultural Heritage",
+				"Mental Health",
+				"Advocacy",
+			];
+
+			const skillsList = [
+				"First Aid/CPR",
+				"Teaching",
+				"Public Speaking",
+				"Fundraising",
+				"Event Planning",
+				"Communication",
+				"Leadership",
+				"Project Management",
+				"Mentoring/Coaching",
+				"Social Media Management",
+				"Grant Writing",
+				"Graphic Design",
+				"Web Development",
+				"Data Analysis",
+				"Tutoring",
+				"Photography/Videography",
+				"Technical Support",
+				"Healthcare Assistance",
+				"Food Preparation",
+				"Marketing",
+			];
+
+			const daysOfWeek = [
+				"Monday",
+				"Tuesday",
+				"Wednesday",
+				"Thursday",
+				"Friday",
+				"Saturday",
+				"Sunday",
+			];
+
+			// Function to populate the profile fields
+			function populateProfile() {
+				document.getElementById("nameDisplay").innerText = userProfile.name;
+				document.getElementById("emailDisplay").innerText = userProfile.email;
+				document.getElementById("postalCodeDisplay").innerText =
+					userProfile.postalCode;
+				updateInterestsDisplay();
+				updateSkillsDisplay();
+				updateAvailableDaysDisplay();
+				populateDropdowns();
+			}
+
+			// Function to edit the specified field
+			function editField(field) {
+				document.getElementById(`${field}Display`).style.display = "none";
+				document.getElementById(`${field}Input`).style.display = "inline";
+				if (field === "name") {
+					document.getElementById(`${field}Input`).value = userProfile.name; // Set input value
+					document.getElementById(`${field}Input`).style.display = "inline"; // Show input
+					document.getElementById(`${field}Input`).focus(); // Focus on input
+				}
+			}
+
+			// Update name display in real-time
+			function updateNameDisplay() {
+				const nameInput = document.getElementById("nameInput").value;
+				document.getElementById("nameDisplay").innerText = nameInput;
+			}
+
+			// Function to save the specified field
+			function saveField(field) {
+				userProfile[field] = document.getElementById(`${field}Input`).value;
+				document.getElementById(`${field}Display`).innerText =
+					userProfile[field];
+				document.getElementById(`${field}Display`).style.display = "inline";
+				document.getElementById(`${field}Input`).style.display = "none";
+			}
+
+			// Add an interest
+			function addInterest() {
+				const dropdown = document.getElementById("interestsDropdown");
+				const selectedInterest = dropdown.value;
+				if (
+					selectedInterest &&
+					!userProfile.interests.includes(selectedInterest)
+				) {
+					userProfile.interests.push(selectedInterest);
+					updateInterestsDisplay();
+				}
+			}
+
+			// Remove an interest
+			function removeInterest(interest) {
+				userProfile.interests = userProfile.interests.filter(
+					(i) => i !== interest
+				);
+				updateInterestsDisplay();
+			}
+
+			// Update interests display
+			function updateInterestsDisplay() {
+				const interestsDisplay = document.getElementById("interestsDisplay");
+				interestsDisplay.innerHTML = "";
+				userProfile.interests.forEach((interest) => {
+					interestsDisplay.innerHTML += `
+                    <button class="button-container">
+                        ${interest}
+                        <span class="removeButton" onclick="removeInterest('${interest}')">✖</span>
+                    </button>
+                `;
+				});
+			}
+
+			// Add a skill
+			function addSkill() {
+				const dropdown = document.getElementById("skillsDropdown");
+				const selectedSkill = dropdown.value;
+				if (selectedSkill && !userProfile.skills.includes(selectedSkill)) {
+					userProfile.skills.push(selectedSkill);
+					updateSkillsDisplay();
+				}
+			}
+
+			// Remove a skill
+			function removeSkill(skill) {
+				userProfile.skills = userProfile.skills.filter((s) => s !== skill);
+				updateSkillsDisplay();
+			}
+
+			// Update skills display
+			function updateSkillsDisplay() {
+				const skillsDisplay = document.getElementById("skillsDisplay");
+				skillsDisplay.innerHTML = "";
+				userProfile.skills.forEach((skill) => {
+					skillsDisplay.innerHTML += `
+                    <button class="button-container">
+                        ${skill}
+                        <span class="removeButton" onclick="removeSkill('${skill}')">✖</span>
+                    </button>
+                `;
+				});
+			}
+
+			// Add an available day
+			function addAvailableDay() {
+				const dropdown = document.getElementById("daysDropdown");
+				const selectedDay = dropdown.value;
+				if (selectedDay && !userProfile.availableDays.includes(selectedDay)) {
+					userProfile.availableDays.push(selectedDay);
+					updateAvailableDaysDisplay();
+				}
+			}
+
+			// Remove an available day
+			function removeAvailableDay(day) {
+				userProfile.availableDays = userProfile.availableDays.filter(
+					(d) => d !== day
+				);
+				updateAvailableDaysDisplay();
+			}
+
+			// Update available days display
+			function updateAvailableDaysDisplay() {
+				const availableDaysDisplay = document.getElementById(
+					"availableDaysDisplay"
+				);
+				availableDaysDisplay.innerHTML = "";
+				userProfile.availableDays.forEach((day) => {
+					availableDaysDisplay.innerHTML += `
+                    <button class="button-container">
+                        ${day}
+                        <span class="removeButton" onclick="removeAvailableDay('${day}')">✖</span>
+                    </button>
+                `;
+				});
+			}
+
+			// Populate dropdowns
+			function populateDropdowns() {
+				const interestsDropdown = document.getElementById("interestsDropdown");
+				interestsList.forEach((interest) => {
+					const option = document.createElement("option");
+					option.value = interest;
+					option.textContent = interest;
+					interestsDropdown.appendChild(option);
+				});
+
+				const skillsDropdown = document.getElementById("skillsDropdown");
+				skillsList.forEach((skill) => {
+					const option = document.createElement("option");
+					option.value = skill;
+					option.textContent = skill;
+					skillsDropdown.appendChild(option);
+				});
+
+				const daysDropdown = document.getElementById("daysDropdown");
+				daysOfWeek.forEach((day) => {
+					const option = document.createElement("option");
+					option.value = day;
+					option.textContent = day;
+					daysDropdown.appendChild(option);
+				});
+			}
+
+			// Initialize the profile on page load
+			window.onload = populateProfile;
+		</script>
+	</body>
+</html>
