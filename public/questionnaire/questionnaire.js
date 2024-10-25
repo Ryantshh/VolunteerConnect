@@ -40,8 +40,7 @@ auth.onAuthStateChanged((user) => {
                                 questionnaireForm.reset();  // Clear the form after submission
 
                                 // Redirect to the results page 
-                                window.location.href = 'results.html';  // Redirect to the results page
-
+                                window.location.href = '../homepageafterlogin.html';  
                             })
                             .catch((error) => {
                                 console.error('Error submitting response: ', error);

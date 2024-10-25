@@ -21,6 +21,11 @@
 
 	<body>
 		<div id="app">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<a class="navbar-brand" href="#">
+					<img src="Volunteer.png" alt="logo" style="width: 60px; height: 50px;"/>
+				</a>
+			</nav>
 			<!-- Progress Bar at the Top -->
 			<div class="progress-container" style="margin-top: 10px;">
 				<div class="progress-bar" :style="{ width: progress + '%' }"></div>
@@ -124,9 +129,23 @@
 	
 				<!-- Address and Postal Code Page -->
 				<div v-if="currentStep === 4" class="form-page active">
+
+					<div class="mb-3">
+						<label for="fullName" class="form-label">Full Name</label>
+						<input
+							type="text"
+							v-model="formData.fullName"
+							class="form-control"
+							placeholder="Enter your full name"
+							@blur="validateFullName"
+							required
+						/>
+						<p class="error text-danger" v-if="fullNameError">{{ fullNameError }}</p>
+					</div>
+
 					
 					<div class="mb-3">
-						<label for="postalCode" class="form-label">Postal Code (required)</label>
+						<label for="postalCode" class="form-label">Postal Code</label>
 						<input
 							type="text"
 							v-model="formData.postalCode"
@@ -163,6 +182,8 @@
 							availability: [],
 							address: "",
 							postalCode: "",
+							fullName:"",
+							fullNameError:"",
 						},
 						postalCodeError: "",
 						isPostalCodeValid: false,
@@ -238,6 +259,17 @@
 							this.currentStep--;
 						}
 					},
+					validateFullName() {
+        				const fullNamePattern = /^[A-Za-z\s]+$/; // Allow only letters and spaces
+						if (!this.formData.fullName) {
+							this.fullNameError = "Full name cannot be empty.";
+						} else if (!fullNamePattern.test(this.formData.fullName)) {
+							this.fullNameError = "Full name must contain only alphabets and spaces.";
+						} else {
+							this.fullNameError = ""; // Clear the error if valid
+						}
+					},
+
 					validatePostalCode() {
 						const postalCodePattern = /^[0-9]{6}$/;
 						if (!postalCodePattern.test(this.formData.postalCode)) {
@@ -249,8 +281,10 @@
 						}
 					},
 					submitForm() {
-						this.validatePostalCode();
-						if (this.isPostalCodeValid) {
+						this.validateFullName();  // Validate full name
+						this.validatePostalCode(); // Validate postal code
+
+						if (this.isPostalCodeValid && !this.fullNameError) {
 							// Firebase Firestore submission logic here
 							this.showMessageBar = true;
 							this.submissionMessage = "Form successfully submitted!";

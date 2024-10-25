@@ -20,6 +20,7 @@
 				display: flex;
 				justify-content: center;
 				align-items: center;
+				padding-top: 90px;
 			}
 
 			.login-container {
@@ -165,11 +166,109 @@
 				width: 100%;
 				max-width: 600px;
 			}
+
+			.navbar {
+				border-bottom: 1px solid #eaeaea;
+			}
+
+			.navbar-nav {
+				width: 40%; /* Adjust this width for spacing */
+				justify-content: space-around;
+			}
+
+			/* Navbar Brand */
+			.navbar-brand img {
+				border-radius: 50%;
+				width: 60px;
+				height: 50px;
+			}
+
+			/* Navbar Links */
+			#active {
+				font-weight: bolder; /*active page bolder */
+			}
+			.navbar-nav .nav-link {
+				color: #333;
+				position: relative;
+				transition: color 0.3s ease; /* Smooth transition for color change */
+			}
+
+			/* Navbar Hover Effect */
+			.navbar-nav .nav-link:hover {
+				color: red;
+			}
+
+			/* Slide-up underline effect */
+			.navbar-nav .nav-link::after {
+				content: "";
+				position: absolute;
+				width: 100%;
+				height: 2px;
+				left: 0;
+				bottom: -5px;
+				background-color: red;
+				transform: scaleX(0);
+				transform-origin: right;
+				transition: transform 0.3s ease;
+			}
+
+			.navbar-nav .nav-link:hover::after {
+				transform: scaleX(1);
+				transform-origin: left;
+			}
 		</style>
 	</head>
 
 	<body>
 		<div class="container-fluid">
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container-fluid">
+					<!-- Navbar Brand -->
+					<a class="navbar-brand" href="#">
+						<img src="images/Volunteer.png" alt="logo" />
+					</a>
+
+					<!-- Toggler for mobile view -->
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarNav"
+						aria-controls="navbarNav"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+
+					<!-- Navbar Links-->
+					<div
+						class="collapse navbar-collapse justify-content-center"
+						id="navbarNav"
+					>
+						<ul class="navbar-nav">
+							<li class="nav-item">
+								<a class="nav-link active" id="active" href="#">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Explore</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Donate</a>
+							</li>
+						</ul>
+					</div>
+
+					<!-- Sign In Button on the far right -->
+					<div class="d-flex">
+						<button id="signin" class="btn btn-outline-dark" type="button">
+							<a href="signup.html" style="text-decoration: none; color: black"
+								>Sign Up</a
+							>
+						</button>
+					</div>
+				</div>
+			</nav>
 			<div class="row align-items-center" style="min-height: 90vh">
 				<div class="col p-5 text-center content">
 					<img src="images/Volunteer.png" style="height: 100px" />
