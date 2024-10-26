@@ -1,134 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>User Profile</title>
-		<link type="text/css" href="css/profile.css" rel="stylesheet" />
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-			integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-			crossorigin="anonymous"
-		/>
-	</head>
-	<body>
-        <div class="container-fluid">
-            <!-- Navbar Brand -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">
-                <img src="images/Volunteer.png" alt="logo"/>
-            </a>
 
-            <!-- Toggler for mobile view -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>User Profile</title>
+	<link type="text/css" href="css/profile.css" rel="stylesheet" />
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+	<!-- Load Firebase App, Auth, and Firestore scripts from the CDN -->
+	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+	<script src="config.js"></script>
 
-            <!-- Navbar Links-->
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="active" href="homepageafterlogin.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Explore</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Calendar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Donate</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">For You</a>
-                    </li>
-                </ul>
-            </div>
-            </nav>
+</head>
 
-        <div class="container">
-            <h1>User Profile</h1>
-            <div class="field">
-                <label for="name">Name:</label>
-                <span id="nameDisplay"></span>
-                <input
-                    type="text"
-                    id="nameInput"
-                    class="editInput"
-                    oninput="updateNameDisplay()"
-                />
-                <div>
-                    <button class="editButton" onclick="editField('name')">Edit</button>
-                    <button class="saveButton" onclick="saveField('name')">Save</button>
-                </div>
-            </div>
-            <div class="field">
-                <label for="email">Email:</label>
-                <span id="emailDisplay"></span>
-                <input type="text" id="emailInput" class="editInput" />
-                <div>
-                    <button class="editButton" onclick="editField('email')">Edit</button>
-                <button class="saveButton" onclick="saveField('email')">Save</button>
-                </div>
-                
-            </div>
-            <div class="field">
-                <label for="postalCode">Postal Code:</label>
-                <span id="postalCodeDisplay"></span>
-                <input type="text" id="postalCodeInput" class="editInput" />
-                <div>
-                    <button class="editButton" onclick="editField('postalCode')">Edit</button>
-                    <button class="saveButton" onclick="saveField('postalCode')">Save</button>
-                </div>
-                
-            </div>
-    
-            <div>
-                <h3>Interests</h3>
-                <div id="interestsDisplay"></div>
-                <br />
-                <select id="interestsDropdown"></select>
-                <button onclick="addInterest()">Add Interest</button>
-            </div>
-            <br />
-            <div>
-                <h3>Skills</h3>
-    
-                <div id="skillsDisplay"></div>
-                <br />
-    
-                <select id="skillsDropdown"></select>
-                <button onclick="addSkill()">Add Skill</button>
-            </div>
-            <br />
-            <div>
-                <h3>Available Days</h3>
-    
-                <div id="availableDaysDisplay"></div>
-                <br />
-    
-                <select id="daysDropdown"></select>
-                <button onclick="addAvailableDay()">Add Day</button>
-            </div>
-        </div>
-		
+<body>
+	<div class="container-fluid">
+		<!-- Navbar Brand -->
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" href="#">
+				<img src="images/Volunteer.png" alt="logo" />
+			</a>
 
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+			<!-- Toggler for mobile view -->
+			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<!-- Navbar Links-->
+			<div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item">
+						<a class="nav-link active" id="active" href="homepageafterlogin.html">Home</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Explore</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Calendar</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">Donate</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#">For You</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container">
+			<h1>User Profile</h1>
+			<div class="field">
+				<label for="name">Name:</label>
+				<span id="nameDisplay"></span>
+				<input type="text" id="nameInput" class="editInput" oninput="updateNameDisplay()" />
+				<div>
+					<button class="editButton" onclick="editField('name')">Edit</button>
+					<button class="saveButton" onclick="saveField('name')">Save</button>
+				</div>
+			</div>
+			<div class="field">
+				<label for="email">Email:</label>
+				<span id="emailDisplay"></span>
+				<input type="text" id="emailInput" class="editInput" />
+				<div>
+					<button class="editButton" onclick="editField('email')">Edit</button>
+					<button class="saveButton" onclick="saveField('email')">Save</button>
+				</div>
+
+			</div>
+			<div class="field">
+				<label for="postalCode">Postal Code:</label>
+				<span id="postalCodeDisplay"></span>
+				<input type="text" id="postalCodeInput" class="editInput" />
+				<div>
+					<button class="editButton" onclick="editField('postalCode')">Edit</button>
+					<button class="saveButton" onclick="saveField('postalCode')">Save</button>
+				</div>
+
+			</div>
+
+			<div>
+				<h3>Interests</h3>
+				<div id="interestsDisplay"></div>
+				<br />
+				<select id="interestsDropdown"></select>
+				<button onclick="addInterest()">Add Interest</button>
+			</div>
+			<br />
+			<div>
+				<h3>Skills</h3>
+
+				<div id="skillsDisplay"></div>
+				<br />
+
+				<select id="skillsDropdown"></select>
+				<button onclick="addSkill()">Add Skill</button>
+			</div>
+			<br />
+			<div>
+				<h3>Available Days</h3>
+
+				<div id="availableDaysDisplay"></div>
+				<br />
+
+				<select id="daysDropdown"></select>
+				<button onclick="addAvailableDay()">Add Day</button>
+			</div>
+
+			<button onclick="submit()" style="margin-top: 40px;">Submit</button>
+
+		</div>
+
+
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-			crossorigin="anonymous"
-		></script>
+			crossorigin="anonymous"></script>
 		<script>
-			// Sample user data object
-			const userProfile = {
-				name: "John Doe",
-				email: "john.doe@example.com",
-				postalCode: "12345",
-				interests: ["Environmental", "Education"],
-				skills: ["Teaching", "Leadership"],
-				availableDays: ["Monday", "Friday"],
-			};
+			// // Sample user data object
+			// const userProfile = {
+			// 	name: "John Doe",
+			// 	email: "john.doe@example.com",
+			// 	postalCode: "12345",
+			// 	interests: ["Environmental", "Education"],
+			// 	skills: ["Teaching", "Leadership"],
+			// 	availableDays: ["Monday", "Friday"],
+			// };
+			// Define userProfile globally
+			let userProfile;
+			auth.onAuthStateChanged(async (user) => {
+				if (user) {
+					try {
+						// Query the 'UserQuestionnaire' collection for a document with a matching uid field
+						const querySnapshot = await db.collection("UserQuestionnaire")
+							.where("uid", "==", user.uid)
+							.limit(1)  // Limit to one document to avoid unnecessary data retrieval
+							.get();
+
+						if (!querySnapshot.empty) {
+							// If a document with the matching uid field exists, retrieve it
+							const userDoc = querySnapshot.docs[0];
+							userProfile = userDoc.data();
+							console.log("User profile retrieved:", userProfile);
+							populateProfile(userProfile);
+
+							// Use `userProfile` as needed in your app
+						} else {
+							console.log("No profile found for this user with uid:", user.uid);
+							// Handle the case where no matching profile is found
+						}
+					} catch (error) {
+						console.error("Error retrieving user profile:", error);
+					}
+				} else {
+					// User is not logged in; redirect to root (e.g., login page)
+					console.log("No user is logged in. Redirecting to root...");
+					window.location.href = '/';
+				}
+			});
+
 
 			// Dropdown lists
 			const interestsList = [
@@ -181,77 +215,63 @@
 				"Saturday",
 				"Sunday",
 			];
+			// Populate dropdowns on page load
+			window.onload = populateDropdowns;
+
 
 			// Function to populate the profile fields
-			function populateProfile() {
-				document.getElementById("nameDisplay").innerText = userProfile.name;
+			function populateProfile(userProfile) {
+				document.getElementById("nameDisplay").innerText = userProfile.fullName;
 				document.getElementById("emailDisplay").innerText = userProfile.email;
-				document.getElementById("postalCodeDisplay").innerText =
-					userProfile.postalCode;
-				updateInterestsDisplay();
-				updateSkillsDisplay();
-				updateAvailableDaysDisplay();
+				document.getElementById("postalCodeDisplay").innerText = userProfile.postalCode;
+
+				updateInterestsDisplay(userProfile.interests);
+				updateSkillsDisplay(userProfile.skills);
+				updateAvailableDaysDisplay(userProfile.availability);
 				populateDropdowns();
 			}
 
-			// Function to edit the specified field
-			function editField(field) {
-				document.getElementById(`${field}Display`).style.display = "none";
-				document.getElementById(`${field}Input`).style.display = "inline";
-				if (field === "name") {
-					document.getElementById(`${field}Input`).value = userProfile.name; // Set input value
-					document.getElementById(`${field}Input`).style.display = "inline"; // Show input
-					document.getElementById(`${field}Input`).focus(); // Focus on input
-				}
-			}
-
-			// Update name display in real-time
-			function updateNameDisplay() {
-				const nameInput = document.getElementById("nameInput").value;
-				document.getElementById("nameDisplay").innerText = nameInput;
-			}
-
-			// Function to save the specified field
-			function saveField(field) {
-				userProfile[field] = document.getElementById(`${field}Input`).value;
-				document.getElementById(`${field}Display`).innerText =
-					userProfile[field];
-				document.getElementById(`${field}Display`).style.display = "inline";
-				document.getElementById(`${field}Input`).style.display = "none";
+			// Update displayed interests
+			function updateInterestsDisplay(interests) {
+				const interestsDisplay = document.getElementById("interestsDisplay");
+				interestsDisplay.innerHTML = "";
+				interests.forEach((interest) => {
+					interestsDisplay.innerHTML += `
+					<button class="button-container">
+						${interest}
+						<span class="removeButton" onclick="removeInterest('${interest}')">✖</span>
+					</button>
+				`;
+				});
 			}
 
 			// Add an interest
 			function addInterest() {
 				const dropdown = document.getElementById("interestsDropdown");
 				const selectedInterest = dropdown.value;
-				if (
-					selectedInterest &&
-					!userProfile.interests.includes(selectedInterest)
-				) {
+				if (selectedInterest && !userProfile.interests.includes(selectedInterest)) {
 					userProfile.interests.push(selectedInterest);
-					updateInterestsDisplay();
+					updateInterestsDisplay(userProfile.interests);
 				}
 			}
 
 			// Remove an interest
 			function removeInterest(interest) {
-				userProfile.interests = userProfile.interests.filter(
-					(i) => i !== interest
-				);
-				updateInterestsDisplay();
+				userProfile.interests = userProfile.interests.filter((i) => i !== interest);
+				updateInterestsDisplay(userProfile.interests);
 			}
 
-			// Update interests display
-			function updateInterestsDisplay() {
-				const interestsDisplay = document.getElementById("interestsDisplay");
-				interestsDisplay.innerHTML = "";
-				userProfile.interests.forEach((interest) => {
-					interestsDisplay.innerHTML += `
-                    <button class="button-container">
-                        ${interest}
-                        <span class="removeButton" onclick="removeInterest('${interest}')">✖</span>
-                    </button>
-                `;
+			// Update displayed skills
+			function updateSkillsDisplay(skills) {
+				const skillsDisplay = document.getElementById("skillsDisplay");
+				skillsDisplay.innerHTML = "";
+				skills.forEach((skill) => {
+					skillsDisplay.innerHTML += `
+					<button class="button-container">
+						${skill}
+						<span class="removeButton" onclick="removeSkill('${skill}')">✖</span>
+					</button>
+				`;
 				});
 			}
 
@@ -261,27 +281,27 @@
 				const selectedSkill = dropdown.value;
 				if (selectedSkill && !userProfile.skills.includes(selectedSkill)) {
 					userProfile.skills.push(selectedSkill);
-					updateSkillsDisplay();
+					updateSkillsDisplay(userProfile.skills);
 				}
 			}
 
 			// Remove a skill
 			function removeSkill(skill) {
 				userProfile.skills = userProfile.skills.filter((s) => s !== skill);
-				updateSkillsDisplay();
+				updateSkillsDisplay(userProfile.skills);
 			}
 
-			// Update skills display
-			function updateSkillsDisplay() {
-				const skillsDisplay = document.getElementById("skillsDisplay");
-				skillsDisplay.innerHTML = "";
-				userProfile.skills.forEach((skill) => {
-					skillsDisplay.innerHTML += `
-                    <button class="button-container">
-                        ${skill}
-                        <span class="removeButton" onclick="removeSkill('${skill}')">✖</span>
-                    </button>
-                `;
+			// Update available days display
+			function updateAvailableDaysDisplay(availableDays) {
+				const availableDaysDisplay = document.getElementById("availableDaysDisplay");
+				availableDaysDisplay.innerHTML = "";
+				availableDays.forEach((day) => {
+					availableDaysDisplay.innerHTML += `
+					<button class="button-container">
+						${day}
+						<span class="removeButton" onclick="removeAvailableDay('${day}')">✖</span>
+					</button>
+				`;
 				});
 			}
 
@@ -289,39 +309,28 @@
 			function addAvailableDay() {
 				const dropdown = document.getElementById("daysDropdown");
 				const selectedDay = dropdown.value;
-				if (selectedDay && !userProfile.availableDays.includes(selectedDay)) {
-					userProfile.availableDays.push(selectedDay);
-					updateAvailableDaysDisplay();
+
+				// Ensure availability exists as an array in userProfile
+				if (!userProfile.availability) {
+					userProfile.availability = [];
+				}
+
+				// Add selectedDay to availability if not already present
+				if (selectedDay && !userProfile.availability.includes(selectedDay)) {
+					userProfile.availability.push(selectedDay);
+					updateAvailableDaysDisplay(userProfile.availability);
 				}
 			}
 
 			// Remove an available day
 			function removeAvailableDay(day) {
-				userProfile.availableDays = userProfile.availableDays.filter(
-					(d) => d !== day
-				);
-				updateAvailableDaysDisplay();
+				userProfile.availability = userProfile.availability.filter((d) => d !== day);
+				updateAvailableDaysDisplay(userProfile.availability);
 			}
-
-			// Update available days display
-			function updateAvailableDaysDisplay() {
-				const availableDaysDisplay = document.getElementById(
-					"availableDaysDisplay"
-				);
-				availableDaysDisplay.innerHTML = "";
-				userProfile.availableDays.forEach((day) => {
-					availableDaysDisplay.innerHTML += `
-                    <button class="button-container">
-                        ${day}
-                        <span class="removeButton" onclick="removeAvailableDay('${day}')">✖</span>
-                    </button>
-                `;
-				});
-			}
-
 			// Populate dropdowns
 			function populateDropdowns() {
 				const interestsDropdown = document.getElementById("interestsDropdown");
+				interestsDropdown.innerHTML = ''; // Clear previous options
 				interestsList.forEach((interest) => {
 					const option = document.createElement("option");
 					option.value = interest;
@@ -330,6 +339,7 @@
 				});
 
 				const skillsDropdown = document.getElementById("skillsDropdown");
+				skillsDropdown.innerHTML = ''; // Clear previous options
 				skillsList.forEach((skill) => {
 					const option = document.createElement("option");
 					option.value = skill;
@@ -338,6 +348,7 @@
 				});
 
 				const daysDropdown = document.getElementById("daysDropdown");
+				daysDropdown.innerHTML = ''; // Clear previous options
 				daysOfWeek.forEach((day) => {
 					const option = document.createElement("option");
 					option.value = day;
@@ -346,8 +357,32 @@
 				});
 			}
 
-			// Initialize the profile on page load
-			window.onload = populateProfile;
+			// Submit the userProfile object to Firestore
+			async function submit() {
+				try {
+					// Ensure user is authenticated
+					if (auth.currentUser) {
+						const userId = auth.currentUser.uid;
+
+						// Check if the uid field exists in userProfile, add it if missing
+						if (!userProfile.uid) {
+							userProfile.uid = userId;
+						}
+
+						// Save or update the userProfile in Firestore with uid as the document ID
+						await db.collection("UserQuestionnaire").doc(userId).set(userProfile);
+
+						console.log("User profile successfully submitted to Firestore.");
+					} else {
+						console.log("No authenticated user to submit profile for.");
+					}
+				} catch (error) {
+					console.error("Error submitting user profile:", error);
+				}
+			}
+
+
 		</script>
-	</body>
+</body>
+
 </html>
