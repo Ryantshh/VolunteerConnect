@@ -319,36 +319,36 @@ const app = Vue.createApp({
                         slides[currentSlide].classList.add('active');
                     }, 5000); // Change slide every 5 seconds
                 },
-                // Fetch listings from Firestore
+                 // Fetch listings from Firestore
         async fetchListings() {
-          const db = firebase.firestore();  // Access Firestore
+                const db = firebase.firestore();  // Access Firestore
 
-          try {
-            const querySnapshot = await db.collection('listings').get();
-            const info = [];
+                try {
+                    const querySnapshot = await db.collection('listings').get();
+                    const info = [];
 
-            // Loop through each document in the querySnapshot
-            querySnapshot.forEach((doc) => {
-              const data = doc.data();  // Get the document data
-              info.push({
-                title: data.title || 'No title',
-                description: data.description || 'No description',
-                imageUrl: data.imageUrl || 'default-image.png',
-                location: data.location || 'No location',
-                skills: data.skills || ['None'],
-                category: data.category || ['None'],
-                daysOfWeek: data.daysOfWeek || ['None']
-              });
-            });
+                    // Loop through each document in the querySnapshot
+                    querySnapshot.forEach((doc) => {
+                    const data = doc.data();  // Get the document data
+                    info.push({
+                        title: data.title || 'No title',
+                        description: data.description || 'No description',
+                        imageUrl: data.imageUrl || 'default-image.png',
+                        location: data.location || 'No location',
+                        skills: data.skills || ['None'],
+                        category: data.category || ['None'],
+                        daysOfWeek: data.daysOfWeek || ['None']
+                    });
+                    });
 
-            // Assign the fetched data to Vue's reactive state
-            this.recommendedCards = info;
+                    // Assign the fetched data to Vue's reactive state
+                    this.recommendedCards = info;
 
-            // Log the data to ensure it is fetched correctly
-            console.log("Fetched listings:", this.recommendedCards);
+                    // Log the data to ensure it is fetched correctly
+                    console.log("Fetched listings:", this.recommendedCards);
 
-            // Now fetch user data and calculate match
-            this.fetchUserData();
+                    // Now fetch user data and calculate match
+                    this.fetchUserData();
 
           } catch (error) {
             // Handle any errors that occur during data fetching
@@ -390,6 +390,9 @@ const app = Vue.createApp({
                   });
                 } else {
                   console.log("No document found in userQuestionnaire for UID:", uid);
+                  // Temporary mock data while questionaire is down
+                  
+                  this.showMatchBar = false;
                 }
 
               } catch (error) {
@@ -404,10 +407,11 @@ const app = Vue.createApp({
         },
 
         // Calculate the match score for each listing
-        calculateMatch(userData) {
+        async calculateMatch(userData) {
           if (userData && this.recommendedCards.length) {
             this.showMatchBar = true;
 
+            /* Original code
             // Loop through each listing and calculate match score
             this.recommendedCards = this.recommendedCards.map((listing) => {
               const matchScore = this.calculateMatchScore(userData, listing);
@@ -416,6 +420,19 @@ const app = Vue.createApp({
                 matchScore  // Add/Update matchScore property
               };
             });
+            */
+            // Create an array of promises for calculating match scores
+            const matchScorePromises = this.recommendedCards.map(async (listing) => {
+                const matchScore = await this.calculateMatchScore(userData, listing);
+                return {
+                ...listing,  // Spread operator to keep other listing data intact
+                matchScore  // Add/Update matchScore property
+              };
+            });
+
+            // Wait for all match score calculations to complete
+            this.recommendedCards = await Promise.all(matchScorePromises);
+
             // Sort listings based on matchScore descending once
             this.recommendedCards.sort((a, b) => b.matchScore - a.matchScore);
 
@@ -427,7 +444,7 @@ const app = Vue.createApp({
         },
 
         // Calculate the match score based on user and listing data
-        calculateMatchScore(user, listing) {
+        async calculateMatchScore(user, listing) {
           // Weights for each criterion
           const weights = {
             interests: 0.3,
@@ -444,7 +461,36 @@ const app = Vue.createApp({
           const skillsMatch = (matchedSkills / listing.skills.length) * 100;
 
           // Location match (for now assume 100%)
-          const locationMatch = 100;
+          var locationMatch = 100;
+          // Brandyn Testing stuff
+          //console.log("This is the listing location: " ,listing.location)
+          //console.log("This is the user's location: ", user.location)
+          if(listing.location !== "No location"){
+            const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+              params: {
+                origins: user.location,
+                destinations: listing.location,
+                units: 'metric',
+              }
+            })
+            .then(response=> {
+              var temp_holding = response.data
+              var distance_value = temp_holding.rows[0].elements[0].distance.value
+              console.log("This is the distance_value: ", distance_value)
+              console.log("This is the type of distance_value: ", typeof(distance_value))
+              // Distance calculation
+              // If distance is more then 20km, set to 0. Else, 20km minus 
+              if(distance_value >= 20000){
+                locationMatch = 0
+              }
+              else{
+                locationMatch = (20000 - distance_value)/200
+              }
+            })
+            .catch(error=> {
+              console.error("No distance? : ", error)
+            })
+          }
 
           // Availability match calculation
           const matchedDays = listing.daysOfWeek.filter(day => user.availability.includes(day)).length;
@@ -460,7 +506,8 @@ const app = Vue.createApp({
 
           return totalMatchScore;
         }
-            },
+
+        },
         created(){
             this.fetchListings();  // Fetch listings first
             },
