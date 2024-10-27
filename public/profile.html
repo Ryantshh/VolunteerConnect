@@ -57,30 +57,20 @@
 			<div class="field">
 				<label for="name">Name:</label>
 				<span id="nameDisplay"></span>
-				<input type="text" id="nameInput" class="editInput" oninput="updateNameDisplay()" />
-				<div>
-					<button class="editButton" onclick="editField('name')">Edit</button>
-					<button class="saveButton" onclick="saveField('name')">Save</button>
-				</div>
-			</div>
-			<div class="field">
-				<label for="email">Email:</label>
-				<span id="emailDisplay"></span>
-				<input type="text" id="emailInput" class="editInput" />
-				<div>
-					<button class="editButton" onclick="editField('email')">Edit</button>
-					<button class="saveButton" onclick="saveField('email')">Save</button>
-				</div>
-
+				<input type="text" id="nameInput" class="editInput" />
+				<!-- <div>
+					<button class="editButton" onclick="editField()">Edit</button>
+					<button class="saveButton" onclick="saveField()">Save</button>
+				</div> -->
 			</div>
 			<div class="field">
 				<label for="postalCode">Postal Code:</label>
 				<span id="postalCodeDisplay"></span>
 				<input type="text" id="postalCodeInput" class="editInput" />
-				<div>
-					<button class="editButton" onclick="editField('postalCode')">Edit</button>
-					<button class="saveButton" onclick="saveField('postalCode')">Save</button>
-				</div>
+				<!-- <div>
+					<button class="editButton" onclick="editField()">Edit</button>
+					<button class="saveButton" onclick="saveField()">Save</button>
+				</div> -->
 
 			</div>
 
@@ -163,6 +153,12 @@
 				}
 			});
 
+			// editField(value){
+			// 	if(value=="name"){
+
+			// 	}
+			// };
+
 
 			// Dropdown lists
 			const interestsList = [
@@ -218,11 +214,43 @@
 			// Populate dropdowns on page load
 			window.onload = populateDropdowns;
 
+			// Function to enable editing
+			function editField() {
+				const displayElement = document.getElementById("nameDisplay");
+				const inputElement = document.getElementById("nameInput");
+
+				// Show the input field with current name and enable editing
+				inputElement.disabled = false;
+				inputElement.value = displayElement.innerText || ""; // Set input value to displayed name or empty if none
+
+				// Focus the input element
+				inputElement.focus();
+			}
+
+			// Function to save the input value
+			function saveField() {
+				const displayElement = document.getElementById("nameDisplay");
+				const inputElement = document.getElementById("nameInput");
+
+				// Get the input value and trim it
+				const inputValue = inputElement.value.trim();
+
+				// Update display span and save to namesArray
+				if (inputValue) {
+					displayElement.innerText = inputValue;
+					userProfile.namesArray[0] = inputValue; // Store in the first index or update
+				}
+
+				// Disable input to prevent further editing
+				inputElement.disabled = true;
+
+				console.log("Updated namesArray:", userProfile.namesArray);
+			}
+
 
 			// Function to populate the profile fields
 			function populateProfile(userProfile) {
 				document.getElementById("nameDisplay").innerText = userProfile.fullName;
-				document.getElementById("emailDisplay").innerText = userProfile.email;
 				document.getElementById("postalCodeDisplay").innerText = userProfile.postalCode;
 
 				updateInterestsDisplay(userProfile.interests);
