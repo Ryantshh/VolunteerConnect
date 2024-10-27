@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nonprofit Listings</title>
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./posting.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Navbar Brand -->
+            <a class="navbar-brand" href="#">
+                <img src="images/Volunteer.png" alt="logo"/>
+            </a>
+
+            <!-- Toggler for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links-->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  id="active"  href="#">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Calendar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Donate</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">For You</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sign In Button on the far right -->
+            <div class="d-flex">
+                <button id="signin" class="btn" type="button">My Profile</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="post" class="container fluid">
+        <div class="form-container">
+            <h2 class="form-title">Create Volunteer Event</h2>
+            <form id="listing-form" class="listing-form">
+                <div class="form-group">
+                    <label for="listing-name">Event Name</label>
+                    <input 
+                        type="text" 
+                        id="listing-name" 
+                        class="form-control" 
+                        required
+                        placeholder="Enter listing name"
+                    >
+                </div>
+        
+                <div class="form-group">
+                    <label for="listing-description">Description</label>
+                    <textarea 
+                        id="listing-description" 
+                        class="form-control" 
+                        rows="4" 
+                        required
+                        placeholder="Describe the volunteer opportunity..."
+                    ></textarea>
+                </div>
+        
+                <div class="date-time-container">
+                    <div class="form-group date-group">
+                        <label for="event-date">Event Date</label>
+                        <input 
+                            type="date" 
+                            id="event-date" 
+                            class="form-control" 
+                            required
+                        >
+                    </div>
+        
+                    <div class="form-group time-group">
+                        <label for="listing-time">Event Time</label>
+                        <div class="time-inputs">
+                            <input 
+                                type="time" 
+                                id="listing-start-time" 
+                                class="form-control" 
+                                required
+                            >
+                            <span class="time-separator">to</span>
+                            <input 
+                                type="time" 
+                                id="listing-end-time" 
+                                class="form-control" 
+                                required
+                            >
+                        </div>
+                    </div>
+                </div>
+        
+                <div class="form-group">
+                    <label for="event-categories">Event Categories</label>
+                    <input 
+                        type="text" 
+                        id="event-categories" 
+                        class="form-control" 
+                        placeholder="Enter categories separated by commas"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="event-skills">Skills Required</label>
+                    <input 
+                        type="text" 
+                        id="event-skills" 
+                        class="form-control" 
+                        placeholder="Enter skills separated by commas"
+                    >
+                </div>
+
+
+                <div class="form-group">
+                    <label for="location-input">Event Location Postal Code</label>
+                        <input 
+                            type="text" 
+                            id="location-input" 
+                            class="form-control" 
+                            placeholder="Enter Postal Code"
+                            required
+                        >
+                </div>
+        
+                <div class="form-group">
+                    <label for="listing-photo">Upload Photo</label>
+                    <div class="file-upload">
+                        <input 
+                            type="file" 
+                            id="listing-photo" 
+                            class="file-input" 
+                            accept="image/*"
+                        >
+                        <label for="listing-photo" class="file-label">
+                            <span class="upload-icon">📷</span>
+                            <span class="upload-text">Choose a file</span>
+                        </label>
+                        <div class="file-preview"></div>
+                    </div>
+                </div>
+        
+                <button type="submit" class="submit-btn">
+                    Post Volunteer Listing
+                    <span class="btn-overlay"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+ <script src="posting.js">
+
+        // Add this JavaScript to create the floating hearts
+</script>
+
+
+
+
+</body>
+</html>
