@@ -322,6 +322,7 @@
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     height: 100%;
+    width: 500px;
     display: flex;
     flex-direction: column;
     overflow: hidden; /* Ensure image doesn't overflow on hover */
@@ -581,7 +582,7 @@ input[type="text"]::placeholder {
     }
 }
 
-.search-container {
+/* .search-container {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -592,14 +593,14 @@ input[type="text"]::placeholder {
 }
 
 .search-container input {
-    margin: 0;  /* Override existing margin */
+    margin: 0;  
     width: 100%;
 }
 
 .search-container button {
-    margin: 0;  /* Override existing margin */
+    margin: 0;  
     white-space: nowrap;
-}
+} */
 
 /* Current option styles */
 .current-option {
