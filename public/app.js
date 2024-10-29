@@ -136,7 +136,7 @@ googleSignInButton.addEventListener('click', () => {
                     } else {
                         showErrorPopup("Google sign-in successful!"); // Change to a popup instead of alert
                         // Insert path to profile page when created
-                        // window.location.href = "";
+                        window.location.href = "homepageafterlogin.html";
                     }
                 });
 
