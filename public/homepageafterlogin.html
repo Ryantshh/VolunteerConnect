@@ -1,152 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Homepage After Login</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <title>Homepage Before Login</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous"
+    />
     <link rel="stylesheet" href="css/homepage.css" />
-    <!-- Vue.js 3.2.37 Script -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.min.js"></script>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script src="config.js"></script>
-
 </head>
-
 <body>
-    <div id="app">
-        <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <!-- Navbar Brand -->
-                <a class="navbar-brand" href="#">
-                    <img src="images/Volunteer.png" alt="logo" />
-                </a>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Navbar Brand -->
+            <a class="navbar-brand" href="#">
+                <img src="images/Volunteer.png" alt="logo"/>
+            </a>
 
-                <!-- Toggler for mobile view -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <!-- Toggler for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <!-- Navbar Links-->
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="active" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Explore</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Calendar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Donate</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">For You</a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Sign In Button on the far right -->
-                <div class="d-flex">
-                    <button id="profile" class="btn " type="button">
-                        <a href="profile.html">
-                            <img src="images/profile-user.png" style="width: 30px; height: 30px; ">
-                        </a>
-
-                    </button>
-                </div>
-
-                <div class="d-flex">
-                    <button id="signout" class="btn btn-outline-dark" type="button" @click="logout">
-                        Log Out
-                    </button>
-                </div>
-
+            <!-- Navbar Links-->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" id="active"  href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="#">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Calendar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Donate</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
 
-        <!-- Main Content -->
-        <div class="main-content">
-            <h1>Lets Make A Change!</h1>
-            <br>
-            <p>
-                Ready to find the project you love? Volunteer Connect aims to pair you with the ideal volunteering
-                opportunity,
-                allowing you to resonate deeply with what you can provide for our verified organisations! Find out more
-                from the videos below.
-            </p>
-            <button class="btn btn-explore">Explore</button>
+            <!-- Sign In Button on the far right -->
+            <div class="d-flex">
+                <button id="signin" class="btn" type="button">My Profile</button>
+            </div>
+        </div>
+    </nav>
+
+<div id="body">
+    <!-- Main Content -->
+    <div class="main-content">
+        <h1>Lets Make A Change!</h1>
+        <br>
+        <p>
+            Ready to find the project you love? Volunteer Connect aims to pair you with the ideal volunteering opportunity, 
+            allowing you to resonate deeply with what you can provide for our verified organisations! Click explore to view our opportunities.
+        </p>
+        <button class="btn btn-explore">Explore</button>
+        <button class="btn btn-explore" onclick="scrollToMission()">Our Mission</button>
+    </div>
+
+    <!-- Carousel Section -->
+    <div id="videoCarousel" class="carousel slide">
+        <div class="carousel-inner">
+            <!-- Video Slide -->
+            <div class="carousel-item active">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe
+                        class="embed-responsive-item"
+                        src="https://www.youtube.com/embed/2szQhR4oZtA"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item"
+                     src="https://www.youtube.com/embed/PCVA1tkxC0k?si=ah36ZnVKMCvRe0Y2" 
+                    title="YouTube video player" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item"
+                    src="https://www.youtube.com/embed/c4LCe9uiGj0?si=E55Z-JR9CaQ8zjJh" 
+                    title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
         </div>
 
-        <!-- Carousel Section -->
-        <div id="videoCarousel" class="carousel slide">
-            <div class="carousel-inner">
-                <!-- Video Slide -->
-                <div class="carousel-item active">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/2szQhR4oZtA"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen></iframe>
-                    </div>
+        <!-- Carousel Control -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#videoCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#videoCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+</div>
+    <!-- Mission Statement Section -->
+    <div id="mission" class="mission-section">
+        <div class="mission-content fade-in">
+        <h2>Our Mission</h2>
+        <div class="mission-card">
+            <p class="mission-text">
+                At Volunteer Connect, we believe in the power of community service to transform both lives and communities. 
+                Our mission is to bridge the gap between passionate volunteers and meaningful opportunities, 
+                creating lasting positive impact across Singapore. We strive to:
+            </p>
+            <div class="mission-points">
+                <div class="mission-point fade-in">
+                    <h3>🤝 Connect</h3>
+                    <p>Link volunteers with causes that resonate with their values and skills</p>
                 </div>
-                <div class="carousel-item">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item"
-                            src="https://www.youtube.com/embed/PCVA1tkxC0k?si=ah36ZnVKMCvRe0Y2"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
+                <div class="mission-point fade-in">
+                    <h3>💡 Empower</h3>
+                    <p>Provide resources and support to both volunteers and organizations</p>
                 </div>
-                <div class="carousel-item">
-                    <div class="embed-responsive embed-responsive-16by9">
-                        <iframe class="embed-responsive-item"
-                            src="https://www.youtube.com/embed/c4LCe9uiGj0?si=E55Z-JR9CaQ8zjJh"
-                            title="YouTube video player" frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
+                <div class="mission-point fade-in">
+                    <h3>🌱 Grow</h3>
+                    <p>Foster a community of active citizens dedicated to positive change</p>
+                </div>
+                <div class="mission-point fade-in">
+                    <h3>🙆 Provide</h3>
+                    <p>Give grassroot organisations a chance to increase their outreach</p>
                 </div>
             </div>
-
-            <!-- Carousel Control -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#videoCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#videoCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+</div>
+
+<div class="teamsection">
+
+<div class="main-content">
+    <h1>😊 Meet the Team 😊</h1>
+</div>
+<div class="ourteam">
+    <div class="team__container">
+       <article class="team__article">
+          <img src="images/brandyn.jpg" alt="image" class="team__img">
+
+          <div class="team__data">
+             <span class="team__description">Y2 SMU SCIS Student</span>
+             <h2 class="team__title">Brandyn Chua</h2>
+             <a style="text-decoration: none;" class="team__button" data-fact="I am the group leader!" onmouseover="showFunFact(this)" onmouseout="resetFunFact(this)">Fun Fact</a>
+          </div>
+       </article>
+       <article class="team__article">
+        <img src="images/chloe.jpg" alt="image" class="team__img">
+
+        <div class="team__data">
+           <span class="team__description">Y2 SMU SCIS Student</span>
+           <h2 class="team__title">Chloe Tay</h2>
+           <a style="text-decoration: none;" class="team__button" data-fact="I can high jump! 🏃‍♀️" onmouseover="showFunFact(this)" onmouseout="resetFunFact(this)">Fun Fact</a>
+        </div>
+     </article>
+     <article class="team__article">
+        <img src="images/ryan.jpg" alt="image" class="team__img">
+
+        <div class="team__data">
+           <span class="team__description">Y2 SMU SCIS Student</span>
+           <h2 class="team__title">Ryan Cheng</h2>
+           <a style="text-decoration: none;" class="team__button" data-fact="I grew up in Shanghai! 🇨🇳" onmouseover="showFunFact(this)" onmouseout="resetFunFact(this)">Fun Fact</a>
+        </div>
+     </article>
+     <article class="team__article">
+        <img src="images/ryan2.jpg" alt="image" class="team__img">
+
+        <div class="team__data">
+           <span class="team__description">Y2 SMU SCIS Student</span>
+           <h2 class="team__title">Ryan Tan</h2>
+           <a style="text-decoration: none;" class="team__button" data-fact="Fact!" onmouseover="showFunFact(this)" onmouseout="resetFunFact(this)">Fun Fact</a>
+        </div>
+     </article>
+     <article class="team__article">
+        <img src="images/wj.jpg" alt="image" class="team__img">
+
+        <div class="team__data">
+           <span class="team__description">Y2 SMU SCIS Student</span>
+           <h2 class="team__title">Wei Jie</h2>
+           <a style="text-decoration: none;" class="team__button" data-fact="Fact!" onmouseover="showFunFact(this)" onmouseout="resetFunFact(this)">Fun Fact</a>
+        </div>
+     </article>
+    </div>
+ </div>
+</div>
+
 
     <script>
-        const app = Vue.createApp({
-            methods: {
-                async logout() {
-                    try {
-                        await auth.signOut(); // Firebase sign-out
-                        window.location.href = "homepagebeforelogin.html"; // Redirect after logout
-                    } catch (error) {
-                        console.error("Error logging out:", error);
-                    }
-                }
-            }
-        }).mount("#app")
-    </script>
-</body>
+        function showFunFact(element) {
+            element.innerText = element.getAttribute('data-fact');
+        }
 
+        function resetFunFact(element) {
+            element.innerText = "Fun Fact";
+        }           
+        // Intersection Observer for fade-in effect
+        function scrollToMission() {
+        document.getElementById("mission").scrollIntoView({
+            behavior: "smooth"
+        });
+        
+    }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe all elements with fade-in class
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach(element => observer.observe(element));
+        });
+    </script>
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"
+    ></script>
+</body>
 </html>
