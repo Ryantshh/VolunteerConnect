@@ -146,7 +146,7 @@
 .jumbotron-container {
     position: relative;
     height: 500px;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; */
     display: flex;
     align-items: center;
     overflow: hidden;
@@ -296,6 +296,103 @@
 
 
 
+/* Background animation */
+/* @keyframes gradientBackground {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  } */
+  
+  /* #app {
+    background: linear-gradient(270deg, #ff9a9e, #fad0c4, #fad0c4, #ff9a9e);
+    background-size: 400% 400%;
+    animation: gradientBackground 10s ease infinite;
+    padding: 2rem;
+    border-radius: 10px;
+    
+    margin-top: 20px;
+  }
+   */
+  /* Optional: Adding shadow effect to cards within this section
+  .container .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .container .card:hover {
+    transform: translateY(-10px);
+  }
+   */
+
+
+   /* CSS for #app with parallax scroll effect */
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-image: url('./volunteerbackground.jpg'); /* Background image */
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    padding: 20px; /* Adjust padding as needed */
+}
+
+/* Additional styling to fit your layout */
+@media (max-width: 768px) {
+    #app {
+        background-size: cover;
+    }
+}
+
+@media (max-width: 576px) {
+    #app {
+        background-size: cover;
+    }
+}
+
+
+/* Styling for headers */
+.header {
+    font-family: 'Poppins', sans-serif; /* Clean, modern font */
+    font-weight: bold;
+    font-size: 2rem; /* Adjust size as needed */
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: linear-gradient(90deg, #FF8A00, #E52E71);
+    color: black;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Add subtle animation */
+  .header:hover {
+    transform: scale(1.05); /* Slight grow effect */
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  /* Smaller screen adjustments */
+  @media (max-width: 768px) {
+    .header {
+      font-size: 1.5rem;
+      padding: 0.4rem;
+    }
+  }
+  
+
+
+/* scroll feature in top match section */
 
 .scrollable-row-wrapper {
     display: flex;
@@ -309,7 +406,8 @@
   }
   
   .scrollable-row-wrapper::-webkit-scrollbar {
-    /* display: none; Hide scrollbar if not desired */
+    /* display: none;  */
+    /* Hide scrollbar if not desired */
   }
   
 
@@ -447,6 +545,20 @@
 .btn-primary:hover::before {
     left: 100%;
 }
+
+
+
+/* @media (max-width: 576px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .card {
+      width: 90%; 
+    }
+} */
+
 
 /* Row and column spacing */
 .row {
