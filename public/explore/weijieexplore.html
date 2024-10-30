@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Bootstrap for styling -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="testing.css">
@@ -59,349 +60,242 @@
         </div>
     </nav>
 
-    <div class="jumbotron-container">
-        <div class="slideshow-container">
-            <div class="slide active"></div>
-            <div class="slide"></div>
-            <div class="slide"></div>
-            <div class="slide"></div>
-        </div>
-        <div class="jumbotron-overlay"></div>
-        <div class="container">
-            <div class="jumbotron-content">
-                <h1 class="display-4">Find a Project that Best suits you</h1>
-                <p class="lead">Ready to make a difference?
-                   Start today by lending a helping hand! 
-                   Explore volunteer opportunities near you and join a community of changemakers making a positive impact every day. 
-                   </p>
-                
-                <a class="btn btn-primary btn-lg" href="https://www.every.org/about-us" target="_blank" role="button">Learn More</a>
-            </div>
-        </div>
-    </div>
-    
-
-
-    <div id="app">
-
-  <div class="container">
-    <h1 class="text-center my-4 header">Your Top Matches</h1>
-
-
-    <div class="scrollable-row-wrapper d-flex flex-nowrap overflow-auto">
-      <div class="card mx-2" style="min-width: 250px; flex: 1 0 auto;" v-for="card in topRecommendedCards" :key="card.ein">
-        <img :src="card.imageUrl" class="card-img-top" alt="Card image">
-        <div class="card-body">
-          <h5 class="card-title">{{ card.title }}</h5>
-          <p class="card-text">{{ card.description }}</p>
-          <p class="card-text"><strong>Location:</strong> {{ card.location }}</p>
-          <p class="card-text"><strong>Skills:</strong> {{ Array.isArray(card.skills) ? card.skills.join(', ') : card.skills || "No skills listed" }}</p>
-            <p class="card-text"><strong>Days Required:</strong> {{ Array.isArray(card.daysOfWeek) ? card.daysOfWeek.join(', ') : card.daysOfWeek || "No skills listed" }}</p>
-        
-        </div>
-        <div class="card-footer text-center"> 
-          <a  
-             class="btn btn-primary">
-             View Details
-          </a>
-        </div>
-      </div>
-    </div>
-    
-</div>
-
-
-
-<div class="container my-4">
-  <div class="text-center my-4 ">
-    <h2 class ='header'>General Listings</h2>
-  </div>
-  <!-- Center the entire General Listings section below the View button on small screens -->
-  <div class="d-flex d-sm-block justify-content-center">
-    
-
-    <!-- Card deck container for responsive cards -->
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-      <div
-        v-for="listing in remainingRecommendedCards"
-        v-if="!showMatchBar"
-        :key="listing.ein"
-        class="col"
-      >
-        <div class="card m-2" style="width: 100%;">
-          <img :src="listing.imageUrl" class="card-img-top" alt="Listing image">
-          <div class="card-body">
-            <h5 class="card-title">{{ listing.title }}</h5>
-            <p class="card-text">{{ listing.description }}</p>
-            <p class="card-text"><strong>Location:</strong> {{ listing.location }}</p>
-            <p class="card-text"><strong>Skills:</strong> {{ Array.isArray(listing.skills) ? listing.skills.join(', ') : listing.skills || "No skills listed" }}</p>
-            <p class="card-text"><strong>Days Required:</strong> {{ Array.isArray(listing.daysOfWeek) ? listing.daysOfWeek.join(', ') : listing.daysOfWeek || "No skills listed" }}</p>
+    <div class="jumbotron">
+      <div id="jumbotron-carousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="help6.jpg" class="d-block w-100" alt="Image 1">
           </div>
-          <div class="card-footer text-center">
-            <a :href="donateLink(listing.primarySlug)" target="_blank" class="btn btn-primary">
-              View Details
-            </a>
+          <div class="carousel-item">
+            <img src="help5.jpg" class="d-block w-100" alt="Image 2">
+          </div>
+          <div class="carousel-item">
+            <img src="vol1.jpg" class="d-block w-100" alt="Image 3">
+          </div>
+          <div class="carousel-item">
+            <img src="help8.jpg" class="d-block w-100" alt="Image 4">
           </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#jumbotron-carousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#jumbotron-carousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+      <div class="jumbotron-content">
+        <h1>EXPLORE</h1>
+        <p>The opportunities designed to fit you</p>
+        <a href="#" class="button">Create a Post</a>
       </div>
     </div>
-  </div>
-</div>
 
-    
-</div>
-
+<div id="body">
+  <div id="app">
+      <div class="container mt-0">
+          <h3 class="header">Your Top Matches</h3>
+          <div class="scrollable-row-wrapper d-flex flex-nowrap overflow-auto">
+              <div class="card" v-for="card in topRecommendedCards">
+                  <img :src="card.imageUrl" class="card-img-top" alt="Card image">
+                  <div class="card-body">
+                      <h5 class="card-title info-text">{{ card.title }}</h5>
+                      <p class="card-text description-text">{{ card.description }}</p>
+                      <p class="card-text info-text"><strong>Location:</strong> {{ card.location }}</p>
+                      <p class="card-text  info-text"><strong>Skills:</strong> {{ Array.isArray(card.skills) ? card.skills.join(', ') : card.skills || "No skills listed" }}</p>
+                      <p class="card-text info-text"><strong>Days Required:</strong> {{ Array.isArray(card.daysOfWeek) ? card.daysOfWeek.join(', ') : card.daysOfWeek || "No skills listed" }}</p>
+                  </div>
+                  <div class="card-footer text-center">
+                    <a :href="card.mainurl" target="_blank" class="btn btn-primary">View Website</a>
+                  </div>
+              </div>
+          </div>
+      </div>
   
+      <div class="container my-4">
+          <div class="text-center my-4">
+              <h2 class="header">General Listings</h2>
+          </div>
+          <div class="d-flex d-sm-block justify-content-center">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                  <div v-for="listing in remainingRecommendedCards" v-if="!showMatchBar" :key="uid" class="col">
+                      <div class="card m-2" style="width: 100%;">
+                          <img :src="listing.imageUrl" class="card-img-top" alt="Listing image">
+                          <div class="card-body">
+                              <h5 class="card-title">{{ listing.title }}</h5>
+                              <p class="card-text description-text">{{ listing.description }}</p>
+                              <p class="card-text info-text"><strong>Location:</strong> {{ listing.location }}</p>
+                              <p class="card-text info-text"><strong>Skills:</strong> {{ Array.isArray(listing.skills) ? listing.skills.join(', ') : listing.skills || "No skills listed" }}</p>
+                              <p class="card-text info-text"><strong>Days Required:</strong> {{ Array.isArray(listing.daysOfWeek) ? listing.daysOfWeek.join(', ') : listing.daysOfWeek || "No skills listed" }}</p>
+                          </div>
+                          <div class="card-footer text-center">
+                              <a :href="listing.mainurl" target="_blank" class="btn btn-primary">View Website</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>
-<!--vue instance-->
   <script>
-// start of 1st instance
-
-const app = Vue.createApp({
-            data() {
-                return {
-              
-                    showMatchBar: false,
-                    recommendedCards:[]
-
-                
-                };
-            },
-    methods:{
-            donateLink(slug) {
-                    return `https://example.com/${slug}`;
-            },
-        
-            triggerChildSearch() {
-                this.curOption = this.search;
-            },
-            startSlideshow() {
-                const slides = document.querySelectorAll('.slide');
-                let currentSlide = 0;
-
-                setInterval(() => {
-                        slides[currentSlide].classList.remove('active');
-                        currentSlide = (currentSlide + 1) % slides.length;
-                        slides[currentSlide].classList.add('active');
-                    }, 5000); // Change slide every 5 seconds
-                },
-                 // Fetch listings from Firestore
-        async fetchListings() {
-                const db = firebase.firestore();  // Access Firestore
-
-                try {
-                    const querySnapshot = await db.collection('listings').get();
-                    const info = [];
-
-                    // Loop through each document in the querySnapshot
-                    querySnapshot.forEach((doc) => {
-                    const data = doc.data();  // Get the document data
-                    info.push({
-                        title: data.title || 'No title',
-                        description: data.description || 'No description',
-                        imageUrl: data.imageUrl || 'default-image.png',
-                        location: data.location || 'No location',
-                        skills: data.skills || ['None'],
-                        category: data.category || ['None'],
-                        daysOfWeek: data.daysOfWeek || ['None']
-                    });
-                    });
-
-                    // Assign the fetched data to Vue's reactive state
-                    this.recommendedCards = info;
-
-                    // Log the data to ensure it is fetched correctly
-                    console.log("Fetched listings:", this.recommendedCards);
-
-                    // Now fetch user data and calculate match
-                    this.fetchUserData();
-
-          } catch (error) {
-            // Handle any errors that occur during data fetching
-            console.error('Error fetching listings:', error);
-          }
-        },
-
-        // Fetch user data based on authentication state
-        async fetchUserData() {
-          const db = firebase.firestore();  // Access Firestore using the compat syntax
-
-          firebase.auth().onAuthStateChanged(async (user) => {
-            if (user) {
-              const uid = user.uid;  // Get the logged-in user's UID
-              console.log("User ID:", uid);
-
-              try {
-                const querySnapshot = await db.collection('UserQuestionnaire')
-                  .where('uid', '==', uid).get();
-
-                if (!querySnapshot.empty) {
-                  querySnapshot.forEach((doc) => {
-                    const data = doc.data();  // Get the document data
-                    console.log("User data found:", data);
-
-                    // Store the user's data in a local variable
-                    const userQuestionnaireData = {
-                      uid: data.uid,  // Store the user's UID
-                      interests: data.interests || [],  // Array of interests
-                      skills: data.skills || [],  // Array of skills
-                      location: data.location || 'No location',  // Location (e.g., postal code)
-                      availability: data.availability || []  // User's available days
-                    };
-
-                    // Show match bar and calculate the match score using listings and user data
-                    this.showMatchBar = true;
-                    this.calculateMatch(userQuestionnaireData);
-
-                  });
-                } else {
-                  console.log("No document found in userQuestionnaire for UID:", uid);
-                  // Temporary mock data while questionaire is down
-                  
-                  this.showMatchBar = false;
-                }
-
-              } catch (error) {
-                console.error("Error fetching user data:", error);
-              }
-
-            } else {
-              console.log("No user is logged in.");
-              this.showMatchBar = false;  // Hide match bar if no user is logged in
-            }
-          });
-        },
-
-        // Calculate the match score for each listing
-        async calculateMatch(userData) {
-          if (userData && this.recommendedCards.length) {
-            this.showMatchBar = true;
-
-            /* Original code
-            // Loop through each listing and calculate match score
-            this.recommendedCards = this.recommendedCards.map((listing) => {
-              const matchScore = this.calculateMatchScore(userData, listing);
+      const app = Vue.createApp({
+          data() {
               return {
-                ...listing,  // Spread operator to keep other listing data intact
-                matchScore  // Add/Update matchScore property
+                  showMatchBar: false,
+                  recommendedCards: []
               };
-            });
-            */
-            // Create an array of promises for calculating match scores
-            const matchScorePromises = this.recommendedCards.map(async (listing) => {
-                const matchScore = await this.calculateMatchScore(userData, listing);
-                return {
-                ...listing,  // Spread operator to keep other listing data intact
-                matchScore  // Add/Update matchScore property
-              };
-            });
-
-            // Wait for all match score calculations to complete
-            this.recommendedCards = await Promise.all(matchScorePromises);
-
-            // Sort listings based on matchScore descending once
-            this.recommendedCards.sort((a, b) => b.matchScore - a.matchScore);
-
-            console.log("Listings with match scores:", this.recommendedCards);
-
-          } else {
-            this.showMatchBar = false;
+          },
+          methods: {
+              startSlideshow() {
+                  const slides = document.querySelectorAll('.slide');
+                  let currentSlide = 0;
+  
+                  setInterval(() => {
+                      slides[currentSlide].classList.remove('active');
+                      currentSlide = (currentSlide + 1) % slides.length;
+                      slides[currentSlide].classList.add('active');
+                  }, 5000);
+              },
+              async fetchListings() {
+                  const db = firebase.firestore();
+                  try {
+                      const querySnapshot = await db.collection('listings').get();
+                      const info = [];
+                      querySnapshot.forEach((doc) => {
+                          const data = doc.data();
+                          info.push({
+                              title: data.title || 'No title',
+                              description: data.description || 'No description',
+                              imageUrl: data.imageUrl || 'noimage.jpg',
+                              location: data.location || 'No location',
+                              skills: data.skills || ['None'],
+                              category: data.category || ['None'],
+                              daysOfWeek: data.daysOfWeek || ['None'],
+                              mainurl : data.mainurl 
+                          });
+                      });
+                      this.recommendedCards = info;
+                      console.log("Fetched listings:", this.recommendedCards);
+                      this.fetchUserData();
+                  } catch (error) {
+                      console.error('Error fetching listings:', error);
+                  }
+              },
+              async fetchUserData() {
+                  const db = firebase.firestore();
+                  firebase.auth().onAuthStateChanged(async (user) => {
+                      if (user) {
+                          const uid = user.uid;
+                          console.log("User ID:", uid);
+                          try {
+                              const querySnapshot = await db.collection('UserQuestionnaire')
+                                  .where('uid', '==', uid).get();
+                              if (!querySnapshot.empty) {
+                                  querySnapshot.forEach((doc) => {
+                                      const data = doc.data();
+                                      console.log("User data found:", data);
+                                      const userQuestionnaireData = {
+                                          uid: data.uid,
+                                          interests: data.interests || [],
+                                          skills: data.skills || [],
+                                          location: data.location || 'No location',
+                                          availability: data.availability || []
+                                      };
+                                      this.showMatchBar = true;
+                                      this.calculateMatch(userQuestionnaireData);
+                                  });
+                              } else {
+                                  console.log("No document found in userQuestionnaire for UID:", uid);
+                                  this.showMatchBar = false;
+                              }
+                          } catch (error) {
+                              console.error("Error fetching user data:", error);
+                          }
+                      } else {
+                          console.log("No user is logged in.");
+                          this.showMatchBar = false;
+                      }
+                  });
+              },
+              async calculateMatch(userData) {
+                  if (userData && this.recommendedCards.length) {
+                      this.showMatchBar = true;
+                      const matchScorePromises = this.recommendedCards.map(async (listing) => {
+                          const matchScore = await this.calculateMatchScore(userData, listing);
+                          return {
+                              ...listing,
+                              matchScore
+                          };
+                      });
+                      this.recommendedCards = await Promise.all(matchScorePromises);
+                      this.recommendedCards.sort((a, b) => b.matchScore - a.matchScore);
+                      console.log("Listings with match scores:", this.recommendedCards);
+                  } else {
+                      this.showMatchBar = false;
+                  }
+              },
+              async calculateMatchScore(user, listing) {
+                  const weights = {
+                      interests: 0.3,
+                      skills: 0.3,
+                      location: 0.2,
+                      availability: 0.2
+                  };
+  
+                  const interestMatch = user.interests.some(interest => listing.category.includes(interest)) ? 100 : 0;
+                  const matchedSkills = listing.skills.filter(skill => user.skills.includes(skill)).length;
+                  const skillsMatch = (matchedSkills / listing.skills.length) * 100;
+  
+                  let locationMatch = 100;
+                  if (listing.location !== "No location") {
+                      const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+                          params: {
+                              origins: user.location,
+                              destinations: listing.location,
+                              units: 'metric'
+                          }
+                      })
+                      .then(response => {
+                          const distanceValue = response.data.rows[0].elements[0].distance.value;
+                          if (distanceValue >= 20000) {
+                              locationMatch = 0;
+                          } else {
+                              locationMatch = (20000 - distanceValue) / 200;
+                          }
+                      })
+                      .catch(error => {
+                          console.error("No distance?:", error);
+                      });
+                  }
+  
+                  const matchedDays = listing.daysOfWeek.filter(day => user.availability.includes(day)).length;
+                  const availabilityMatch = (matchedDays / listing.daysOfWeek.length) * 100;
+  
+                  return Math.round(
+                      (weights.interests * interestMatch) +
+                      (weights.skills * skillsMatch) +
+                      (weights.location * locationMatch) +
+                      (weights.availability * availabilityMatch)
+                  );
+              }
+          },
+          created() {
+              this.fetchListings();
+          },
+          mounted() {
+              this.startSlideshow();
+          },
+          computed: {
+              topRecommendedCards() {
+                  return this.recommendedCards.slice(0, 8);
+              },
+              remainingRecommendedCards() {
+                  return this.recommendedCards.slice(8);
+              }
           }
-        },
-
-        // Calculate the match score based on user and listing data
-        async calculateMatchScore(user, listing) {
-          // Weights for each criterion
-          const weights = {
-            interests: 0.3,
-            skills: 0.3,
-            location: 0.2,
-            availability: 0.2
-          };
-
-          // Interest match calculation
-          const interestMatch = user.interests.some(interest => listing.category.includes(interest)) ? 100 : 0;
-
-          // Skills match calculation
-          const matchedSkills = listing.skills.filter(skill => user.skills.includes(skill)).length;
-          const skillsMatch = (matchedSkills / listing.skills.length) * 100;
-
-          // Location match (for now assume 100%)
-          var locationMatch = 100;
-          // Brandyn Testing stuff
-          //console.log("This is the listing location: " ,listing.location)
-          //console.log("This is the user's location: ", user.location)
-          if(listing.location !== "No location"){
-            const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
-              params: {
-                origins: user.location,
-                destinations: listing.location,
-                units: 'metric',
-              }
-            })
-            .then(response=> {
-              var temp_holding = response.data
-              var distance_value = temp_holding.rows[0].elements[0].distance.value
-              console.log("This is the distance_value: ", distance_value)
-              console.log("This is the type of distance_value: ", typeof(distance_value))
-              // Distance calculation
-              // If distance is more then 20km, set to 0. Else, 20km minus 
-              if(distance_value >= 20000){
-                locationMatch = 0
-              }
-              else{
-                locationMatch = (20000 - distance_value)/200
-              }
-            })
-            .catch(error=> {
-              console.error("No distance? : ", error)
-            })
-          }
-
-          // Availability match calculation
-          const matchedDays = listing.daysOfWeek.filter(day => user.availability.includes(day)).length;
-          const availabilityMatch = (matchedDays / listing.daysOfWeek.length) * 100;
-
-          // Total match score calculation
-          const totalMatchScore = Math.round(
-            (weights.interests * interestMatch) +
-            (weights.skills * skillsMatch) +
-            (weights.location * locationMatch) +
-            (weights.availability * availabilityMatch)
-          );
-
-          return totalMatchScore;
-        }
-
-        },
-        created(){
-            this.fetchListings();  // Fetch listings first
-            },
-        mounted() {
-            this.startSlideshow();
-            },
-        computed: {
-            // Top recommended cards for the "For You" section (Top 8)
-            topRecommendedCards() {
-            // Return the top 8
-            return this.recommendedCards.slice(0, 8);
-            },
-
-            // Remaining cards for the "Explore" section
-            remainingRecommendedCards() {
-            // Return the rest of the listings after the top 8
-            return this.recommendedCards.slice(8);
-            }
-      }
-        });
-
-        vm=app.mount('#app');
-
-
-
-// end of 1st instance
-
- </script>
-    <!-- <script src="testing.js"></script> -->
-</body>
-</html>
+      });
+  
+      vm = app.mount('#app');
+  </script>
