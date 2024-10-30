@@ -123,18 +123,17 @@
 
                 <div class="form-group">
                     <label for="event-skills">Skills Required</label>
-                    <input 
-                        type="text" 
+                    <input
+                        type="checkbox" 
                         id="event-skills" 
                         class="form-control" 
-                        placeholder="Enter skills separated by commas"
                     >
                 </div>
 
 
                 <div class="form-group">
                     <label for="location-input">Event Location Postal Code</label>
-                        <input 
+                        <input v-for=""
                             type="text" 
                             id="location-input" 
                             class="form-control" 
@@ -168,9 +167,30 @@
         </div>
     </div>
 
- <script src="posting.js">
-
+<script src="posting.js">
         // Add this JavaScript to create the floating hearts
+</script>
+
+<script>
+    const app = Vue.createApp({
+        data(){
+            return{
+                skillsList: [
+                    'First Aid/CPR', 'Teaching', 'Public Speaking', 'Fundraising', 'Event Planning', 'Communication', 'Leadership', 'Project Management', 'Mentoring/Coaching',
+                    'Social Media Management', 'Grant Writing', 'Graphic Design', 'Web Development', 'Data Analysis',
+                    'Tutoring', 'Photography/Videography', 'Technical Support', 'Healthcare Assistance', 'Food Preparation', 'Marketing'
+                ],
+                interestsList: ['Environmental', 'Community Development', 'Education', 'Healthcare', 'Animal Welfare','Disaster Relief', 'Youth Services', 'Senior Care', 'Human Rights', 'Sports Coaching',
+                'Poverty Alleviation', 'Homelessness', 'Cultural Heritage', 'Mental Health', 'Advocacy'
+                                ]
+
+            }
+        }
+
+    })
+
+    
+
 </script>
 
 
