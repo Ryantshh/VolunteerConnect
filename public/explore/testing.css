@@ -20,11 +20,11 @@ body, html {
     padding-top: 0;
     padding-bottom: 0;
 }
-.jumbotron, #body, #app {
+#body, #app {
     border: 1px solid rgb(255, 255, 255); /* Temporary border for debugging */
 }
 
-  .navbar {
+.navbar {
     border-bottom: 2px solid rgba(255, 0, 0, 0.1);
     background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 245, 245, 0.95));
     backdrop-filter: blur(10px);
