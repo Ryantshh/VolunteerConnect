@@ -223,7 +223,7 @@
                         console.log("Listing submitted with image URL:", this.newListing.imageUrl);
 
                         // Save newListing to Firestore in the "listings" collection
-                        await db.collection("listings").add(this.newListing);
+                        await db.collection("notApproved").add(this.newListing);
                         console.log("Data successfully written to Firestore:", this.newListing);
 
                         // Clear form data after submission
