@@ -1,3 +1,4 @@
+
 //global variable
 const firebaseConfig = {
   apiKey: "AIzaSyCPkpoJZ4N4rRJ2BJB_WaZsHmt4pvInal4",
@@ -15,6 +16,7 @@ const firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
+  const storage = firebase.storage();
   
   // Initialize GoogleAuthProvider
   const googleProvider = new firebase.auth.GoogleAuthProvider();
