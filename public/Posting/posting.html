@@ -232,6 +232,11 @@
                         this.imagePreviewUrl = '';
                     }
                 },
+                getDayOfWeek(dateString) {
+                    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    const date = new Date(dateString);
+                    return daysOfWeek[date.getDay()];
+                },
 
                 async handleSubmit(event) {
                     event.preventDefault();
@@ -252,9 +257,18 @@
                         this.newListing.imageUrl = await snapshot.ref.getDownloadURL();
                         console.log("Listing submitted with image URL:", this.newListing.imageUrl);
 
-                        // Save newListing to Firestore in the "listings" collection
-                        await db.collection("notApproved").add(this.newListing);
-                        console.log("Data successfully written to Firestore:", this.newListing);
+                        // Get the day of the week from the date in newListing
+                        const dayOfWeek = this.getDayOfWeek(this.newListing.date);
+
+                        // Add the dayOfWeek to the newListing object
+                        this.newListing.dayOfWeek = dayOfWeek;
+
+                        // Save the document and get a reference to it
+                        const docRef = await db.collection("notApproved").add(this.newListing);
+                        // Retrieve the generated document ID
+                        const documentId = docRef.id;
+                        // Update the document to include its own ID as a field
+                        await docRef.update({ id: documentId });
 
                         // Clear form data after submission
                         Object.keys(this.newListing).forEach((key) => {
