@@ -548,18 +548,6 @@
 
 
 
-/* @media (max-width: 576px) {
-    .container {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .card {
-      width: 90%; 
-    }
-} */
-
-
 /* Row and column spacing */
 .row {
     margin-bottom: 2rem;

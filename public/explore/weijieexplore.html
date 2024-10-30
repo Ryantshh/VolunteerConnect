@@ -95,10 +95,9 @@
           <h5 class="card-title">{{ card.title }}</h5>
           <p class="card-text">{{ card.description }}</p>
           <p class="card-text"><strong>Location:</strong> {{ card.location }}</p>
-          <!-- <p class="card-text"><strong>Skills:</strong> {{ card.skills.join(', ') }}</p> -->
-          <!-- <p class="card-text"><strong>Days Required:</strong> {{ card.daysOfWeek.join(', ') }}</p> -->
           <p class="card-text"><strong>Skills:</strong> {{ Array.isArray(card.skills) ? card.skills.join(', ') : card.skills || "No skills listed" }}</p>
             <p class="card-text"><strong>Days Required:</strong> {{ Array.isArray(card.daysOfWeek) ? card.daysOfWeek.join(', ') : card.daysOfWeek || "No skills listed" }}</p>
+        
         </div>
         <div class="card-footer text-center"> 
           <a  
@@ -135,10 +134,8 @@
             <h5 class="card-title">{{ listing.title }}</h5>
             <p class="card-text">{{ listing.description }}</p>
             <p class="card-text"><strong>Location:</strong> {{ listing.location }}</p>
-            <!-- <p class="card-text"><strong>Skills:</strong> {{ listing.skills.join(', ') }}</p> -->
             <p class="card-text"><strong>Skills:</strong> {{ Array.isArray(listing.skills) ? listing.skills.join(', ') : listing.skills || "No skills listed" }}</p>
             <p class="card-text"><strong>Days Required:</strong> {{ Array.isArray(listing.daysOfWeek) ? listing.daysOfWeek.join(', ') : listing.daysOfWeek || "No skills listed" }}</p>
-            <!-- <p class="card-text"><strong>Days Required:</strong> {{ listing.daysOfWeek.join(', ') }}</p> -->
           </div>
           <div class="card-footer text-center">
             <a :href="donateLink(listing.primarySlug)" target="_blank" class="btn btn-primary">
