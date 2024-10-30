@@ -1,211 +1,357 @@
-/* profile.css */
-
-/* Global Style */
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh; /* Full viewport height */
-    background-color: #f5f5f5;
-    margin: 0;
-    font-family: Arial, sans-serif;
+/* Preserve original navbar styles */
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
 }
 
-/* Page Title */
-h1 {
-    text-align: center;
-    color: #ee4b2b;
-    margin-bottom: 30px;
-    font-size: 2rem;
+
+.navbar {
+    border-bottom: 2px solid rgba(255, 0, 0, 0.1);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 245, 245, 0.95));
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    padding-left: 15px;  /* Add some internal padding instead */
+    padding-right: 15px;
 }
 
-/* Section Titles */
-h3 {
-    color: #333;
-    margin-top: 20px;
-    font-weight: 600;
-    border-bottom: 2px solid #ee4b2b;
-    padding-bottom: 5px;
-    display: inline-block;
-    font-size: 1.25rem;
+.navbar:hover {
+    border-bottom: 2px solid rgba(255, 0, 0, 0.3);
 }
 
-/* Field Styling */
-.field {
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.navbar-nav {
+    width: 50%;
+    justify-content: space-around;
 }
 
-.field label {
-    font-weight: bold;
-    color: #555;
-    min-width: 100px;
-}
-
-.field span, .field input {
-    flex: 1;
-}
-
-.editInput {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    display: none;
-    transition: border-color 0.3s;
-}
-
-.editInput:focus {
-    border-color: #ee4b2b;
-}
-
-/* Button Styling */
-button, .editButton, .saveButton, .button-container button {
-    background-color: #ee4b2b;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 16px;
-    margin-left: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-button:hover, .editButton:hover, .saveButton:hover, .button-container button:hover {
-    background-color: #fbb1a1;
-    transform: scale(1.05);
-}
-
-/* Remove Button */
-/* Updated Remove Button (X) Styling */
-.removeButton {
-    background-color: #ffeded;
-    color: #ee4b2b;
-    border: 1px solid #ffcccc;
+.navbar-brand img {
     border-radius: 50%;
-    padding: 5px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s, color 0.3s;
+    width: 60px;
+    height: 50px;
+}
+
+.navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+.nav-link {
+    position: relative;
+    color: #333 !important;
+    transition: color 0.3s ease;
+    overflow: hidden;
+    padding: 0.5rem 1.2rem;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background-color: #ff0000;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-link:hover {
+    color: #ff0000 !important;
+}
+
+.nav-link:hover::before {
+    width: 100%;
+}
+
+#active {
+    color: #ff0000 !important;
     font-weight: bold;
 }
 
-
-
-
-/* Interests, Skills, and Available Days Display */
-#interestsDisplay, #skillsDisplay, #availableDaysDisplay {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 10px;
+#active::before {
+    width: 100%;
+    background-color: #ff0000;
 }
 
-.button-container {
+#signin {
+    background-color: var(--primary-red);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+#signin:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+:root {
+    --primary-red: #ff4444;
+    --primary-dark: #cc0000;
+    --white: #ffffff;
+}
+
+/* New enhanced styles for the rest of the UI */
+.container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
     background-color: #fff;
-    border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 5px 12px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: #333;
-    transition: box-shadow 0.3s, transform 0.2s;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    animation: containerFadeIn 0.6s ease-out;
+    transform-origin: top;
 }
 
-.button-container:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-    transform: scale(1.02);
+@keyframes containerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-/* Dropdown Menus */
+/* Field styles with animations */
+.field {
+    margin-bottom: 25px;
+    padding: 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.field:hover {
+    background-color: rgba(255, 68, 68, 0.05);
+}
+
+/* Enhanced input styles */
+input[type="text"] {
+    padding: 12px 16px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 200px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #ff4444;
+    box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Enhanced select styles */
 select {
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    transition: border-color 0.3s;
+    padding: 12px 16px;
+    border: 2px solid #eee;
+    border-radius: 8px;
+    margin-right: 10px;
+    font-size: 14px;
+    width: 200px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: white;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff4444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
 }
 
 select:focus {
-    border-color: #ee4b2b;
+    outline: none;
+    border-color: #ff4444;
+    box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.1);
+    transform: translateY(-1px);
 }
 
-/* Responsive Design */
-@media (max-width: 600px) {
-    .field {
-        flex-direction: column;
-        align-items: flex-start;
+/* Action buttons (not navbar buttons) */
+button:not(#signin):not(.navbar-toggler) {
+    background: linear-gradient(45deg, #ff0066, #ff4444);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255, 0, 102, 0.2);
+}
+
+button:not(#signin):not(.navbar-toggler):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 0, 102, 0.3);
+}
+
+button:not(#signin):not(.navbar-toggler)::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+button:not(#signin):not(.navbar-toggler):hover::after {
+    left: 100%;
+}
+
+/* Tag buttons */
+.button-container {
+    display: inline-flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ff4444;
+    border-radius: 20px;
+    padding: 8px 16px;
+    margin: 4px;
+    color: #ff4444;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    animation: buttonPop 0.3s ease-out;
+}
+
+@keyframes buttonPop {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
     }
-    .field label {
-        width: auto;
-        margin-bottom: 5px;
+    100% {
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
-    .container {
-        max-width: 600px; /* Adjust width as needed */
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #ffffff; /* Optional: white background */
-        border-radius: 8px;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
-    }
+.button-container:hover {
+    background-color: #ff4444;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 68, 68, 0.2);
+}
 
-    .navbar {
-        border-bottom: 1px solid #eaeaea;
+.removeButton {
+    margin-left: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.button-container:hover .removeButton {
+    color: white;
+}
+
+/* Section headers */
+h3 {
+    color: #333;
+    margin: 25px 0 20px;
+    font-size: 1.4rem;
+    position: relative;
+    padding-left: 12px;
+}
+
+h3::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 0;
+    background: linear-gradient(to bottom, #ff0066, #ff4444);
+    animation: headerLine 0.3s ease-out forwards;
+}
+
+@keyframes headerLine {
+    to {
+        height: 100%;
     }
-    
+}
+
+/* Display areas */
+#interestsDisplay,
+#skillsDisplay,
+#availableDaysDisplay {
+    margin: 15px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    min-height: 50px;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: rgba(248, 248, 248, 0.5);
+    transition: all 0.3s ease;
+}
+
+#interestsDisplay:hover,
+#skillsDisplay:hover,
+#availableDaysDisplay:hover {
+    background-color: rgba(248, 248, 248, 0.8);
+}
+
+/* Submit button special styling */
+button[onclick="submit()"] {
+    background: linear-gradient(45deg, #ff0066, #ff4444);
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    margin-top: 30px;
+    width: 100%;
+    max-width: 200px;
+    position: relative;
+    overflow: hidden;
+}
+
+button[onclick="submit()"]:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 0, 102, 0.3);
+}
+
+/* Responsive styles */
+@media (max-width: 991.98px) {
     .navbar-nav {
-        width: 40%; /* Adjust this width for spacing */
-        justify-content: space-around; 
-    }
-    
-    
-    /* Navbar Brand */
-    .navbar-brand img {
-        border-radius: 50%;
-        width: 60px;
-        height: 50px;
-    }
-    
-    /* Navbar Links */
-    #active{   
-         font-weight:bolder; /*active page bolder */
-    }
-    .navbar-nav .nav-link {
-        color: #333; 
-        position: relative;
-        transition: color 0.3s ease; /* Smooth transition for color change */
-    }
-    
-    /* Navbar Hover Effect */
-    .navbar-nav .nav-link:hover {
-        color: red; 
-    }
-    
-    /* Slide-up underline effect */
-    .navbar-nav .nav-link::after {
-        content: '';
-        position: absolute;
         width: 100%;
-        height: 2px;
-        left: 0;
-        bottom: -5px;
-        background-color: red;
-        transform: scaleX(0);
-        transform-origin: right;
-        transition: transform 0.3s ease;
+        padding: 1rem 0;
     }
     
-    .navbar-nav .nav-link:hover::after {
-        transform: scaleX(1);
-        transform-origin: left;
+    .nav-link {
+        padding: 0.75rem 0;
+        text-align: center;
     }
     
+    .nav-link::before {
+        bottom: 5px;
+    }
+    
+    #signin {
+        margin: 0.5rem 1rem;
+    }
+    
+    .navbar-collapse {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 0 0 1rem 1rem;
+        padding: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
