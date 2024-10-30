@@ -88,9 +88,10 @@
                 </p>
                 <p class="card-text">
                   <strong>Days Required:</strong>
-                  {{ Array.isArray(listing.daysOfWeek) && listing.daysOfWeek.length ? listing.daysOfWeek.join(', ') : "No days listed" }}
+                  {{ Array.isArray(listing.daysOfWeek) && listing.daysOfWeek.length ? listing.daysOfWeek.join(', ') :
+                  "No days listed" }}
                 </p>
-                
+
               </div>
               <div class="card-footer text-center">
                 <button @click="remove(index, listing.id)" class="btn btn-primary my-2">Deny Request</button>
@@ -104,7 +105,7 @@
   </div>
 
 
- 
+
   <!--vue instance-->
   <script>
     // start of 1st instance
@@ -142,7 +143,9 @@
                 throw new Error("Document does not exist");
               }
             })
-            .then(() => {
+            .then((docRef) => {
+              console.log("Document successfully added to listings with ID:", docRef.id); // Log the new document ID
+
               // Delete the document from "notApproved"
               return db.collection("notApproved").doc(id).delete();
             })
@@ -156,7 +159,6 @@
               console.error("Error moving document: ", error);
             });
         },
-
         // Method to fetch all listings from Firestore's "notApproved" collection
         async fetchListings() {
           try {
