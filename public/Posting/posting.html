@@ -261,7 +261,7 @@
                         const dayOfWeek = this.getDayOfWeek(this.newListing.date);
 
                         // Add the dayOfWeek to the newListing object
-                        this.newListing.dayOfWeek = dayOfWeek;
+                        this.newListing.dayOfWeek = [dayOfWeek];
 
                         // Save the document and get a reference to it
                         const docRef = await db.collection("notApproved").add(this.newListing);
