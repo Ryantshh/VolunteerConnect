@@ -89,6 +89,9 @@ if (loginForm) {
 
         auth.signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
+                sessionStorage.setItem("userId", userCredential.user.uid)
+                // Delete this log later
+                console.log("This is the UID: ", sessionStorage.getItem("userId"))
                 window.location.href = 'homepageafterlogin.html';
                 console.log('Login successful:', userCredential.user);
             })
@@ -136,6 +139,10 @@ googleSignInButton.addEventListener('click', () => {
                     } else {
                         showErrorPopup("Google sign-in successful!"); // Change to a popup instead of alert
                         // Insert path to profile page when created
+                        // Delete this if its not working. Have not test google sign in storage.
+                        sessionStorage.setItem("userId", user.uid)
+                        // Delete this log later
+                        console.log("This is the UID: ", sessionStorage.getItem("userId"))
                         window.location.href = "homepageafterlogin.html";
                     }
                 });
