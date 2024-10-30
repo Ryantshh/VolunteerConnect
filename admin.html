@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nonprofit Listings</title>
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+  <script src="public/config.js"></script> <!-- Firebase config file -->
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Navbar Brand -->
+            <a class="navbar-brand" href="#">
+                <img src="images/Volunteer.png" alt="logo"/>
+            </a>
+
+            <!-- Toggler for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links-->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="active" href="#">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Calendar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="#">Donate</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">For You</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sign In Button on the far right -->
+            <div class="d-flex">
+                <button id="signin" class="btn" type="button">My Profile</button>
+            </div>
+        </div>
+    </nav>
+
+    
+
+
+    <div id="app">
+
+  
+
+<div class="container my-4">
+  <div class="text-center my-4 ">
+    <h2 class ='header'>Pending Approval</h2>
+  </div>
+  <!-- Center the entire General Listings section below the View button on small screens -->
+  <div class="d-flex d-sm-block justify-content-center">
+    
+
+    <!-- Card deck container for responsive cards -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      <div
+        v-for="(listing,index) in recommendedCards"
+        :key="index"
+        class="col"
+      >
+        <div class="card m-2" style="width: 100%;">
+          <img :src="listing.imageUrl" class="card-img-top" alt="Listing image">
+          <div class="card-body">
+            <h5 class="card-title">{{ listing.title }}</h5>
+            <p class="card-text">{{ listing.description }}</p>
+            <p class="card-text"><strong>Location:</strong> {{ listing.location }}</p>
+            <p class="card-text"><strong>Skills:</strong> {{ Array.isArray(listing.skills) ? listing.skills.join(', ') : listing.skills || "No skills listed" }}</p>
+            <p class="card-text"><strong>Days Required:</strong> {{ Array.isArray(listing.daysOfWeek) ? listing.daysOfWeek.join(', ') : listing.daysOfWeek || "No skills listed" }}</p>
+            
+          </div>
+          <div class="card-footer text-center">
+            <button @click="remove(index,listing.id)" class="btn btn-primary my-2">
+              Deny Request
+            </button>
+            <button @click="approve(index,listing.id)" class="btn btn-primary">
+                Approve Request
+              </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+</div>
+
+  
+</div>
+<!--vue instance-->
+  <script>
+// start of 1st instance
+
+const app = Vue.createApp({
+            data() {
+                return {
+              
+                    showMatchBar: false,
+                    recommendedCards:[]
+
+                
+                };
+            },
+    methods:{
+            donateLink(slug) {
+                    return `https://example.com/${slug}`;
+            },
+
+            remove(input,id){
+                this.recommendedCards.splice(input,1)
+
+            },
+            approve(input,id){
+                this.recommendedCards.splice(input,1)
+
+            },
+            triggerChildSearch() {
+                this.curOption = this.search;
+            },
+            startSlideshow() {
+                const slides = document.querySelectorAll('.slide');
+                let currentSlide = 0;
+
+                setInterval(() => {
+                        slides[currentSlide].classList.remove('active');
+                        currentSlide = (currentSlide + 1) % slides.length;
+                        slides[currentSlide].classList.add('active');
+                    }, 5000); // Change slide every 5 seconds
+                },
+                 // Fetch listings from Firestore
+        async fetchListings() {
+                const db = firebase.firestore();  // Access Firestore
+
+                try {
+                    const querySnapshot = await db.collection('notApproved').get();
+                    const info = [];
+
+                    // Loop through each document in the querySnapshot
+                    querySnapshot.forEach((doc) => {
+                    const data = doc.data();  // Get the document data
+                    info.push({
+                        title: data.title || 'No title',
+                        description: data.description || 'No description',
+                        imageUrl: data.imageUrl || 'default-image.png',
+                        location: data.location || 'No location',
+                        skills: data.skills || ['None'],
+                        category: data.category || ['None'],
+                        daysOfWeek: data.daysOfWeek || ['None']
+                    });
+                    });
+
+                    // Assign the fetched data to Vue's reactive state
+                    this.recommendedCards = info;
+
+                    // Log the data to ensure it is fetched correctly
+                    console.log("Fetched listings:", this.recommendedCards);
+
+                    // Now fetch user data and calculate match
+                    this.fetchUserData();
+
+          } catch (error) {
+            // Handle any errors that occur during data fetching
+            console.error('Error fetching listings:', error);
+          }
+        },
+
+        // Fetch user data based on authentication state
+        async fetchUserData() {
+          const db = firebase.firestore();  // Access Firestore using the compat syntax
+
+          firebase.auth().onAuthStateChanged(async (user) => {
+            if (user) {
+              const uid = user.uid;  // Get the logged-in user's UID
+              console.log("User ID:", uid);
+
+              try {
+                const querySnapshot = await db.collection('UserQuestionnaire')
+                  .where('uid', '==', uid).get();
+
+                if (!querySnapshot.empty) {
+                  querySnapshot.forEach((doc) => {
+                    const data = doc.data();  // Get the document data
+                    console.log("User data found:", data);
+
+                    // Store the user's data in a local variable
+                    const userQuestionnaireData = {
+                      uid: data.uid,  // Store the user's UID
+                      interests: data.interests || [],  // Array of interests
+                      skills: data.skills || [],  // Array of skills
+                      location: data.location || 'No location',  // Location (e.g., postal code)
+                      availability: data.availability || []  // User's available days
+                    };
+
+                    // Show match bar and calculate the match score using listings and user data
+                    this.showMatchBar = true;
+                    this.calculateMatch(userQuestionnaireData);
+
+                  });
+                } else {
+                  console.log("No document found in userQuestionnaire for UID:", uid);
+                  // Temporary mock data while questionaire is down
+                  
+                  this.showMatchBar = false;
+                }
+
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+              }
+
+            } else {
+              console.log("No user is logged in.");
+              this.showMatchBar = false;  // Hide match bar if no user is logged in
+            }
+          });
+        },
+
+        // Calculate the match score for each listing
+        async calculateMatch(userData) {
+          if (userData && this.recommendedCards.length) {
+            this.showMatchBar = true;
+
+            /* Original code
+            // Loop through each listing and calculate match score
+            this.recommendedCards = this.recommendedCards.map((listing) => {
+              const matchScore = this.calculateMatchScore(userData, listing);
+              return {
+                ...listing,  // Spread operator to keep other listing data intact
+                matchScore  // Add/Update matchScore property
+              };
+            });
+            */
+            // Create an array of promises for calculating match scores
+            const matchScorePromises = this.recommendedCards.map(async (listing) => {
+                const matchScore = await this.calculateMatchScore(userData, listing);
+                return {
+                ...listing,  // Spread operator to keep other listing data intact
+                matchScore  // Add/Update matchScore property
+              };
+            });
+
+            // Wait for all match score calculations to complete
+            this.recommendedCards = await Promise.all(matchScorePromises);
+
+            // Sort listings based on matchScore descending once
+            this.recommendedCards.sort((a, b) => b.matchScore - a.matchScore);
+
+            console.log("Listings with match scores:", this.recommendedCards);
+
+          } else {
+            this.showMatchBar = false;
+          }
+        },
+
+        // Calculate the match score based on user and listing data
+        async calculateMatchScore(user, listing) {
+          // Weights for each criterion
+          const weights = {
+            interests: 0.3,
+            skills: 0.3,
+            location: 0.2,
+            availability: 0.2
+          };
+
+          // Interest match calculation
+          const interestMatch = user.interests.some(interest => listing.category.includes(interest)) ? 100 : 0;
+
+          // Skills match calculation
+          const matchedSkills = listing.skills.filter(skill => user.skills.includes(skill)).length;
+          const skillsMatch = (matchedSkills / listing.skills.length) * 100;
+
+          // Location match (for now assume 100%)
+          var locationMatch = 100;
+          // Brandyn Testing stuff
+          //console.log("This is the listing location: " ,listing.location)
+          //console.log("This is the user's location: ", user.location)
+          if(listing.location !== "No location"){
+            const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+              params: {
+                origins: user.location,
+                destinations: listing.location,
+                units: 'metric',
+              }
+            })
+            .then(response=> {
+              var temp_holding = response.data
+              var distance_value = temp_holding.rows[0].elements[0].distance.value
+              console.log("This is the distance_value: ", distance_value)
+              console.log("This is the type of distance_value: ", typeof(distance_value))
+              // Distance calculation
+              // If distance is more then 20km, set to 0. Else, 20km minus 
+              if(distance_value >= 20000){
+                locationMatch = 0
+              }
+              else{
+                locationMatch = (20000 - distance_value)/200
+              }
+            })
+            .catch(error=> {
+              console.error("No distance? : ", error)
+            })
+          }
+
+          // Availability match calculation
+          const matchedDays = listing.daysOfWeek.filter(day => user.availability.includes(day)).length;
+          const availabilityMatch = (matchedDays / listing.daysOfWeek.length) * 100;
+
+          // Total match score calculation
+          const totalMatchScore = Math.round(
+            (weights.interests * interestMatch) +
+            (weights.skills * skillsMatch) +
+            (weights.location * locationMatch) +
+            (weights.availability * availabilityMatch)
+          );
+
+          return totalMatchScore;
+        }
+
+        },
+        created(){
+            this.fetchListings();  // Fetch listings first
+            },
+        mounted() {
+            this.startSlideshow();
+            },
+        computed: {
+            // Top recommended cards for the "For You" section (Top 8)
+            topRecommendedCards() {
+            // Return the top 8
+            return this.recommendedCards.slice(0, 8);
+            },
+
+            // Remaining cards for the "Explore" section
+            remainingRecommendedCards() {
+            // Return the rest of the listings after the top 8
+            return this.recommendedCards.slice(8);
+            }
+      }
+        });
+
+        vm=app.mount('#app');
+
+
+
+// end of 1st instance
+
+ </script>
+    <!-- <script src="testing.js"></script> -->
+</body>
+</html>
