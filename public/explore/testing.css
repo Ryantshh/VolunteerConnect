@@ -262,14 +262,15 @@ body, html {
     display: inline-block;
     border: 2px solid #fff;
     padding: 10px 20px;
-    color: #fff;
+    color: white;
     text-decoration: none;
     transition: 0.3s;
+    border-radius:10px;
   }
   
   .button:hover {
-    background: #fff;
-    color: #000;
+    background: white;
+    color: black;
   }
 
 
