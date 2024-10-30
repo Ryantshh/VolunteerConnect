@@ -528,3 +528,34 @@ html {
     overscroll-behavior-y: none;
 }
 
+/* Hide the default checkbox */
+.form-check input[type="checkbox"] {
+    display: none; /* Hide the checkbox */
+}
+
+/* Style the label to look like a button */
+.form-check label {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: rgb(255, 236, 232); /* Match button background */
+    color: rgb(238, 75, 43); /* Match button text color */
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: all 0.3s ease; /* Smooth transitions for hover and active effects */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Initial shadow */
+    margin: 5px; /* Spacing between buttons */
+}
+
+/* When the checkbox is checked */
+.form-check input[type="checkbox"]:checked + label {
+    background-color: rgb(255, 255, 255); /* Change background when checked */
+    color: rgb(238, 75, 43); /* Change text color when checked */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Lifted effect with shadow */
+}
+
+/* Button hover effects */
+.form-check label:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Lifted effect with shadow */
+    transform: translateY(-3px); /* Slight lift effect */
+}
+
