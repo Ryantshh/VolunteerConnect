@@ -61,7 +61,7 @@
 			<h1>User Profile</h1>
 			<div class="field">
 				<label for="name">Name:</label>
-				<span id="nameDisplay"></span>
+				<!-- <span id="nameDisplay"></span> -->
 				<input type="text" id="nameInput" class="editInput" />
 				<span>
 					<!-- <button class="editButton" onclick="editField()">Edit</button> -->
@@ -70,7 +70,7 @@
 			</div>
 			<div class="field">
 				<label for="postalCode">Postal Code:</label>
-				<span id="postalCodeDisplay"></span>
+				<!-- <span id="postalCodeDisplay"></span> -->
 				<input type="text" id="postalCodeInput" class="editInput" />
 				<span>
 					<!-- <button class="editButton" onclick="editField()">Edit</button> -->
@@ -220,17 +220,17 @@
 			window.onload = populateDropdowns;
 
 			// Function to enable editing
-			function editField() {
-				const displayElement = document.getElementById("nameDisplay");
-				const inputElement = document.getElementById("nameInput");
+			// function editField() {
+			// 	const displayElement = document.getElementById("nameDisplay");
+			// 	const inputElement = document.getElementById("nameInput");
 
-				// Show the input field with current name and enable editing
-				inputElement.disabled = false;
-				inputElement.value = displayElement.innerText || ""; // Set input value to displayed name or empty if none
+			// 	// Show the input field with current name and enable editing
+			// 	inputElement.disabled = false;
+			// 	inputElement.value = displayElement.innerText || ""; // Set input value to displayed name or empty if none
 
-				// Focus the input element
-				inputElement.focus();
-			}
+			// 	// Focus the input element
+			// 	inputElement.focus();
+			// }
 
 			// Function to save the input value
 			function saveField() {
@@ -255,8 +255,8 @@
 
 			// Function to populate the profile fields
 			function populateProfile(userProfile) {
-				document.getElementById("nameDisplay").innerText = userProfile.fullName;
-				document.getElementById("postalCodeDisplay").innerText = userProfile.postalCode;
+				document.getElementById("nameInput").value = userProfile.fullName;
+				document.getElementById("postalCodeInput").value = userProfile.postalCode;
 
 				updateInterestsDisplay(userProfile.interests);
 				updateSkillsDisplay(userProfile.skills);
@@ -397,10 +397,8 @@
 					if (auth.currentUser) {
 						const userId = auth.currentUser.uid;
 
-						// Check if the uid field exists in userProfile, add it if missing
-						if (!userProfile.uid) {
-							userProfile.uid = userId;
-						}
+						userProfile.fullName=document.getElementById("nameInput").value
+						userProfile.postalCode=document.getElementById("postalCodeInput").value
 
 						// Save or update the userProfile in Firestore with uid as the document ID
 						await db.collection("UserQuestionnaire").doc(userId).set(userProfile);
