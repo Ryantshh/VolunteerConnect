@@ -570,4 +570,160 @@ h5.card-title {
 
 
 
+/* Preview Styles */
 
+.preview-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.preview-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preview-header .card-title {
+    margin: 0;
+    font-size: 1.8rem;
+    color: #333;
+    flex-grow: 1;
+}
+
+.topmatch-preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.topmatch-preview .preview {
+    background: #fff;
+    max-width: 800px;
+    height: auto;
+    max-height: 90vh;
+    padding: 2rem;
+    border-radius: 15px;
+    position: relative;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Container for all content except footer */
+.topmatch-preview .preview .content-wrapper {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* Allows content to scroll properly */
+}
+
+
+/* Card body styling */
+.topmatch-preview .preview .card-body {
+    flex: 1 1 auto;
+    padding: 1rem 0;
+    overflow-y: auto;
+    height: auto;
+    min-height: 0; /* Allows content to scroll */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.topmatch-preview .preview .card-title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    color: #333;
+    flex-shrink: 0; /* Prevents title from shrinking */
+}
+
+.topmatch-preview .preview .card-text {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+/* Updated Footer styling */
+.topmatch-preview .preview .card-footer {
+    flex-shrink: 0;
+    margin-top: 1rem; /* Reduced from 1.5rem */
+    padding: 1rem 0; /* Reduced from 1.5rem */
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    background: #fff;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+}
+
+/* Close button styling */
+.topmatch-preview .preview .fa-times {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #444;
+    transition: color 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+}
+
+.topmatch-preview .preview .fa-times:hover {
+    color: #ff0000;
+    transform: scale(1.1);
+}
+
+/* Button styling */
+.topmatch-preview .preview .btn-primary {
+    padding: 0.6rem 1.5rem; /* Reduced from 0.8rem 2rem */
+    font-size: 1rem; /* Reduced from 1.1rem */
+    width: auto;
+    min-width: 150px; /* Reduced from 200px */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .topmatch-preview .preview {
+        width: 95%;
+        padding: 1.5rem;
+    }
+    
+    .topmatch-preview .preview .card-img-top {
+        height: 250px;
+    }
+    
+    .topmatch-preview .preview .card-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .topmatch-preview .preview {
+        padding: 1rem;
+    }
+    
+    .topmatch-preview .preview .card-img-top {
+        height: 200px;
+    }
+    
+    .topmatch-preview .preview .card-title {
+        font-size: 1.3rem;
+    }
+    
+    .topmatch-preview .preview .card-text {
+        font-size: 1rem;
+    }
+}
