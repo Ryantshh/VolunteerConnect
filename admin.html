@@ -66,13 +66,13 @@
 
 
   <div id="app">
-    <div class="container my-4">
+    <div v-if = 'recommendedCards.length != 0' class="container my-4">
       <div class="text-center my-4">
-        <h2 class='header'>Pending Approval</h2>
+        <h2 class='header' >Pending Approval</h2>
       </div>
 
       <!-- Center the entire General Listings section below the View button on small screens -->
-      <div class="d-flex d-sm-block justify-content-center">
+      <div  class="d-flex d-sm-block justify-content-center">
         <!-- Card deck container for responsive cards -->
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
           <div v-for="(listing, index) in recommendedCards" :key="index" class="col">
@@ -101,6 +101,12 @@
           </div>
         </div>
       </div>
+
+      
+    </div>
+
+    <div v-else>
+      <h1 class = 'no_request' >No Action needed</h1>
     </div>
   </div>
 
