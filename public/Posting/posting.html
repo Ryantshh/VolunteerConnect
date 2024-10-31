@@ -249,8 +249,11 @@
                     }
 
                     try {
+                        // Generate a unique file name by appending a timestamp to the original file name
+                        const uniqueFileName = `${Date.now()}_${this.imageFile.name}`;
+                        
                         // Upload the image to Firebase Storage
-                        const storageRef = firebase.storage().ref(`images/${this.imageFile.name}`);
+                        const storageRef = firebase.storage().ref(`images/${uniqueFileName}`);
                         const snapshot = await storageRef.put(this.imageFile);
 
                         // Get the download URL of the uploaded image and assign it to imageUrl
