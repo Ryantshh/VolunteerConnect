@@ -145,9 +145,9 @@
                     <div class="form-group">
                         <label for="listing-photo">Upload Photo</label>
                         <div class="file-upload">
-                            <!-- File input with Vue's change handler -->
+                            <!-- File input with Vue's change handler and ref -->
                             <input type="file" id="listing-photo" class="file-input" accept="image/*"
-                                @change="handleImageUpload">
+                                @change="handleImageUpload" ref="fileInput">
                             <label for="listing-photo" class="file-label">
                                 <span class="upload-icon">📷</span>
                                 <span class="upload-text">{{ uploadText }}</span>
@@ -275,12 +275,15 @@
 
                         // Clear form data after submission
                         Object.keys(this.newListing).forEach((key) => {
-                            if (key !== 'imageUrl') this.newListing[key] = '';
+                            if (key !== 'imageUrl' && key!=="skills" && key!="category") this.newListing[key] = '';
                         });
 
                         // Reset file-related fields
+                        this.newListing.skills=[];
+                        this.newListing.category=[];
                         this.imageFile = null;
                         this.imagePreviewUrl = '';
+                        this.$refs.fileInput.value = ''; // Clear file input element
                         this.uploadText = 'Choose a file';
                         this.noImage = false; // Reset the noImage flag after a successful upload
                         // Scroll to the top of the page to show the success message
