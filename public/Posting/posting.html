@@ -180,6 +180,7 @@
         const app = Vue.createApp({
             data() {
                 return {
+                    days:["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                     interestsList: [
                         "Environmental", "Community Development", "Education", "Healthcare", "Animal Welfare",
                         "Disaster Relief", "Youth Services", "Senior Care", "Human Rights", "Sports Coaching",
@@ -201,7 +202,9 @@
                         skills: [],
                         location: '',
                         imageUrl: '', // File input for image upload
-                        mainurl: ''
+                        mainurl: '',
+                        isRecurring: false,
+                        recurringDays: []
                     },
                     imageFile: null,         // Temporarily store the selected image file
                     imagePreviewUrl: '',     // Store the preview URL for the image file
