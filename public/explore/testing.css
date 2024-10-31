@@ -14,6 +14,7 @@ body, html {
  #app, #body {
     margin-top: 0;
     padding-top: 0;
+    pointer-events: auto;
 }
 
 .jumbotron .container {
@@ -606,8 +607,24 @@ h5.card-title {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 1050;
+    padding: 20px;
+    pointer-events: all; /* Change to 'all' to capture clicks */
 }
+
+.preview {
+    position: relative;
+    background: #fff;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    border-radius: 15px;
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+}
+
 
 .topmatch-preview .preview {
     background: #fff;
@@ -621,6 +638,7 @@ h5.card-title {
     display: flex;
     flex-direction: column;
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    pointer-events: auto; /* Re-enable clicks for the preview content */
 }
 
 /* Container for all content except footer */
@@ -669,23 +687,6 @@ h5.card-title {
     width: 100%;
 }
 
-/* Close button styling */
-.topmatch-preview .preview .fa-times {
-    position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #444;
-    transition: color 0.3s ease, transform 0.3s ease;
-    z-index: 10;
-}
-
-.topmatch-preview .preview .fa-times:hover {
-    color: #ff0000;
-    transform: scale(1.1);
-}
-
 /* Button styling */
 .topmatch-preview .preview .btn-primary {
     padding: 0.6rem 1.5rem; /* Reduced from 0.8rem 2rem */
@@ -725,5 +726,242 @@ h5.card-title {
     
     .topmatch-preview .preview .card-text {
         font-size: 1rem;
+    }
+}
+
+
+.skills-filter-section {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 1.5rem;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+        position: relative;
+        z-index: 1;
+        pointer-events: auto; /* Ensure section receives events */
+}
+
+.skills-filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.skills-filter-header h4 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.clear-filters-btn {
+    background: none;
+    border: none;
+    color: #6c757d;
+    font-size: 0.9rem;
+    cursor: pointer;
+    padding: 0.25rem 0.5rem;
+    transition: color 0.2s;
+    pointer-events: auto;
+}
+
+.clear-filters-btn:hover {
+    color: #dc3545;
+}
+
+.skills-filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    pointer-events: auto; /* Ensure container receives events */
+}
+
+.skill-chip {
+    display: inline-flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 25px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    color: #495057;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    pointer-events: auto; /* Ensure buttons receive events */
+    user-select: none; /* Prevent text selection */
+}
+.skill-chip:hover {
+    border-color: #fe1d04;
+    color: #fe1d04;
+    transform: translateY(-1px);
+}
+
+.skill-chip.active {
+    background: #fe1d04;
+    color: white;
+    border-color: #fe1d04;
+}
+
+.skill-text {
+    margin-right: 0.25rem;
+}
+
+.skill-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.selected-filters {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #dee2e6;
+}
+
+.filter-count {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .skills-filter-section {
+        padding: 1rem;
+    }
+
+    .skills-filter-chips {
+        gap: 0.5rem;
+    }
+
+    .skill-chip {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }}
+
+    .map-container {
+        margin: 20px 0;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        position: relative; /* Add this */
+    }
+    
+    #location-map {
+        height: 300px;
+        width: 100%;
+        border-radius: 8px;
+        border: 1px solid #dee2e6;
+        position: relative; /* Add this */
+        z-index: 1; /* Lower than modal but higher than background */
+    }
+
+    .close-button {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: white;
+        z-index: 1060;
+        pointer-events: all;
+    }
+    
+    .close-button i {
+        font-size: 24px;
+        color: #666;
+        transition: all 0.3s ease;
+    }
+    
+    .close-button:hover {
+        background-color: rgba(0, 0, 0, 0.05); /* Subtle hover background */
+    }
+    
+    .close-button:hover i {
+        color: #ff0000; /* Red color on hover */
+        transform: rotate(90deg); /* Rotate icon on hover */
+    }
+    
+    /* Map container styles */
+
+    body.modal-open {
+        overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+        .preview {
+            margin: 10px;
+            padding: 15px;
+        }
+    
+        .close-button {
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+        }
+    
+        .close-button i {
+            font-size: 18px;
+        }
+    }
+
+
+/* Preview content wrapper */
+.preview-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+/* Card body */
+.preview .card-body {
+    flex: 1 1 auto;
+    padding: 1.5rem 0;
+    overflow-y: auto;
+}
+
+/* Footer section */
+.preview .card-footer {
+    flex-shrink: 0;
+    margin-top: auto;
+    padding: 1.5rem 0;
+    background: #fff;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+/* Button in footer */
+.preview .card-footer .btn-primary {
+    min-width: 200px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .topmatch-preview .preview {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .preview-header {
+        padding: 1rem;
+    }
+    
+    .preview .card-body {
+        padding: 1rem 0;
+    }
+    
+    .preview .card-footer {
+        padding: 1rem 0;
     }
 }

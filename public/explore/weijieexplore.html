@@ -19,6 +19,7 @@
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
   <script src="../config.js"></script> <!-- Firebase config file -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDOhAYVrKn0zlhOfXz-fkUETN16K1RiG0Q"></script>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg">
@@ -122,37 +123,77 @@
 
 
 
-      <div class="topmatch-preview" v-show="showPreview">
-        <div class="preview" v-if="selectedCard">
-            <i class="fas fa-times" @click="closePreview"></i>
+<!-- Add this right after your <div id="app"> -->
+  <div class="topmatch-preview" v-if="showPreview" @click.self="closePreview">
+    <div class="preview">
+        <div class="close-button" @click="closePreview">
+            <i class="fas fa-times"></i>
+        </div>
+        
+        <div v-if="selectedCard" class="preview-content">
             <div class="preview-header">
                 <img :src="selectedCard.imageUrl" class="preview-logo" alt="Organization logo">
                 <h5 class="card-title">{{ selectedCard.title }}</h5>
             </div>
+            
             <div class="card-body">
                 <p class="card-text">{{ selectedCard.description }}</p>
-                <p class="card-text"><strong>Location:</strong> {{ selectedCard.location }}</p>
+                <p class="card-text"><strong>Location:</strong> {{ selectedCard.location }}</p>          
                 <p class="card-text"><strong>Skills:</strong> {{ Array.isArray(selectedCard.skills) ? selectedCard.skills.join(', ') : selectedCard.skills || "No skills listed" }}</p>
-                <p class="card-text"><strong>Days Required:</strong> {{ Array.isArray(selectedCard.daysOfWeek) ? selectedCard.daysOfWeek.join(', ') : selectedCard.daysOfWeek || "No skills listed" }}</p>
+                <p class="card-text"><strong>Days Required:</strong> {{ Array.isArray(selectedCard.daysOfWeek) ? selectedCard.daysOfWeek.join(', ') : selectedCard.daysOfWeek || "No days listed" }}</p>
             </div>
+            
             <div class="card-footer text-center">
                 <a :href="selectedCard.mainurl" target="_blank" class="btn btn-primary">View Website</a>
             </div>
         </div>
     </div>
+</div>
 
 
-  
+
+
     <div class="container my-4">
       <div class="text-center my-4">
           <h2 class="header">General Listings</h2>
       </div>
+
+      <div class="skills-filter-section">
+        <div class="skills-filter-header">
+            <h4>Filter by Skills</h4>
+            <button 
+                type="button"
+                class="clear-filters-btn" 
+                v-if="selectedSkills.length > 0"
+                @click.stop="clearAllFilters">
+                Clear All
+            </button>
+        </div>
+        <div class="skills-filter-chips">
+            <button 
+                type="button"
+                v-for="skill in availableSkills" 
+                :key="skill"
+                @click.stop="toggleSkillFilter(skill)"
+                :class="['skill-chip', {'active': selectedSkills.includes(skill)}]">
+                <span class="skill-text">{{ skill }}</span>
+                <span class="skill-icon" v-if="selectedSkills.includes(skill)">✓</span>
+            </button>
+        </div>
+        <div class="selected-filters" v-if="selectedSkills.length > 0">
+            <p class="filter-count">
+                {{ selectedSkills.length }} filter{{ selectedSkills.length > 1 ? 's' : '' }} selected
+            </p>
+        </div>
+    </div>
+
+      <!-- Updated listings grid -->
       <div class="d-flex d-sm-block justify-content-center">
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-              <div v-for="listing in remainingRecommendedCards" :key="listing.uid">
+              <div v-for="listing in filteredListings" :key="listing.uid">
                   <div class="card m-2" 
                        style="width: 100%;"
-                       @click="openPreview(listing)"> <!-- Added click handler -->
+                       @click="openPreview(listing)">
                       <img :src="listing.imageUrl" class="card-img-top">
                       <div class="card-body">
                           <h5 class="card-title">{{ listing.title }}</h5>
@@ -165,7 +206,7 @@
                           <a :href="listing.mainurl" 
                              target="_blank" 
                              class="btn btn-primary"
-                             @click.stop> <!-- Added stop propagation -->
+                             @click.stop>
                               View Website
                           </a>
                       </div>
@@ -185,55 +226,136 @@
                   showMatchBar: false,
                   recommendedCards: [],
                   showPreview: false,
-                  selectedCard: null
-              };
+                  selectedCard: null,
+                  selectedSkills: [], // New property to track selected skills
+                  availableSkills: [], // New property to store unique skills
+
+                };
           },
           methods: {
-            openPreview(card) {
-                    this.selectedCard = card;
-                    this.showPreview = true;
-                    document.body.style.overflow = 'hidden'; // Prevent scrolling when preview is open
-                },
-                closePreview() {
-                    this.showPreview = false;
-                    this.selectedCard = null;
-                    document.body.style.overflow = ''; // Restore scrolling
-                },
-              startSlideshow() {
-                  const slides = document.querySelectorAll('.slide');
-                  let currentSlide = 0;
-  
-                  setInterval(() => {
-                      slides[currentSlide].classList.remove('active');
-                      currentSlide = (currentSlide + 1) % slides.length;
-                      slides[currentSlide].classList.add('active');
-                  }, 5000);
-              },
-              async fetchListings() {
-                  const db = firebase.firestore();
-                  try {
-                      const querySnapshot = await db.collection('listings').get();
-                      const info = [];
-                      querySnapshot.forEach((doc) => {
-                          const data = doc.data();
-                          info.push({
-                              title: data.title || 'No title',
-                              description: data.description || 'No description',
-                              imageUrl: data.imageUrl || 'noimage.jpg',
-                              location: data.location || 'No location',
-                              skills: data.skills || ['None'],
-                              category: data.category || ['None'],
-                              daysOfWeek: data.daysOfWeek || ['None'],
-                              mainurl : data.mainurl 
-                          });
-                      });
-                      this.recommendedCards = info;
-                      console.log("Fetched listings:", this.recommendedCards);
-                      this.fetchUserData();
-                  } catch (error) {
-                      console.error('Error fetching listings:', error);
-                  }
-              },
+
+          clearAllFilters() {
+              console.log('Clearing all filters');  // Debug log
+              this.selectedSkills = [];
+          },
+
+          toggleSkillFilter(skill) {
+              console.log('Toggling skill:', skill);  // Debug log
+              const index = this.selectedSkills.indexOf(skill);
+              if (index > -1) {
+                  this.selectedSkills.splice(index, 1);
+              } else {
+                  this.selectedSkills.push(skill);
+              }
+              console.log('Selected skills:', this.selectedSkills);  // Debug log
+          },
+
+        // Updated skills matching function
+        skillsMatch(listing) {
+            // If no skills are selected, return all listings
+            if (!this.selectedSkills.length) return true;
+            
+            // Normalize listing skills to ensure we have an array of lowercase strings
+            const listingSkills = this.normalizeSkills(listing.skills);
+            
+            // If listing has no skills, it shouldn't match any skill filter
+            if (!listingSkills.length) return false;
+            
+            // Convert selected skills to lowercase for comparison
+            const selectedSkillsLower = this.selectedSkills.map(skill => skill.toLowerCase());
+            
+            // Check if ANY of the selected skills match (OR logic)
+            return selectedSkillsLower.some(selectedSkill => 
+                listingSkills.includes(selectedSkill)
+            );
+        },
+
+        // Helper function to normalize skills data
+        normalizeSkills(skills) {
+            if (!skills) return [];
+            if (typeof skills === 'string') {
+                return [skills.toLowerCase()];
+            }
+            if (Array.isArray(skills)) {
+                return skills
+                    .filter(skill => skill && skill !== 'None') // Remove null/undefined/None values
+                    .map(skill => skill.toLowerCase()); // Convert to lowercase
+            }
+            return [];
+        },
+
+
+        openPreview(card) {
+        const currentFilters = [...this.selectedSkills];
+        this.selectedCard = card;
+        this.showPreview = true;
+        this.selectedSkills = currentFilters;
+        document.body.classList.add('modal-open');
+        
+        this.$nextTick(async () => {
+            if (card.location && card.location !== 'No location') {
+                await this.initializeMap(card.location);
+            }
+        });
+    },
+
+    closePreview() {
+        // Store current filter state
+        const currentFilters = [...this.selectedSkills];
+        
+        // Clean up map
+        
+        // Reset states while preserving filters
+        this.showPreview = false;
+        this.selectedCard = null;
+        this.selectedSkills = currentFilters;
+        
+        // Remove body class
+        document.body.classList.remove('modal-open');
+        
+        // Force a re-render of the filters
+        this.$nextTick(() => {
+            this.selectedSkills = [...currentFilters];
+        });
+    },
+          async fetchListings() {
+            const db = firebase.firestore();
+            try {
+                const querySnapshot = await db.collection('listings').get();
+                const info = [];
+                const skillSet = new Set(); // To collect unique skills
+
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    const skills = Array.isArray(data.skills) ? data.skills : [data.skills];
+                    
+                    // Collect unique skills
+                    skills.forEach(skill => {
+                        if (skill && skill !== 'None') {
+                            skillSet.add(skill.trim());
+                        }
+                    });
+
+                    info.push({
+                        title: data.title || 'No title',
+                        description: data.description || 'No description',
+                        imageUrl: data.imageUrl || 'noimage.jpg',
+                        location: data.location || 'No location',
+                        skills: skills,
+                        category: data.category || ['None'],
+                        daysOfWeek: data.daysOfWeek || ['None'],
+                        mainurl: data.mainurl 
+                    });
+                });
+
+                this.recommendedCards = info;
+                this.availableSkills = Array.from(skillSet).sort(); // Convert set to sorted array
+                console.log("Fetched listings:", this.recommendedCards);
+                this.fetchUserData();
+            } catch (error) {
+                console.error('Error fetching listings:', error);
+            }
+         },
               async fetchUserData() {
                   const db = firebase.firestore();
                   firebase.auth().onAuthStateChanged(async (user) => {
@@ -333,20 +455,31 @@
               }
           },
           created() {
-              this.fetchListings();
-          },
-          mounted() {
-              this.startSlideshow();
-          },
+                this.fetchListings();
+                // Add escape key listener
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && this.showPreview) {
+                        this.closePreview();
+                    }
+                });
+            },
           computed: {
-              topRecommendedCards() {
-                  return this.recommendedCards.slice(0, 8);
-              },
-              remainingRecommendedCards() {
-                  return this.recommendedCards.slice(8);
+                  topRecommendedCards() {
+                      return this.recommendedCards.slice(0, 8);
+                  },
+                  filteredListings() {
+                      // Filter listings that aren't in the top 8
+                      const remainingListings = this.recommendedCards.slice(8);
+                      
+                      // Apply skills filter if any skills are selected
+                      if (this.selectedSkills.length === 0) {
+                          return remainingListings;
+                      }
+                      
+                      return remainingListings.filter(this.skillsMatch);
+                  }
               }
-          }
-      });
+          });
   
       vm = app.mount('#app');
   </script>
