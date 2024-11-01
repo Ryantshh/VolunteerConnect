@@ -186,7 +186,7 @@ function showPopupAndRedirect() {
         // After 5 seconds, redirect
         if (countdown === 0) {
             clearInterval(interval);
-            window.location.href = './questionnaire/questionnaire.html';
+            window.location.href = 'introduction.html';
         }
     }, 1000);
 }
