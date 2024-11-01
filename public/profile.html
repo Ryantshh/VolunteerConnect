@@ -1,439 +1,234 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>User Profile</title>
-		<link type="text/css" href="css/profile.css" rel="stylesheet" />
-		<link
-			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-			rel="stylesheet"
-			integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-			crossorigin="anonymous"
-		/>
-		<!-- Load Firebase App, Auth, and Firestore scripts from the CDN -->
-		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
-		<script src="config.js"></script>
-	</head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Profile</title>
+    <link type="text/css" href="css/profile.css" rel="stylesheet" />
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+        crossorigin="anonymous"
+    />
+    <!-- Load Firebase App, Auth, and Firestore scripts from the CDN -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+    <script src="config.js"></script>
+</head>
 
-	<body>
-		<!-- Navbar Brand -->
-		<nav class="navbar navbar-expand-lg">
-			<div class="container-fluid">
-				<!-- Navbar Brand -->
-				<a class="navbar-brand" href="#">
-					<img src="images/Volunteer.png" alt="logo" />
-				</a>
+<body>
+    <div id="app">
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src="images/Volunteer.png" alt="logo" />
+                </a>
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarNav"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Explore</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Calendar</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">Donate</a></li>
+                    </ul>
+                </div>
+                <div class="d-flex">
+                    <button id="signin" class="btn" @click="goToProfile">My Profile</button>
+                </div>
+            </div>
+        </nav>
 
-				<!-- Toggler for mobile view -->
-				<button
-					class="navbar-toggler"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#navbarNav"
-					aria-controls="navbarNav"
-					aria-expanded="false"
-					aria-label="Toggle navigation"
-				>
-					<span class="navbar-toggler-icon"></span>
-				</button>
+        <!-- User Profile Form -->
+        <div v-if="loading">Loading...</div>
+        <div v-else>
+            <h1>User Profile</h1>
 
-				<!-- Navbar Links-->
-				<div
-					class="collapse navbar-collapse justify-content-center"
-					id="navbarNav"
-				>
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" href="#">Home</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Explore</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Calendar</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Donate</a>
-						</li>
-					</ul>
-				</div>
+            <!-- Name Input -->
+            <div class="field">
+                <label for="name">Name:</label>
+                <input type="text" v-model="userProfile.fullName" class="editInput" />
+            </div>
 
-				<!-- Sign In Button on the far right -->
-				<div class="d-flex">
-					<button id="signin" class="btn" type="button">My Profile</button>
-				</div>
-			</div>
-		</nav>
+            <!-- Postal Code Input -->
+            <div class="field">
+                <label for="postalCode">Postal Code:</label>
+                <input type="text" v-model="userProfile.postalCode" class="editInput" />
+            </div>
 
-		<div class="container">
-			<h1>User Profile</h1>
-			<div class="field">
-				<label for="name">Name:</label>
-				<!-- <span id="nameDisplay"></span> -->
-				<input type="text" id="nameInput" class="editInput" />
-				<span>
-					<!-- <button class="editButton" onclick="editField()">Edit</button> -->
-					<!-- <button class="saveButton" onclick="saveField()">Save</button> -->
-				</span>
-			</div>
-			<div class="field">
-				<label for="postalCode">Postal Code:</label>
-				<!-- <span id="postalCodeDisplay"></span> -->
-				<input type="text" id="postalCodeInput" class="editInput" />
-				<span>
-					<!-- <button class="editButton" onclick="editField()">Edit</button> -->
-					<!-- <button class="saveButton" onclick="saveField()">Save</button> -->
-				</span>
-			</div>
+            <!-- Interests -->
+            <div>
+                <h3>Interests</h3>
+                <div id="interestsDisplay">
+                    <button v-for="interest in userProfile.interests" :key="interest" class="button-container">
+                        {{ interest }}
+                        <span class="removeButton" @click="removeInterest(interest)">✖</span>
+                    </button>
+                </div>
+                <select v-model="selectedInterest" class="form-select">
+                    <option v-for="interest in interestsList" :key="interest" :value="interest">{{ interest }}</option>
+                </select>
+                <button @click="addInterest">Add Interest</button>
+            </div>
 
-			<div>
-				<h3>Interests</h3>
-				<div id="interestsDisplay"></div>
-				<br />
-				<select id="interestsDropdown"></select>
-				<button onclick="addInterest()">Add Interest</button>
-			</div>
-			<br />
-			<div>
-				<h3>Skills</h3>
+            <!-- Skills -->
+            <div>
+                <h3>Skills</h3>
+                <div id="skillsDisplay">
+                    <button v-for="skill in userProfile.skills" :key="skill" class="button-container">
+                        {{ skill }}
+                        <span class="removeButton" @click="removeSkill(skill)">✖</span>
+                    </button>
+                </div>
+                <select v-model="selectedSkill" class="form-select">
+                    <option v-for="skill in skillsList" :key="skill" :value="skill">{{ skill }}</option>
+                </select>
+                <button @click="addSkill">Add Skill</button>
+            </div>
 
-				<div id="skillsDisplay"></div>
-				<br />
+            <!-- Available Days -->
+            <div>
+                <h3>Available Days</h3>
+                <div id="availableDaysDisplay">
+                    <button v-for="day in userProfile.availability" :key="day" class="button-container">
+                        {{ day }}
+                        <span class="removeButton" @click="removeAvailableDay(day)">✖</span>
+                    </button>
+                </div>
+                <select v-model="selectedDay" class="form-select">
+                    <option v-for="day in daysOfWeek" :key="day" :value="day">{{ day }}</option>
+                </select>
+                <button @click="addAvailableDay">Add Day</button>
+            </div>
 
-				<select id="skillsDropdown"></select>
-				<button onclick="addSkill()">Add Skill</button>
-			</div>
-			<br />
-			<div>
-				<h3>Available Days</h3>
+            <!-- Submit Button -->
+            <button @click="submitProfile" style="margin-top: 40px">Submit</button>
+        </div>
+    </div>
 
-				<div id="availableDaysDisplay"></div>
-				<br />
+    <script src="https://unpkg.com/vue@3.0.0-rc.11/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return {
+                    userProfile: {
+                        fullName: "",
+                        postalCode: "",
+                        interests: [],
+                        skills: [],
+                        availability: []
+                    },
+                    interestsList: [
+                        "Environmental", "Community Development", "Education", "Healthcare",
+                        "Animal Welfare", "Disaster Relief", "Youth Services", "Senior Care",
+                        "Human Rights", "Sports Coaching", "Poverty Alleviation", "Homelessness",
+                        "Cultural Heritage", "Mental Health", "Advocacy"
+                    ],
+                    skillsList: [
+                        "First Aid/CPR", "Teaching", "Public Speaking", "Fundraising",
+                        "Event Planning", "Communication", "Leadership", "Project Management",
+                        "Mentoring/Coaching", "Social Media Management", "Grant Writing", "Graphic Design",
+                        "Web Development", "Data Analysis", "Tutoring", "Photography/Videography",
+                        "Technical Support", "Healthcare Assistance", "Food Preparation", "Marketing"
+                    ],
+                    daysOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+                    selectedInterest: null,
+                    selectedSkill: null,
+                    selectedDay: null,
+                    loading: true, // Loading state to manage authentication status
+                };
+            },
+            created() {
+                // Use onAuthStateChanged to check if a user is authenticated
+                firebase.auth().onAuthStateChanged((user) => {
+                    if (user) {
+                        // Only call getUserProfile if the user is authenticated
+                        this.getUserProfile(user.uid);
+                    } else {
+                        console.log("No user is logged in. Redirecting to root...");
+                        window.location.href = "/"; // Redirect if not logged in
+                    }
+                    this.loading = false; // Set loading to false once the authentication state is resolved
+                });
+            },
+            methods: {
+                async getUserProfile(uid) {
+                    try {
+                        const querySnapshot = await db.collection("UserQuestionnaire")
+                            .where("uid", "==", uid)
+                            .limit(1)
+                            .get();
 
-				<select id="daysDropdown"></select>
-				<button onclick="addAvailableDay()">Add Day</button>
-			</div>
-
-			<button onclick="submit()" style="margin-top: 40px">Submit</button>
-		</div>
-
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-			crossorigin="anonymous"
-		></script>
-		<script>
-			// // Sample user data object
-			// const userProfile = {
-			// 	name: "John Doe",
-			// 	email: "john.doe@example.com",
-			// 	postalCode: "12345",
-			// 	interests: ["Environmental", "Education"],
-			// 	skills: ["Teaching", "Leadership"],
-			// 	availableDays: ["Monday", "Friday"],
-			// };
-			// Define userProfile globally
-			let userProfile;
-			auth.onAuthStateChanged(async (user) => {
-				if (user) {
-					try {
-						// Query the 'UserQuestionnaire' collection for a document with a matching uid field
-						const querySnapshot = await db
-							.collection("UserQuestionnaire")
-							.where("uid", "==", user.uid)
-							.limit(1) // Limit to one document to avoid unnecessary data retrieval
-							.get();
-
-						if (!querySnapshot.empty) {
-							// If a document with the matching uid field exists, retrieve it
-							const userDoc = querySnapshot.docs[0];
-							userProfile = userDoc.data();
-							console.log("User profile retrieved:", userProfile);
-							populateProfile(userProfile);
-
-							// Use `userProfile` as needed in your app
-						} else {
-							console.log("No profile found for this user with uid:", user.uid);
-							// Handle the case where no matching profile is found
-						}
-					} catch (error) {
-						console.error("Error retrieving user profile:", error);
-					}
-				} else {
-					// User is not logged in; redirect to root (e.g., login page)
-					console.log("No user is logged in. Redirecting to root...");
-					window.location.href = "/";
-				}
-			});
-
-			// editField(value){
-			// 	if(value=="name"){
-
-			// 	}
-			// };
-
-			// Dropdown lists
-			const interestsList = [
-				"Environmental",
-				"Community Development",
-				"Education",
-				"Healthcare",
-				"Animal Welfare",
-				"Disaster Relief",
-				"Youth Services",
-				"Senior Care",
-				"Human Rights",
-				"Sports Coaching",
-				"Poverty Alleviation",
-				"Homelessness",
-				"Cultural Heritage",
-				"Mental Health",
-				"Advocacy",
-			];
-
-			const skillsList = [
-				"First Aid/CPR",
-				"Teaching",
-				"Public Speaking",
-				"Fundraising",
-				"Event Planning",
-				"Communication",
-				"Leadership",
-				"Project Management",
-				"Mentoring/Coaching",
-				"Social Media Management",
-				"Grant Writing",
-				"Graphic Design",
-				"Web Development",
-				"Data Analysis",
-				"Tutoring",
-				"Photography/Videography",
-				"Technical Support",
-				"Healthcare Assistance",
-				"Food Preparation",
-				"Marketing",
-			];
-
-			const daysOfWeek = [
-				"Monday",
-				"Tuesday",
-				"Wednesday",
-				"Thursday",
-				"Friday",
-				"Saturday",
-				"Sunday",
-			];
-			// Populate dropdowns on page load
-			window.onload = populateDropdowns;
-
-			// Function to enable editing
-			// function editField() {
-			// 	const displayElement = document.getElementById("nameDisplay");
-			// 	const inputElement = document.getElementById("nameInput");
-
-			// 	// Show the input field with current name and enable editing
-			// 	inputElement.disabled = false;
-			// 	inputElement.value = displayElement.innerText || ""; // Set input value to displayed name or empty if none
-
-			// 	// Focus the input element
-			// 	inputElement.focus();
-			// }
-
-			// Function to save the input value
-			function saveField() {
-				const displayElement = document.getElementById("nameDisplay");
-				const inputElement = document.getElementById("nameInput");
-
-				// Get the input value and trim it
-				const inputValue = inputElement.value.trim();
-
-				// Update display span and save to namesArray
-				if (inputValue) {
-					displayElement.innerText = inputValue;
-					userProfile.namesArray[0] = inputValue; // Store in the first index or update
-				}
-
-				// Disable input to prevent further editing
-				inputElement.disabled = true;
-
-				console.log("Updated namesArray:", userProfile.namesArray);
-			}
-
-			// Function to populate the profile fields
-			function populateProfile(userProfile) {
-				document.getElementById("nameInput").value = userProfile.fullName;
-				document.getElementById("postalCodeInput").value =
-					userProfile.postalCode;
-
-				updateInterestsDisplay(userProfile.interests);
-				updateSkillsDisplay(userProfile.skills);
-				updateAvailableDaysDisplay(userProfile.availability);
-				populateDropdowns();
-			}
-
-			// Update displayed interests
-			function updateInterestsDisplay(interests) {
-				const interestsDisplay = document.getElementById("interestsDisplay");
-				interestsDisplay.innerHTML = "";
-				interests.forEach((interest) => {
-					interestsDisplay.innerHTML += `
-					<button class="button-container">
-						${interest}
-						<span class="removeButton" onclick="removeInterest('${interest}')">✖</span>
-					</button>
-				`;
-				});
-			}
-
-			// Add an interest
-			function addInterest() {
-				const dropdown = document.getElementById("interestsDropdown");
-				const selectedInterest = dropdown.value;
-				if (
-					selectedInterest &&
-					!userProfile.interests.includes(selectedInterest)
-				) {
-					userProfile.interests.push(selectedInterest);
-					updateInterestsDisplay(userProfile.interests);
-				}
-			}
-
-			// Remove an interest
-			function removeInterest(interest) {
-				userProfile.interests = userProfile.interests.filter(
-					(i) => i !== interest
-				);
-				updateInterestsDisplay(userProfile.interests);
-			}
-
-			// Update displayed skills
-			function updateSkillsDisplay(skills) {
-				const skillsDisplay = document.getElementById("skillsDisplay");
-				skillsDisplay.innerHTML = "";
-				skills.forEach((skill) => {
-					skillsDisplay.innerHTML += `
-					<button class="button-container">
-						${skill}
-						<span class="removeButton" onclick="removeSkill('${skill}')">✖</span>
-					</button>
-				`;
-				});
-			}
-
-			// Add a skill
-			function addSkill() {
-				const dropdown = document.getElementById("skillsDropdown");
-				const selectedSkill = dropdown.value;
-				if (selectedSkill && !userProfile.skills.includes(selectedSkill)) {
-					userProfile.skills.push(selectedSkill);
-					updateSkillsDisplay(userProfile.skills);
-				}
-			}
-
-			// Remove a skill
-			function removeSkill(skill) {
-				userProfile.skills = userProfile.skills.filter((s) => s !== skill);
-				updateSkillsDisplay(userProfile.skills);
-			}
-
-			// Update available days display
-			function updateAvailableDaysDisplay(availableDays) {
-				const availableDaysDisplay = document.getElementById(
-					"availableDaysDisplay"
-				);
-				availableDaysDisplay.innerHTML = "";
-				availableDays.forEach((day) => {
-					availableDaysDisplay.innerHTML += `
-					<button class="button-container">
-						${day}
-						<span class="removeButton" onclick="removeAvailableDay('${day}')">✖</span>
-					</button>
-				`;
-				});
-			}
-
-			// Add an available day
-			function addAvailableDay() {
-				const dropdown = document.getElementById("daysDropdown");
-				const selectedDay = dropdown.value;
-
-				// Ensure availability exists as an array in userProfile
-				if (!userProfile.availability) {
-					userProfile.availability = [];
-				}
-
-				// Add selectedDay to availability if not already present
-				if (selectedDay && !userProfile.availability.includes(selectedDay)) {
-					userProfile.availability.push(selectedDay);
-					updateAvailableDaysDisplay(userProfile.availability);
-				}
-			}
-
-			// Remove an available day
-			function removeAvailableDay(day) {
-				userProfile.availability = userProfile.availability.filter(
-					(d) => d !== day
-				);
-				updateAvailableDaysDisplay(userProfile.availability);
-			}
-			// Populate dropdowns
-			function populateDropdowns() {
-				const interestsDropdown = document.getElementById("interestsDropdown");
-				interestsDropdown.innerHTML = ""; // Clear previous options
-				interestsList.forEach((interest) => {
-					const option = document.createElement("option");
-					option.value = interest;
-					option.textContent = interest;
-					interestsDropdown.appendChild(option);
-				});
-
-				const skillsDropdown = document.getElementById("skillsDropdown");
-				skillsDropdown.innerHTML = ""; // Clear previous options
-				skillsList.forEach((skill) => {
-					const option = document.createElement("option");
-					option.value = skill;
-					option.textContent = skill;
-					skillsDropdown.appendChild(option);
-				});
-
-				const daysDropdown = document.getElementById("daysDropdown");
-				daysDropdown.innerHTML = ""; // Clear previous options
-				daysOfWeek.forEach((day) => {
-					const option = document.createElement("option");
-					option.value = day;
-					option.textContent = day;
-					daysDropdown.appendChild(option);
-				});
-			}
-
-			// Submit the userProfile object to Firestore
-			async function submit() {
-				try {
-					// Ensure user is authenticated
-					if (auth.currentUser) {
-						const userId = auth.currentUser.uid;
-
-						userProfile.fullName = document.getElementById("nameInput").value;
-						userProfile.postalCode =
-							document.getElementById("postalCodeInput").value;
-
-						// Save or update the userProfile in Firestore with uid as the document ID
-						await db
-							.collection("UserQuestionnaire")
-							.doc(userId)
-							.set(userProfile);
-
-						console.log("User profile successfully submitted to Firestore.");
-					} else {
-						console.log("No authenticated user to submit profile for.");
-					}
-				} catch (error) {
-					console.error("Error submitting user profile:", error);
-				}
-			}
-		</script>
-	</body>
+                        if (!querySnapshot.empty) {
+                            this.userProfile = querySnapshot.docs[0].data();
+                            console.log("User profile loaded:", this.userProfile);
+                        } else {
+                            console.log("No profile found for this user.");
+                        }
+                    } catch (error) {
+                        console.error("Error loading user profile:", error);
+                    }
+                },
+                addInterest() {
+                    if (this.selectedInterest && !this.userProfile.interests.includes(this.selectedInterest)) {
+                        this.userProfile.interests.push(this.selectedInterest);
+                        this.selectedInterest = null;
+                    }
+                },
+                removeInterest(interest) {
+                    this.userProfile.interests = this.userProfile.interests.filter(i => i !== interest);
+                },
+                addSkill() {
+                    if (this.selectedSkill && !this.userProfile.skills.includes(this.selectedSkill)) {
+                        this.userProfile.skills.push(this.selectedSkill);
+                        this.selectedSkill = null;
+                    }
+                },
+                removeSkill(skill) {
+                    this.userProfile.skills = this.userProfile.skills.filter(s => s !== skill);
+                },
+                addAvailableDay() {
+                    if (this.selectedDay && !this.userProfile.availability.includes(this.selectedDay)) {
+                        this.userProfile.availability.push(this.selectedDay);
+                        this.selectedDay = null;
+                    }
+                },
+                removeAvailableDay(day) {
+                    this.userProfile.availability = this.userProfile.availability.filter(d => d !== day);
+                },
+                async submitProfile() {
+                    try {
+                        const user = firebase.auth().currentUser;
+                        if (user) {
+                            await db.collection("UserQuestionnaire").doc(user.uid).set(this.userProfile);
+                            console.log("Profile successfully submitted.");
+                        }
+                    } catch (error) {
+                        console.error("Error submitting profile:", error);
+                    }
+                },
+                goToProfile() {
+                    // Redirect or handle the profile button action
+                }
+            }
+        }).mount("#app");
+    </script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"
+    ></script>
+</body>
 </html>
