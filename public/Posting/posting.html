@@ -235,7 +235,7 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    days:["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                     interestsList: [
                         "Environmental", "Community Development", "Education", "Healthcare", "Animal Welfare",
                         "Disaster Relief", "Youth Services", "Senior Care", "Human Rights", "Sports Coaching",
@@ -260,6 +260,7 @@
                         mainurl: '',
                         isRecurring: false,
                         recurringDays: [],
+                        userId:'',
                         email:'',
                     },
                     imageFile: null,         // Temporarily store the selected image file
@@ -315,13 +316,18 @@
 
                         try {
                             // Generate a unique file name
-                            const uniqueFileName = `${Date.now()}_${this.imageFile.name}`;
-                            
-                            // Upload image to Firebase Storage
-                            const storageRef = firebase.storage().ref(`images/${uniqueFileName}`);
-                            const snapshot = await storageRef.put(this.imageFile);
+                            const user = firebase.auth().currentUser;
+                                if (user) {
+                                    this.newListing.userId = user.uid; // Store the UID in newListing
+                                }
+                                // Generate a unique file name by appending a timestamp to the original file name
+                                const uniqueFileName = `${Date.now()}_${this.imageFile.name}`;
 
-                            // Get the download URL
+                                // Upload the image to Firebase Storage
+                                const storageRef = firebase.storage().ref(`images/${uniqueFileName}`);
+                                const snapshot = await storageRef.put(this.imageFile);
+
+                                    // Get the download URL
                             this.newListing.imageUrl = await snapshot.ref.getDownloadURL();
 
                             // Set the days of week based on whether it's recurring or one-time
@@ -337,30 +343,30 @@
                             const documentId = docRef.id;
                             await docRef.update({ id: documentId });
 
-                            // Clear form data
-                            Object.keys(this.newListing).forEach((key) => {
-                                if (Array.isArray(this.newListing[key])) {
-                                    this.newListing[key] = [];
-                                } else if (typeof this.newListing[key] === 'boolean') {
-                                    this.newListing[key] = false;
-                                } else if (key !== 'imageUrl') {
-                                    this.newListing[key] = '';
-                                }
-                            });
+                        // Clear form data after submission
+                        Object.keys(this.newListing).forEach((key) => {
+                            if (key !== 'imageUrl' && key !== "skills" && key != "category") this.newListing[key] = '';
+                        });
 
-                            // Reset file-related fields
-                            this.imageFile = null;
-                            this.imagePreviewUrl = '';
-                            this.$refs.fileInput.value = '';
-                            this.uploadText = 'Choose a file';
-                            this.noImage = false;
+                        // Reset file-related fields
+                        this.newListing.skills = [];
+                        this.newListing.category = [];
+                        this.imageFile = null;
+                        this.imagePreviewUrl = '';
+                        this.$refs.fileInput.value = ''; // Clear file input element
+                        this.uploadText = 'Choose a file';
+                        this.noImage = false; // Reset the noImage flag after a successful upload
+                        // Scroll to the top of the page to show the success message
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        // Set successMessage to true to show the success bar
+                        this.successMessage = true;
 
                             // Show success message
                             window.scrollTo({ top: 0, behavior: 'smooth' });
                             this.successMessage = true;
 
                             // Hide success message after 3 seconds
-                            setTimeout(() => {
+                        setTimeout(() => {
                                 this.successMessage = false;
                             }, 3000);
                         } catch (error) {
