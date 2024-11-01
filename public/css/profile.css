@@ -312,3 +312,11 @@ h3::after {
         width: calc(100% - 20px);  /* Full width with padding */
     }
 }
+
+.profile{
+    width: 50%;
+    margin: auto;
+    
+}
+
+

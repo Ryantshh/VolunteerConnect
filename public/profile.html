@@ -45,7 +45,7 @@
         <!-- User Profile Form -->
         <div v-if="loading">Loading...</div>
         
-        <div v-else>
+        <div v-else class="profile">
             <h1>User Profile</h1>
 
             <!-- Name Input -->
@@ -139,7 +139,7 @@
 
 
             <!-- Submit Button -->
-            <button @click="submitProfile" class="btn btn-success mt-4">Submit Profile</button>
+            <button @click="submitProfile" class="btn btn-success mt-4 mx-auto">Submit Profile</button>
         </div>
     </div>
 
