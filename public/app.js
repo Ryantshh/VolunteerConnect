@@ -150,7 +150,7 @@ googleSignInButton.addEventListener('click', () => {
         })
         .catch((error) => {
             console.error("Error signing in with Google:", error.message);
-            showErrorPopup("Error signing in with Google: " + error.message); // Show error in popup
+            showErrorPopup("Error signing in with Google "); // Show error in popup
         });
 });
 
