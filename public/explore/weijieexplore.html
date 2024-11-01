@@ -110,7 +110,8 @@
                       <p class="card-text description-text">{{ card.description }}</p>
                       <p class="card-text info-text"><strong>Location:</strong> {{ card.location }}</p>
                       <p class="card-text  info-text"><strong>Skills:</strong> {{ Array.isArray(card.skills) ? card.skills.join(', ') : card.skills || "No skills listed" }}</p>
-                      <p class="card-text info-text"><strong>Days Required:</strong> {{ Array.isArray(card.daysOfWeek) ? card.daysOfWeek.join(', ') : card.daysOfWeek || "No skills listed" }}</p>
+                      <p v-if="card.isRecurring" class="card-text"><strong>Weekly: </strong> {{ Array.isArray(card.recurringDays) ? card.recurringDays.join(', ') : selectedCard.recurringDays || "No days listed" }}</p>
+                      <p v-else class="card-text"><strong>Date: </strong>{{card.date}}</p>
                   </div>
                   <div class="card-footer text-center">
                     <a :href="card.mainurl" target="_blank" class="btn btn-primary">View Website</a>
@@ -138,12 +139,15 @@
             
             <div class="card-body">
                 <p class="card-text">{{ selectedCard.description }}</p>
-                <p class="card-text"><strong>Location:</strong> {{ selectedCard.location }}</p>          
-                <p class="card-text"><strong>Skills:</strong> {{ Array.isArray(selectedCard.skills) ? selectedCard.skills.join(', ') : selectedCard.skills || "No skills listed" }}</p>
-                <p class="card-text"><strong>Days Required:</strong> {{ Array.isArray(selectedCard.daysOfWeek) ? selectedCard.daysOfWeek.join(', ') : selectedCard.daysOfWeek || "No days listed" }}</p>
+                <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>          
+                <p class="card-text"><strong>Skills Needed:</strong> {{ Array.isArray(selectedCard.skills) ? selectedCard.skills.join(', ') : selectedCard.skills || "No skills listed" }}</p>
+                <p v-if="selectedCard.isRecurring" class="card-text"><strong>Weekly Commitment:</strong> {{ Array.isArray(selectedCard.recurringDays) ? selectedCard.recurringDays.join(', ') : selectedCard.recurringDays || "No days listed" }}</p>
+                <p v-else class="card-text"><strong>Date: </strong>{{selectedCard.date}}</p>
+                <p class="card-text"><strong>Time:</strong> {{ selectedCard.startTime }} - {{ selectedCard.endTime}}</p>          
             </div>
             
             <div class="card-footer text-center">
+                <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
                 <a :href="selectedCard.mainurl" target="_blank" class="btn btn-primary">View Website</a>
             </div>
         </div>
@@ -199,9 +203,10 @@
                           <h5 class="card-title">{{ listing.title }}</h5>
                           <p class="card-text description-text">{{ listing.description }}</p>
                           <p class="card-text info-text"><strong>Location:</strong> {{ listing.location }}</p>
-                          <p class="card-text info-text"><strong>Skills:</strong> {{ Array.isArray(listing.skills) ? listing.skills.join(', ') : listing.skills || "No skills listed" }}</p>
-                          <p class="card-text info-text"><strong>Days Required:</strong> {{ Array.isArray(listing.daysOfWeek) ? listing.daysOfWeek.join(', ') : listing.daysOfWeek || "No skills listed" }}</p>
-                      </div>
+                          <p class="card-text info-text"><strong>Skills Needed:</strong> {{ Array.isArray(listing.skills) ? listing.skills.join(', ') : listing.skills || "No skills listed" }}</p>
+                          <p v-if="listing.isRecurring" class="card-text"><strong>Weekly:</strong> {{ Array.isArray(listing.recurringDays) ? listing.recurringDays.join(', ') : listing.recurringDays || "No days listed" }}</p>
+                          <p v-else class="card-text"><strong>Date: </strong>{{listing.date}}</p>                      
+                        </div>
                       <div class="card-footer text-center">
                           <a :href="listing.mainurl" 
                              target="_blank" 
@@ -344,7 +349,13 @@
                         skills: skills,
                         category: data.category || ['None'],
                         daysOfWeek: data.daysOfWeek || ['None'],
-                        mainurl: data.mainurl 
+                        mainurl: data.mainurl ,
+                        email:data.email || ['None'],
+                        isRecurring:data.isRecurring,
+                        recurringDays:data.recurringDays,
+                        date:data.date,
+                        startTime:data.startTime,
+                        endTime:data.endTime,
                     });
                 });
 
