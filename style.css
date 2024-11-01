@@ -10,20 +10,17 @@
     border-bottom: 2px solid rgba(255, 0, 0, 0.3);
 }
 
-/* Adjust navbar-nav width for responsive design */
 .navbar-nav {
-    width: 50%; /* Changed from 50% to auto */
+    width: 50%;
     justify-content: space-around;
 }
 
-/* Navbar brand/logo */
 .navbar-brand img {
     border-radius: 50%;
     width: 60px;
     height: 50px;
 }
 
-/* Hamburger menu styles */
 .navbar-toggler {
     border: none;
     padding: 0.5rem;
@@ -67,7 +64,6 @@
     width: 100%;
 }
 
-/* Active link styles */
 #active {
     color: #ff0000 !important;
     font-weight: bold;
@@ -78,7 +74,7 @@
     background-color: #ff0000;
 }
 
-/* Sign in button styles */
+/* Sign in button */
 #signin {
     position: relative;
     overflow: hidden;
@@ -111,6 +107,181 @@
     height: 300px;
 }
 
+/* App styles */
+#app {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-image: url('./volunteerbackground.jpg');
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+}
+
+/* Header styles */
+.header {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: linear-gradient(90deg, #FF8A00, #E52E71);
+    color: black;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.no_request {
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    background: linear-gradient(90deg, #FF8A00, #E52E71);
+    color: black;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Card styles */
+.card {
+    position: relative;
+    border: none;
+    background: white;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 0, 0, 0.1));
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-20px);
+    box-shadow: 
+        0 20px 40px rgba(255, 0, 0, 0.15),
+        0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.card:hover::before {
+    opacity: 1;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    transform: scale(1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.08);
+}
+
+/* Updated card body and text styles */
+.card-body {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0.75rem;
+}
+
+.card-title {
+    color: #333;
+    transition: color 0.3s ease;
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.card:hover .card-title {
+    color: #ff0000;
+}
+
+.card-text {
+    color: #666;
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+}
+
+.card-footer {
+    background: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 0.75rem;
+    margin-top: auto;
+}
+
+/* Button styles */
+.btn-primary {
+    background-color: #ff0000;
+    border: none;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+    z-index: -1;
+}
+
+.btn-primary:hover {
+    background-color: #e60000;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
+}
+
+.btn-primary:hover::before {
+    left: 100%;
+}
+
+/* Row spacing */
+.row {
+    margin-bottom: 2rem;
+}
+
+.col-md-3 {
+    padding: 15px;
+}
+
 /* Responsive styles */
 @media (max-width: 991.98px) {
     .navbar-nav {
@@ -139,456 +310,19 @@
     }
 }
 
-/* Navbar styles end */
-
-
-   /* CSS for #app with parallax scroll effect */
-#app {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    background-image: url('./volunteerbackground.jpg'); /* Background image */
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
-    padding: 20px; /* Adjust padding as needed */
-}
-
-/* Additional styling to fit your layout */
 @media (max-width: 768px) {
     #app {
         background-size: cover;
+    }
+    
+    .header {
+        font-size: 1.5rem;
+        padding: 0.4rem;
     }
 }
 
 @media (max-width: 576px) {
     #app {
         background-size: cover;
-    }
-}
-
-
-/* Styling for headers */
-.header {
-    font-family: 'Poppins', sans-serif; /* Clean, modern font */
-    font-weight: bold;
-    font-size: 2rem; /* Adjust size as needed */
-    text-align: center;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    background: linear-gradient(90deg, #FF8A00, #E52E71);
-    color: black;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-  }
-
-  .no_request{
-
-    font-family: 'Poppins', sans-serif; /* Clean, modern font */
-    font-weight: bold;
-    font-size: 2rem; /* Adjust size as needed */
-    text-align: center;
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    padding: 0.5rem;
-    background: linear-gradient(90deg, #FF8A00, #E52E71);
-    color: black;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-
-  }
-  
-  /* Add subtle animation */
-  .header:hover {
-    transform: scale(1.05); /* Slight grow effect */
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  /* Smaller screen adjustments */
-  @media (max-width: 768px) {
-    .header {
-      font-size: 1.5rem;
-      padding: 0.4rem;
-    }
-  }
-  
-
-  
-
-
-/* Card Styles */
-.card {
-    position: relative;
-    border: none;
-    background: white;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    height: 100%;
-    width: 500px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Ensure image doesn't overflow on hover */
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, transparent, rgba(255, 0, 0, 0.1));
-    opacity: 0;
-    transition: all 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-20px); /* Increased from -15px */
-    box-shadow: 
-        0 20px 40px rgba(255, 0, 0, 0.15),
-        0 8px 16px rgba(0, 0, 0, 0.15);
-}
-
-.card:hover::before {
-    opacity: 1;
-}
-
-/* Uniform image sizing with enhanced hover effect */
-.card-img-top {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    transform: scale(1);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Match card transition */
-}
-
-.card:hover .card-img-top {
-    transform: scale(1.08); /* Slightly increased from 1.05 */
-}
-
-.card-body {
-    position: relative;
-    z-index: 1;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.card-title {
-    color: #333;
-    transition: color 0.3s ease;
-    margin-bottom: 1rem;
-}
-
-.card:hover .card-title {
-    color: #ff0000;
-}
-
-/* Updated card text to show 4 lines */
-.card-text {
-    flex-grow: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    line-height: 1.5;
-    height: 6em;
-    margin-bottom: 1rem;
-    color: #666;
-}
-
-/* Add specific styling for location text */
-.card-text:first-of-type {
-    margin-bottom: 0.5rem; /* Reduce space after location */
-    height: auto; /* Allow location to take natural height */
-    -webkit-line-clamp: initial; /* Don't limit lines for location */
-}
-
-/* Style specifically for description */
-.card-text.description {
-    margin-top: 0.5rem; /* Reduce space before description */
-}
-
-.card-footer {
-    background: none;
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 1rem;
-    margin-top: auto;
-}
-
-
-
-.btn-primary {
-    background-color: #ff0000;
-    border: none;
-    overflow: hidden;
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s ease;
-    width: 100%;
-}
-
-.btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s ease;
-    z-index: -1;
-}
-
-.btn-primary:hover {
-    background-color: #e60000;
-    transform: translateY(-3px); /* Slightly more pronounced */
-    box-shadow: 0 8px 20px rgba(255, 0, 0, 0.4);
-}
-
-.btn-primary:hover::before {
-    left: 100%;
-}
-
-
-
-/* @media (max-width: 576px) {
-    .container {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .card {
-      width: 90%; 
-    }
-} */
-
-
-/* Row and column spacing */
-.row {
-    margin-bottom: 2rem;
-}
-
-.col-md-3 {
-    padding: 15px;
-}
-
-/* Loading Animation */
-@keyframes shimmer {
-    0% {
-        background-position: -1000px 0;
-    }
-    100% {
-        background-position: 1000px 0;
-    }
-}
-
-.loading-placeholder {
-    background: linear-gradient(90deg, #f0f0f0 25%, #ffe5e5 50%, #f0f0f0 75%);
-    background-size: 1000px 100%;
-    animation: shimmer 2s infinite linear;
-}
-
-/* Font Style for h5 */
-h5.card-title {
-    font-family: 'Poppins', sans-serif; /* Choose a cool, modern font */
-    font-size: 1.25rem;
-    font-weight: bold;
-    color: #2c3e50; /* Dark slate color for contrast */
-    transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for color and movement */
-    letter-spacing: 1px; /* Slight spacing between letters for a modern look */
-}
-
-
-/* Category heading */
-#cat {
-    text-align: center;
-    font-size: 2rem;
-    color: #2c3e50;
-    margin: 2rem 0;
-    font-weight: 600;
-    position: relative;
-    padding-bottom: 0.5rem;
-}
-
-#cat::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 3px;
-    background: linear-gradient(to right, #c72222, #f5b20a);
-}
-
-/* Category buttons container */
-#cat + button {
-    margin-top: 1rem;
-}
-
-/* Category buttons */
-#body2 button{
-    padding: 0.6rem 1.2rem;
-    margin: 0.5rem;
-    border: 2px solid #ff6600;
-    border-radius: 25px;
-    background-color: white;
-    color: #2c3e50;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-#body2 button:hover {
-    background-color: coral;
-    border-color: #ff6600;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
-}
-
-#body2 button:active {
-    transform: translateY(0);
-}
-
-/* Search section */
-h6 {
-    text-align: center;
-    font-size: 1.5rem;
-    color: #2c3e50;
-    margin: 1.5rem 0 1rem;
-    font-weight: 600;
-}
-
-/* Search input */
-input[type="text"] {
-    display: block;
-    width: 80%;
-    max-width: 600px;
-    margin: 1rem auto 2rem;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    color: #2c3e50;
-    background-color: white;
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-input[type="text"]:focus {
-    outline: none;
-    border-color: #ed290a;
-    box-shadow: 0 0 0 3px rgba(255, 115, 0, 0.2);
-}
-
-input[type="text"]::placeholder {
-    color: #ff6600;
-}
-
-/* For better mobile display */
-@media (max-width: 768px) {
-    button:not(.navbar-toggler, #signin, .btn-primary) {
-        padding: 0.5rem 1rem;
-        font-size: 0.9rem;
-    }
-    
-    input[type="text"] {
-        width: 90%;
-    }
-}
-
-/* .search-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.search-container input {
-    margin: 0;  
-    width: 100%;
-}
-
-.search-container button {
-    margin: 0;  
-    white-space: nowrap;
-} */
-
-/* Current option styles */
-.current-option {
-    margin: 2rem auto;
-    padding: 1rem;
-    text-align: center;
-}
-
-.option-text {
-    position: relative;
-    display: inline-block;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2c3e50;
-    padding: 0.5rem 2rem;
-    background: linear-gradient(45deg, #fff3e6, #ffe6e6);
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(255, 102, 0, 0.1);
-    animation: pulse 2s infinite;
-}
-
-.option-text::before {
-    content: '✦';
-    position: absolute;
-    left: -5px;
-    color: coral;
-    font-size: 1.2rem;
-}
-
-.option-text::after {
-    content: '✦';
-    position: absolute;
-    right: -5px;
-    color: coral;
-    font-size: 1.2rem;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 4px 15px rgba(255, 102, 0, 0.1);
-    }
-    50% {
-        transform: scale(1.02);
-        box-shadow: 0 8px 20px rgba(255, 102, 0, 0.2);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: 0 4px 15px rgba(255, 102, 0, 0.1);
-    }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .search-container {
-        flex-direction: column;
-        padding: 0 15px;
-    }
-    
-    .search-container input,
-    .search-container button {
-        width: 100%;
-    }
-    
-    .option-text {
-        font-size: 1.2rem;
-        padding: 0.4rem 1.5rem;
     }
 }

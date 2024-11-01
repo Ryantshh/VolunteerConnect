@@ -41,7 +41,7 @@
             <a class="nav-link" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="active" href="#">Explore</a>
+            <a class="nav-link" href="#">Explore</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Calendar</a>
@@ -50,7 +50,7 @@
             <a class="nav-link" href="#">Donate</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">For You</a>
+            <a class="nav-link"id="active" href="#">Approve Requests</a>
           </li>
         </ul>
       </div>
@@ -86,10 +86,27 @@
                   <strong>Skills:</strong>
                   {{ Array.isArray(listing.skills) ? listing.skills.join(', ') : listing.skills || "No skills listed" }}
                 </p>
-                <p class="card-text">
+                <p class="card-text" v-if="listing.isRecurring">
                   <strong>Days Required:</strong>
-                  {{ Array.isArray(listing.daysOfWeek) && listing.daysOfWeek.length ? listing.daysOfWeek.join(', ') :
-                  "No days listed" }}
+                  {{ Array.isArray(listing.recurringDays) ? listing.recurringDays.join(', ') : listing.recurringDays || "No days listed" }}
+                </p>
+                <p class="card-text" v-else>
+                  <strong>Date:</strong>
+                  {{listing.date}}
+                </p>
+
+                <p class="card-text">
+                  <strong>Email:</strong>
+                  {{listing.email}}
+                </p>
+                <p class="card-text">
+                  <strong>Website:</strong>
+                  {{listing.mainurl}}
+                </p>
+
+                <p class="card-text">
+                  <strong>Time:</strong>
+                  {{listing.startTime}}-{{listing.endTime}}
                 </p>
 
               </div>
@@ -190,8 +207,6 @@
 
     // Mount the Vue instance to the #app element
     const vm = app.mount('#app');
-
-
 
 
 
