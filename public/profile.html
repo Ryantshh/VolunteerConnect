@@ -70,12 +70,12 @@
 			<div v-else class="profile">
 				<h1>User Profile</h1>
 
-				<button @click="isEditing = !isEditing" class="btn btn-primary mb-4">
-					{{ isEditing ? 'Save Changes' : 'Edit Profile' }}
+				<button v-if="! isEditing" @click="isEditing = !isEditing" class="btn btn-primary mb-4">
+				Edit Profile
 				</button>
 
 				<div class="mb-3 text-center">
-					<label for="name" class="form-label">Name:</label>
+					<label for="name" class="form-label"><h3>Name:</h3></label>
 					<div>
 						<span v-if="!isEditing">{{ userProfile.fullName }}</span>
 						<input
@@ -90,7 +90,7 @@
 				</div>
 
 				<div class="mb-3 text-center">
-					<label for="postalCode" class="form-label">Postal Code:</label>
+					<label for="postalCode" class="form-label"><h3>Postal Code:</h3></label>
 					<div>
 						<span v-if="!isEditing">{{ userProfile.postalCode }}</span>
 						<input
@@ -434,6 +434,8 @@
 									.doc(user.uid)
 									.set(this.userProfile);
 							}
+                            window.location.href = "profile.html";
+
 						} catch (error) {
 							console.error("Error submitting profile:", error);
 						}

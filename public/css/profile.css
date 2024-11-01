@@ -238,16 +238,7 @@ h3 {
     padding-bottom: 5px;
 }
 
-h3::after {
-    content: '';
-    display: block;
-    width: 40px;
-    height: 2px;
-    background-color: #ff4444;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}
+
 
 /* Responsive Styling */
 @media (max-width: 768px) {
