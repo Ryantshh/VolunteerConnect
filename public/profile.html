@@ -18,10 +18,11 @@
 <body>
     <div id="app">
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
             <div class="container-fluid">
                 <a class="navbar-brand" href="#">
-                    <img src="images/Volunteer.png" alt="logo" />
+                    <img src="images/Volunteer.png" alt="logo" class="me-2" style="width: 40px;" />
+                    Volunteer Platform
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +37,7 @@
                     </ul>
                 </div>
                 <div class="d-flex">
-                    <button id="signin" class="btn" @click="goToProfile">My Profile</button>
+                    <button id="signin" class="btn btn-primary" @click="goToProfile">My Profile</button>
                 </div>
             </div>
         </nav>
@@ -48,99 +49,97 @@
             <h1>User Profile</h1>
 
             <!-- Name Input -->
-            <div class="field">
-                <label for="name">Name:</label>
-                <input type="text" v-model="userProfile.fullName" class="editInput" />
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <input type="text" v-model="userProfile.fullName" class="form-control" id="name" />
             </div>
 
             <!-- Postal Code Input -->
-            <div class="field">
-                <label for="postalCode">Postal Code:</label>
-                <input type="text" v-model="userProfile.postalCode" class="editInput" />
+            <div class="mb-3">
+                <label for="postalCode" class="form-label">Postal Code:</label>
+                <input type="text" v-model="userProfile.postalCode" class="form-control" id="postalCode" />
             </div>
 
-            <!-- Interests -->
-            <div>
+            <div class="mb-4">
                 <h3>Interests</h3>
-                <div id="interestsDisplay">
-                    <button v-for="interest in userProfile.interests" :key="interest" class="button-container">
+                <div id="interestsDisplay" class="mb-3">
+                    <button v-for="interest in userProfile.interests" :key="interest" class="btn btn-outline-primary btn-sm me-2 mb-2">
                         {{ interest }}
                         <span class="removeButton" @click="removeInterest(interest)">✖</span>
                     </button>
                 </div>
-                <select v-model="selectedInterest" class="form-select">
-                    <option v-for="interest in interestsList" :key="interest" :value="interest">{{ interest }}</option>
-                </select>
-                <button @click="addInterest">Add Interest</button>
+                <div class="input-group mb-3">
+                    <select v-model="selectedInterest" class="form-select" aria-label="Select an interest">
+                        <option v-for="interest in interestsList" :key="interest" :value="interest">{{ interest }}</option>
+                    </select>
+                    <button @click="addInterest" class="btn btn-primary">Add Interest</button>
+                </div>
             </div>
-
-            <!-- Skills -->
-            <div>
+            
+            <div class="mb-4">
                 <h3>Skills</h3>
-                <div id="skillsDisplay">
-                    <button v-for="skill in userProfile.skills" :key="skill" class="button-container">
+                <div id="skillsDisplay" class="mb-3">
+                    <button v-for="skill in userProfile.skills" :key="skill" class="btn btn-outline-secondary btn-sm me-2 mb-2">
                         {{ skill }}
                         <span class="removeButton" @click="removeSkill(skill)">✖</span>
                     </button>
                 </div>
-                <select v-model="selectedSkill" class="form-select">
-                    <option v-for="skill in skillsList" :key="skill" :value="skill">{{ skill }}</option>
-                </select>
-                <button @click="addSkill">Add Skill</button>
+                <div class="input-group mb-3">
+                    <select v-model="selectedSkill" class="form-select" aria-label="Select a skill">
+                        <option v-for="skill in skillsList" :key="skill" :value="skill">{{ skill }}</option>
+                    </select>
+                    <button @click="addSkill" class="btn btn-secondary">Add Skill</button>
+                </div>
             </div>
-
-            <!-- Available Days -->
-            <div>
+            
+            <div class="mb-4">
                 <h3>Available Days</h3>
-                <div id="availableDaysDisplay">
-                    <button v-for="day in userProfile.availability" :key="day" class="button-container">
+                <div id="availableDaysDisplay" class="mb-3">
+                    <button v-for="day in userProfile.availability" :key="day" class="btn btn-outline-info btn-sm me-2 mb-2">
                         {{ day }}
                         <span class="removeButton" @click="removeAvailableDay(day)">✖</span>
                     </button>
                 </div>
-                <select v-model="selectedDay" class="form-select">
-                    <option v-for="day in daysOfWeek" :key="day" :value="day">{{ day }}</option>
-                </select>
-                <button @click="addAvailableDay">Add Day</button>
+                <div class="input-group mb-3">
+                    <select v-model="selectedDay" class="form-select" aria-label="Select a day">
+                        <option v-for="day in daysOfWeek" :key="day" :value="day">{{ day }}</option>
+                    </select>
+                    <button @click="addAvailableDay" class="btn btn-info">Add Day</button>
+                </div>
             </div>
+            
 
-            <!-- User Posting -->
-            <div v-if="userPosting!=[]">
+            <!-- User Posting Section -->
+            <div v-if="userPosting.length" class="mb-5">
                 <h3>Your Events</h3>
-                <br>
-                <div class="d-flex d-sm-block justify-content-center">
+                <div class="d-flex flex-wrap">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-                        <div v-for="(listing, index) in userPosting" :key="index" class="col">
-                            <div class="card m-2" style="width: 100%;">
-                                <img :src="listing.imageUrl" class="card-img-top" alt="Listing image">
+                        <div v-for="(listing, index) in userPosting" :key="index"
+                            class="col-12 col-sm-6 col-md-4 col-lg-3">
+                            <div class="card m-2" style="width: 100%; min-width: 250px; max-width: 100%;">
+                                <img :src="listing.imageUrl" class="card-img-top" alt="Listing image"
+                                    style="height: 180px; object-fit: cover;">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ listing.title }}</h5>
                                     <p class="card-text">{{ listing.description }}</p>
                                     <p class="card-text"><strong>Location:</strong> {{ listing.location }}</p>
-                                    <p class="card-text">
-                                        <strong>Skills:</strong>
-                                        {{ Array.isArray(listing.skills) ? listing.skills.join(', ') : listing.skills
-                                        ||"No skills listed" }}
-                                    </p>
-                                    <p class="card-text">
-                                        <strong>Days Required:</strong>
-                                        {{ Array.isArray(listing.daysOfWeek) && listing.daysOfWeek.length ?
-                                        listing.daysOfWeek.join(', ') : "No days listed" }}
-                                    </p>
+                                    <p class="card-text"><strong>Skills:</strong> {{ listing.skills?.join(', ') || "No skills listed" }}</p>
+                                    <p class="card-text"><strong>Days Required:</strong> {{
+                                        listing.daysOfWeek?.join(',') || "No days listed" }}</p>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <button @click="removeListing(index, listing.id)"
-                                        class="btn btn-primary my-2">Delete
+                                    <button @click="removeListing(index, listing.id)" class="btn btn-danger">Delete
                                         Post</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
+
+
             <!-- Submit Button -->
-            <button @click="submitProfile" style="margin-top: 40px">Submit</button>
+            <button @click="submitProfile" class="btn btn-success mt-4">Submit Profile</button>
         </div>
     </div>
 
@@ -173,66 +172,43 @@
                     selectedInterest: null,
                     selectedSkill: null,
                     selectedDay: null,
-                    loading: true, // Loading state to manage authentication status
-                    userPosting: [], // Stores the listings for the logged-in user
+                    loading: true,
+                    userPosting: [],
                 };
             },
             created() {
-                // Use onAuthStateChanged to check if a user is authenticated
                 firebase.auth().onAuthStateChanged((user) => {
                     if (user) {
-                        // Only call getUserProfile if the user is authenticated
                         this.getUserProfile(user.uid);
-                        // User is authenticated, fetch the listings
                         this.fetchUserPostings(user.uid);
                     } else {
-                        console.log("No user is logged in. Redirecting to root...");
-                        window.location.href = "/"; // Redirect if not logged in
+                        window.location.href = "/";
                     }
-                    this.loading = false; // Set loading to false once the authentication state is resolved
+                    this.loading = false;
                 });
             },
             methods: {
                 async fetchUserPostings(uid) {
                     try {
-                        const querySnapshot = await db
-                            .collection("listings")
-                            .where("userId", "==", uid)
-                            .get();
-
-                        // Map the documents to include document IDs for each listing
-                        this.userPosting = querySnapshot.docs.map(doc => ({
-                            id: doc.id,
-                            ...doc.data()
-                        }));
-                        console.log("User postings loaded:", this.userPosting);
+                        const querySnapshot = await db.collection("listings").where("userId", "==", uid).get();
+                        this.userPosting = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     } catch (error) {
                         console.error("Error fetching user postings:", error);
                     }
                 },
                 async removeListing(index, listingId) {
                     try {
-                        // Remove the listing from Firestore
                         await db.collection("listings").doc(listingId).delete();
-                        // Remove the listing from the local array to update the UI
                         this.userPosting.splice(index, 1);
-                        console.log("Listing deleted:", listingId);
                     } catch (error) {
                         console.error("Error deleting listing:", error);
                     }
                 },
                 async getUserProfile(uid) {
                     try {
-                        const querySnapshot = await db.collection("UserQuestionnaire")
-                            .where("uid", "==", uid)
-                            .limit(1)
-                            .get();
-
+                        const querySnapshot = await db.collection("UserQuestionnaire").where("uid", "==", uid).limit(1).get();
                         if (!querySnapshot.empty) {
                             this.userProfile = querySnapshot.docs[0].data();
-                            console.log("User profile loaded:", this.userProfile);
-                        } else {
-                            console.log("No profile found for this user.");
                         }
                     } catch (error) {
                         console.error("Error loading user profile:", error);
@@ -270,14 +246,13 @@
                         const user = firebase.auth().currentUser;
                         if (user) {
                             await db.collection("UserQuestionnaire").doc(user.uid).set(this.userProfile);
-                            console.log("Profile successfully submitted.");
                         }
                     } catch (error) {
                         console.error("Error submitting profile:", error);
                     }
                 },
                 goToProfile() {
-                    // Redirect or handle the profile button action
+                    console.log("Profile button clicked");
                 }
             }
         }).mount("#app");
