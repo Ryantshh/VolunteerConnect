@@ -180,7 +180,7 @@
         const app = Vue.createApp({
             data() {
                 return {
-                    days:["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                     interestsList: [
                         "Environmental", "Community Development", "Education", "Healthcare", "Animal Welfare",
                         "Disaster Relief", "Youth Services", "Senior Care", "Human Rights", "Sports Coaching",
@@ -204,7 +204,8 @@
                         imageUrl: '', // File input for image upload
                         mainurl: '',
                         isRecurring: false,
-                        recurringDays: []
+                        recurringDays: [],
+                        userId:''
                     },
                     imageFile: null,         // Temporarily store the selected image file
                     imagePreviewUrl: '',     // Store the preview URL for the image file
@@ -252,9 +253,15 @@
                     }
 
                     try {
+                        //Get uid of logged in user
+                        // Get the UID of the currently logged-in user
+                        const user = firebase.auth().currentUser;
+                        if (user) {
+                            this.newListing.userId = user.uid; // Store the UID in newListing
+                        }
                         // Generate a unique file name by appending a timestamp to the original file name
                         const uniqueFileName = `${Date.now()}_${this.imageFile.name}`;
-                        
+
                         // Upload the image to Firebase Storage
                         const storageRef = firebase.storage().ref(`images/${uniqueFileName}`);
                         const snapshot = await storageRef.put(this.imageFile);
@@ -278,12 +285,12 @@
 
                         // Clear form data after submission
                         Object.keys(this.newListing).forEach((key) => {
-                            if (key !== 'imageUrl' && key!=="skills" && key!="category") this.newListing[key] = '';
+                            if (key !== 'imageUrl' && key !== "skills" && key != "category") this.newListing[key] = '';
                         });
 
                         // Reset file-related fields
-                        this.newListing.skills=[];
-                        this.newListing.category=[];
+                        this.newListing.skills = [];
+                        this.newListing.category = [];
                         this.imageFile = null;
                         this.imagePreviewUrl = '';
                         this.$refs.fileInput.value = ''; // Clear file input element
