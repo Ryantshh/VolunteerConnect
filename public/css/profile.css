@@ -1,4 +1,11 @@
-/* Preserve original navbar styles */
+/* Root Variables */
+:root {
+    --primary-red: #ff4444;
+    --primary-dark: #cc0000;
+    --white: #ffffff;
+}
+
+/* Navbar Styles */
 .container-fluid {
     padding-left: 0;
     padding-right: 0;
@@ -9,8 +16,8 @@
     background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 245, 245, 0.95));
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    padding: 0 15px;  /* Simplified padding */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Added shadow */
+    padding: 0 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navbar:hover {
@@ -96,13 +103,7 @@
     transform: translateY(-2px);
 }
 
-:root {
-    --primary-red: #ff4444;
-    --primary-dark: #cc0000;
-    --white: #ffffff;
-}
-
-/* New enhanced styles for the rest of the UI */
+/* Main Container Styles */
 .container {
     max-width: 800px;
     width: 50%;
@@ -125,7 +126,7 @@
     }
 }
 
-/* Field styles with animations */
+/* Field Styles with Hover Effects */
 .field {
     margin-bottom: 25px;
     padding: 15px;
@@ -138,25 +139,8 @@
     background-color: rgba(255, 68, 68, 0.05);
 }
 
-/* Enhanced input styles */
-input[type="text"] {
-    padding: 12px 16px;
-    border: 2px solid #eee;
-    border-radius: 8px;
-    font-size: 14px;
-    width: 200px;
-    transition: all 0.3s ease;
-    background: white;
-}
-
-input[type="text"]:focus {
-    outline: none;
-    border-color: #ff4444;
-    box-shadow: 0 0 0 3px rgba(255, 68, 68, 0.1);
-    transform: translateY(-1px);
-}
-
-/* Enhanced select styles */
+/* Input Styles */
+input[type="text"],
 select {
     padding: 12px 16px;
     border: 2px solid #eee;
@@ -165,15 +149,10 @@ select {
     font-size: 14px;
     width: 200px;
     transition: all 0.3s ease;
-    cursor: pointer;
     background: white;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23ff4444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 16px;
 }
 
+input[type="text"]:focus,
 select:focus {
     outline: none;
     border-color: #ff4444;
@@ -181,7 +160,7 @@ select:focus {
     transform: translateY(-1px);
 }
 
-/* Action buttons (not navbar buttons) */
+/* Action Buttons Styles */
 button:not(#signin):not(.navbar-toggler) {
     background: linear-gradient(45deg, #ff0066, #ff4444);
     color: white;
@@ -217,7 +196,7 @@ button:not(#signin):not(.navbar-toggler):hover::after {
     left: 100%;
 }
 
-/* Tag buttons */
+/* Tag Button Styles */
 .button-container {
     display: inline-flex;
     align-items: center;
@@ -230,17 +209,6 @@ button:not(#signin):not(.navbar-toggler):hover::after {
     font-size: 14px;
     transition: all 0.3s ease;
     animation: buttonPop 0.3s ease-out;
-}
-
-@keyframes buttonPop {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
 }
 
 .button-container:hover {
@@ -261,7 +229,7 @@ button:not(#signin):not(.navbar-toggler):hover::after {
     color: white;
 }
 
-/* Section headers */
+/* Section Header Styles */
 h3 {
     color: #333;
     margin: 25px 0 20px;
@@ -281,7 +249,7 @@ h3::after {
     left: 0;
 }
 
-/* Responsive styling */
+/* Responsive Styling */
 @media (max-width: 768px) {
     .container {
         width: 90%;  /* Ensure it takes more space on smaller screens */
@@ -313,10 +281,52 @@ h3::after {
     }
 }
 
-.profile{
-    width: 50%;
-    margin: auto;
-    
+
+
+/* Button Hover Effects */
+#addTag:hover,
+#removeTag:hover {
+    background-color: #ff0066;
 }
 
+/* Profile Section Styles */
+.profile {
+    width: 50%;
+    margin: 20px auto; /* Center align and add margin for spacing */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    animation: containerFadeIn 0.6s ease-out;
+    text-align: center; /* Center the text */
+}
+
+/* Centering the submit button */
+.button-container {
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center items horizontally */
+    margin-top: 20px; /* Add some margin above the button */
+}
+
+/* Style for the submit button */
+button#submit {
+    background: linear-gradient(45deg, #ff0066, #ff4444);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(255, 0, 102, 0.2);
+}
+
+/* Button hover effects */
+button#submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 0, 102, 0.3);
+}
 
