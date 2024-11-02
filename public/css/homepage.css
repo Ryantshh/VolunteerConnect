@@ -48,7 +48,6 @@ html {
 }
 
 
-/* Add this to your existing navbar styles */
 .navbar {
     border-bottom: 2px solid rgba(255, 0, 0, 0.1);
     background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 245, 245, 0.95));
@@ -209,6 +208,28 @@ html {
     transform: translateY(-2px);
 }
 
+#signin {
+    background-color: var(--primary-red);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    border: none; /* Remove the border */
+    position: relative;
+    overflow: hidden;
+}
+
+#signin:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+/* Add these variables at the top of your CSS if you don't have them */
+:root {
+    --primary-red: #ff4444;
+    --primary-dark: #cc0000;
+    --white: #ffffff;
+}
 
 /* Main Content */
 .main-content {
@@ -310,30 +331,6 @@ html {
     background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
     padding: 15px;
     border-radius: 50%;
-}
-
-
-#signin {
-    background-color: var(--primary-red);
-    color: var(--white);
-    padding: 0.5rem 1.5rem;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    border: none; /* Remove the border */
-    position: relative;
-    overflow: hidden;
-}
-
-#signin:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-}
-
-/* Add these variables at the top of your CSS if you don't have them */
-:root {
-    --primary-red: #ff4444;
-    --primary-dark: #cc0000;
-    --white: #ffffff;
 }
 
 
