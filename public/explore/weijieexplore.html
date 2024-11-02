@@ -108,7 +108,7 @@
                             <img :src="card.imageUrl" class="card-img-top" alt="Card image">
 
                             <!-- Progress Bar for Match Score -->
-                            <div class="progress" style="height: 20px; margin-top: -4px;">
+                            <div v-if="showMatchBar" class="progress" style="height: 20px; margin-top: -4px;">
                                 <div style="background-color: lightgreen;" class="progress-bar" role="progressbar" :style="{ width: card.matchScore + '%' }"
                                     :aria-valuenow="card.matchScore" aria-valuemin="0" aria-valuemax="100">
                                     {{ card.matchScore }}% Match
