@@ -367,6 +367,154 @@ const app = Vue.createApp({
                 console.error('Error fetching listings:', error);
             }
         },
+         // Fetch user data based on authentication state
+         async fetchUserData() {
+          const db = firebase.firestore();  // Access Firestore using the compat syntax
+
+          firebase.auth().onAuthStateChanged(async (user) => {
+            if (user) {
+              const uid = user.uid;  // Get the logged-in user's UID
+              console.log("User ID:", uid);
+
+              try {
+                const querySnapshot = await db.collection('UserQuestionnaire')
+                  .where('uid', '==', uid).get();
+
+                if (!querySnapshot.empty) {
+                  querySnapshot.forEach((doc) => {
+                    const data = doc.data();  // Get the document data
+                    console.log("User data found:", data);
+
+                    // Store the user's data in a local variable
+                    const userQuestionnaireData = {
+                      uid: data.uid,  // Store the user's UID
+                      interests: data.interests || [],  // Array of interests
+                      skills: data.skills || [],  // Array of skills
+                      location: data.location || 'No location',  // Location (e.g., postal code)
+                      availability: data.availability || []  // User's available days
+                    };
+
+                    // Show match bar and calculate the match score using listings and user data
+                    this.showMatchBar = true;
+                    this.calculateMatch(userQuestionnaireData);
+
+                  });
+                } else {
+                  console.log("No document found in userQuestionnaire for UID:", uid);
+                  
+                }
+
+              } catch (error) {
+                console.error("Error fetching user data:", error);
+              }
+
+            } else {
+              console.log("No user is logged in.");
+              this.showMatchBar = false;  // Hide match bar if no user is logged in
+            }
+          });
+        },
+
+        // Calculate the match score for each listing
+        async calculateMatch(userData) {
+          if (userData && this.recommendedCards.length) {
+            this.showMatchBar = true;
+
+            /* Original code
+            // Loop through each listing and calculate match score
+            this.recommendedCards = this.recommendedCards.map((listing) => {
+              const matchScore = this.calculateMatchScore(userData, listing);
+              return {
+                ...listing,  // Spread operator to keep other listing data intact
+                matchScore  // Add/Update matchScore property
+              };
+            });
+            */
+            // Create an array of promises for calculating match scores
+            const matchScorePromises = this.recommendedCards.map(async (listing) => {
+                const matchScore = await this.calculateMatchScore(userData, listing);
+                return {
+                ...listing,  // Spread operator to keep other listing data intact
+                matchScore  // Add/Update matchScore property
+              };
+            });
+
+            // Wait for all match score calculations to complete
+            this.recommendedCards = await Promise.all(matchScorePromises);
+
+            // Sort listings based on matchScore descending once
+            this.recommendedCards.sort((a, b) => b.matchScore - a.matchScore);
+
+            console.log("Listings with match scores:", this.recommendedCards);
+
+          } else {
+            this.showMatchBar = false;
+          }
+        },
+
+        // Calculate the match score based on user and listing data
+        async calculateMatchScore(user, listing) {
+          // Weights for each criterion
+          const weights = {
+            interests: 0.3,
+            skills: 0.3,
+            location: 0.2,
+            availability: 0.2
+          };
+
+          // Interest match calculation
+          const interestMatch = user.interests.some(interest => listing.category.includes(interest)) ? 100 : 0;
+
+          // Skills match calculation
+          const matchedSkills = listing.skills.filter(skill => user.skills.includes(skill)).length;
+          const skillsMatch = (matchedSkills / listing.skills.length) * 100;
+
+          // Location match (for now assume 100%)
+          var locationMatch = 100;
+          // Brandyn Testing stuff
+          //console.log("This is the listing location: " ,listing.location)
+          //console.log("This is the user's location: ", user.location)
+          if(listing.location !== "No location"){
+            const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+              params: {
+                origins: user.location,
+                destinations: listing.location,
+                units: 'metric',
+              }
+            })
+            .then(response=> {
+              var temp_holding = response.data
+              var distance_value = temp_holding.rows[0].elements[0].distance.value
+              console.log("This is the distance_value: ", distance_value)
+              console.log("This is the type of distance_value: ", typeof(distance_value))
+              // Distance calculation
+              // If distance is more then 20km, set to 0. Else, 20km minus 
+              if(distance_value >= 20000){
+                locationMatch = 0
+              }
+              else{
+                locationMatch = (20000 - distance_value)/200
+              }
+            })
+            .catch(error=> {
+              console.error("No distance? : ", error)
+            })
+          }
+
+          // Availability match calculation
+          const matchedDays = listing.daysOfWeek.filter(day => user.availability.includes(day)).length;
+          const availabilityMatch = (matchedDays / listing.daysOfWeek.length) * 100;
+
+          // Total match score calculation
+          const totalMatchScore = Math.round(
+            (weights.interests * interestMatch) +
+            (weights.skills * skillsMatch) +
+            (weights.location * locationMatch) +
+            (weights.availability * availabilityMatch)
+          );
+
+          return totalMatchScore;
+        },
 
         openPreview(card) {
             const currentFilters = [...this.selectedFilters];
