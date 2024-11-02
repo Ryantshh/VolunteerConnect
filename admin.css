@@ -1,5 +1,5 @@
 /* Navbar base styles */
-..navbar {
+.navbar {
     border-bottom: 2px solid rgba(255, 0, 0, 0.1);
     background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 245, 245, 0.95));
     backdrop-filter: blur(10px);
