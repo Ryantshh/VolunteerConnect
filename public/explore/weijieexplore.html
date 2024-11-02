@@ -162,31 +162,54 @@
           <h2 class="header">General Listings</h2>
       </div>
 
-      <div class="skills-filter-section">
-        <div class="skills-filter-header">
-            <h4>Filter by Skills</h4>
-            <button 
-                type="button"
-                class="clear-filters-btn" 
-                v-if="selectedSkills.length > 0"
-                @click.stop="clearAllFilters">
-                Clear All
-            </button>
+      <div class="filters-container">
+        <!-- Skills Filter Section -->
+        <div class="skills-filter-section">
+            <div class="filter-header">
+                <h4>Filter by Skills</h4>
+                <button 
+                    type="button"
+                    class="clear-filters-btn" 
+                    v-if="hasSelectedFilters"
+                    @click.stop="clearAllFilters">
+                    Clear All
+                </button>
+            </div>
+            <div class="filter-chips">
+                <button 
+                    type="button"
+                    v-for="skill in availableSkills" 
+                    :key="skill"
+                    @click.stop="toggleFilter(skill)"
+                    :class="['filter-chip', {'active': selectedFilters.includes(skill)}]">
+                    <span class="filter-text">{{ skill }}</span>
+                    <span class="filter-icon" v-if="selectedFilters.includes(skill)">✓</span>
+                </button>
+            </div>
         </div>
-        <div class="skills-filter-chips">
-            <button 
-                type="button"
-                v-for="skill in availableSkills" 
-                :key="skill"
-                @click.stop="toggleSkillFilter(skill)"
-                :class="['skill-chip', {'active': selectedSkills.includes(skill)}]">
-                <span class="skill-text">{{ skill }}</span>
-                <span class="skill-icon" v-if="selectedSkills.includes(skill)">✓</span>
-            </button>
+    
+        <!-- Categories Filter Section -->
+        <div class="skills-filter-section">
+            <div class="filter-header">
+                <h4>Filter by Categories</h4>
+            </div>
+            <div class="filter-chips">
+                <button 
+                    type="button"
+                    v-for="category in availableCategories" 
+                    :key="category"
+                    @click.stop="toggleFilter(category)"
+                    :class="['filter-chip', {'active': selectedFilters.includes(category)}]">
+                    <span class="filter-text">{{ category }}</span>
+                    <span class="filter-icon" v-if="selectedFilters.includes(category)">✓</span>
+                </button>
+            </div>
         </div>
-        <div class="selected-filters" v-if="selectedSkills.length > 0">
+    
+        <!-- Selected Filters Counter -->
+        <div class="selected-filters" v-if="hasSelectedFilters">
             <p class="filter-count">
-                {{ selectedSkills.length }} filter{{ selectedSkills.length > 1 ? 's' : '' }} selected
+                {{ selectedFilters.length }} filter{{ selectedFilters.length > 1 ? 's' : '' }} selected
             </p>
         </div>
     </div>
@@ -232,89 +255,60 @@ const app = Vue.createApp({
             recommendedCards: [],
             showPreview: false,
             selectedCard: null,
-            selectedSkills: [],
+            selectedFilters: [], // Combined filters array
             availableSkills: [],
+            availableCategories: [],
         };
     },
     methods: {
-        // Existing methods remain the same
         clearAllFilters() {
-            this.selectedSkills = [];
+            this.selectedFilters = [];
         },
 
-        toggleSkillFilter(skill) {
-            const index = this.selectedSkills.indexOf(skill);
+        toggleFilter(filter) {
+            const index = this.selectedFilters.indexOf(filter);
             if (index > -1) {
-                this.selectedSkills.splice(index, 1);
+                this.selectedFilters.splice(index, 1);
             } else {
-                this.selectedSkills.push(skill);
+                this.selectedFilters.push(filter);
             }
         },
 
-        // New method to check if a listing is still valid
+        // Combined matching for both skills and categories
+        matchesFilters(listing) {
+        if (!this.selectedFilters.length) return true;
+        
+        // Combine listing's skills and categories for matching
+        const listingTags = [
+            ...(Array.isArray(listing.skills) ? listing.skills : [listing.skills]),
+            ...(Array.isArray(listing.category) ? listing.category : [listing.category])
+        ]
+            .filter(tag => tag && tag !== 'None')
+            .map(tag => tag.toLowerCase());
+
+        // Check if ALL selected filters match at least one of the listing's tags
+        const selectedFiltersLower = this.selectedFilters.map(filter => filter.toLowerCase());
+        return selectedFiltersLower.every(filter => listingTags.includes(filter));
+    },
+
+
+        isValidListing(listing) {
+            return this.isValidDate(listing) && this.matchesFilters(listing);
+        },
+
         isValidDate(listing) {
             const today = new Date();
-            today.setHours(0, 0, 0, 0); // Set to start of day for fair comparison
+            today.setHours(0, 0, 0, 0);
 
             if (listing.isRecurring) {
-                // For recurring events, check if the end date hasn't passed
-                if (!listing.recurringEndDate) return true; // If no end date, consider it ongoing
+                if (!listing.recurringEndDate) return true;
                 const endDate = new Date(listing.recurringEndDate);
                 return endDate >= today;
             } else {
-                // For one-time events, check the event date
-                if (!listing.date) return true; // If no date, consider it ongoing
+                if (!listing.date) return true;
                 const eventDate = new Date(listing.date);
                 return eventDate >= today;
             }
-        },
-
-        skillsMatch(listing) {
-            if (!this.selectedSkills.length) return true;
-            const listingSkills = this.normalizeSkills(listing.skills);
-            if (!listingSkills.length) return false;
-            const selectedSkillsLower = this.selectedSkills.map(skill => skill.toLowerCase());
-            return selectedSkillsLower.some(selectedSkill => 
-                listingSkills.includes(selectedSkill)
-            );
-        },
-
-        normalizeSkills(skills) {
-            if (!skills) return [];
-            if (typeof skills === 'string') {
-                return [skills.toLowerCase()];
-            }
-            if (Array.isArray(skills)) {
-                return skills
-                    .filter(skill => skill && skill !== 'None')
-                    .map(skill => skill.toLowerCase());
-            }
-            return [];
-        },
-
-        openPreview(card) {
-            const currentFilters = [...this.selectedSkills];
-            this.selectedCard = card;
-            this.showPreview = true;
-            this.selectedSkills = currentFilters;
-            document.body.classList.add('modal-open');
-            
-            this.$nextTick(async () => {
-                if (card.location && card.location !== 'No location') {
-                    await this.initializeMap(card.location);
-                }
-            });
-        },
-
-        closePreview() {
-            const currentFilters = [...this.selectedSkills];
-            this.showPreview = false;
-            this.selectedCard = null;
-            this.selectedSkills = currentFilters;
-            document.body.classList.remove('modal-open');
-            this.$nextTick(() => {
-                this.selectedSkills = [...currentFilters];
-            });
         },
 
         async fetchListings() {
@@ -323,14 +317,28 @@ const app = Vue.createApp({
                 const querySnapshot = await db.collection('listings').get();
                 const info = [];
                 const skillSet = new Set();
+                const categorySet = new Set();
 
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-                    const skills = Array.isArray(data.skills) ? data.skills : [data.skills];
+                    const skills = Array.isArray(data.skills) ? 
+                        data.skills.filter(skill => skill && skill !== 'None') : 
+                        (data.skills ? [data.skills] : []);
                     
+                    const categories = Array.isArray(data.category) ? 
+                        data.category.filter(cat => cat && cat !== 'None') : 
+                        (data.category ? [data.category] : []);
+                    
+                    // Collect all valid skills and categories
                     skills.forEach(skill => {
                         if (skill && skill !== 'None') {
                             skillSet.add(skill.trim());
+                        }
+                    });
+
+                    categories.forEach(category => {
+                        if (category && category !== 'None') {
+                            categorySet.add(category.trim());
                         }
                     });
 
@@ -340,7 +348,7 @@ const app = Vue.createApp({
                         imageUrl: data.imageUrl || 'noimage.jpg',
                         location: data.location || 'No location',
                         skills: skills,
-                        category: data.category || ['None'],
+                        category: categories,
                         daysOfWeek: data.daysOfWeek || ['None'],
                         mainurl: data.mainurl,
                         email: data.email || ['None'],
@@ -356,32 +364,69 @@ const app = Vue.createApp({
 
                 this.recommendedCards = info;
                 this.availableSkills = Array.from(skillSet).sort();
+                this.availableCategories = Array.from(categorySet).sort();
                 this.fetchUserData();
             } catch (error) {
                 console.error('Error fetching listings:', error);
             }
         },
 
-        // Rest of the existing methods remain the same...
+        openPreview(card) {
+            const currentFilters = [...this.selectedFilters];
+            this.selectedCard = card;
+            this.showPreview = true;
+            this.selectedFilters = currentFilters;
+            document.body.classList.add('modal-open');
+        },
+
+        closePreview() {
+            const currentFilters = [...this.selectedFilters];
+            this.showPreview = false;
+            this.selectedCard = null;
+            this.selectedFilters = currentFilters;
+            document.body.classList.remove('modal-open');
+        },
     },
     computed: {
-        // Updated computed properties with date filtering
+        // Helper computed property for selected filters visibility
+        hasSelectedFilters() {
+            return this.selectedFilters.length > 0;
+        },
+
+        // Get currently selected skills
+        selectedSkills() {
+            return this.selectedFilters.filter(filter => 
+                this.availableSkills.includes(filter)
+            );
+        },
+
+        // Get currently selected categories
+        selectedCategories() {
+            return this.selectedFilters.filter(filter => 
+                this.availableCategories.includes(filter)
+            );
+        },
+
         validListings() {
-            return this.recommendedCards.filter(listing => this.isValidDate(listing));
+            return this.recommendedCards.filter(listing => this.isValidListing(listing));
         },
+
         topRecommendedCards() {
-            // Filter valid listings first, then take top 8
-            return this.validListings.slice(0, 8);
+            return this.recommendedCards
+                .filter(listing => this.isValidDate(listing))
+                .slice(0, 8);
         },
+
         filteredListings() {
-            // Filter remaining valid listings
-            const remainingListings = this.validListings.slice(8);
+            const remainingListings = this.recommendedCards
+                .filter(listing => this.isValidDate(listing))
+                .slice(8);
             
-            if (this.selectedSkills.length === 0) {
+            if (!this.selectedFilters.length) {
                 return remainingListings;
             }
-            
-            return remainingListings.filter(this.skillsMatch);
+
+            return remainingListings.filter(listing => this.matchesFilters(listing));
         }
     },
     created() {

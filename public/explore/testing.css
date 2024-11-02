@@ -730,137 +730,6 @@ h5.card-title {
 }
 
 
-.skills-filter-section {
-        background: #f8f9fa;
-        border-radius: 12px;
-        padding: 1.5rem;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        margin-bottom: 2rem;
-        position: relative;
-        z-index: 1;
-        pointer-events: auto; /* Ensure section receives events */
-}
-
-.skills-filter-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.skills-filter-header h4 {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #2c3e50;
-}
-
-.clear-filters-btn {
-    background: none;
-    border: none;
-    color: #6c757d;
-    font-size: 0.9rem;
-    cursor: pointer;
-    padding: 0.25rem 0.5rem;
-    transition: color 0.2s;
-    pointer-events: auto;
-}
-
-.clear-filters-btn:hover {
-    color: #dc3545;
-}
-
-.skills-filter-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    pointer-events: auto; /* Ensure container receives events */
-}
-
-.skill-chip {
-    display: inline-flex;
-    align-items: center;
-    background: white;
-    border: 1px solid #dee2e6;
-    border-radius: 25px;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    color: #495057;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-    pointer-events: auto; /* Ensure buttons receive events */
-    user-select: none; /* Prevent text selection */
-}
-.skill-chip:hover {
-    border-color: #fe1d04;
-    color: #fe1d04;
-    transform: translateY(-1px);
-}
-
-.skill-chip.active {
-    background: #fe1d04;
-    color: white;
-    border-color: #fe1d04;
-}
-
-.skill-text {
-    margin-right: 0.25rem;
-}
-
-.skill-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0.5rem;
-    font-size: 0.8rem;
-}
-
-.selected-filters {
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid #dee2e6;
-}
-
-.filter-count {
-    color: #6c757d;
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .skills-filter-section {
-        padding: 1rem;
-    }
-
-    .skills-filter-chips {
-        gap: 0.5rem;
-    }
-
-    .skill-chip {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.85rem;
-    }}
-
-    .map-container {
-        margin: 20px 0;
-        padding: 15px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        position: relative; /* Add this */
-    }
-    
-    #location-map {
-        height: 300px;
-        width: 100%;
-        border-radius: 8px;
-        border: 1px solid #dee2e6;
-        position: relative; /* Add this */
-        z-index: 1; /* Lower than modal but higher than background */
-    }
-
     .close-button {
         position: absolute;
         top: 20px;
@@ -964,4 +833,174 @@ h5.card-title {
     .preview .card-footer {
         padding: 1rem 0;
     }
+}
+
+
+
+/* Filters container */
+.filters-container {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Individual filter sections */
+.skills-filter-section {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    will-change: transform;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.skills-filter-section:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Filter headers */
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.2rem;
+}
+
+.filter-header h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin: 0;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.filter-header h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: #ff6b6b;
+}
+
+/* Clear filters button */
+.clear-filters-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+    color: #ff6b6b;
+    background: transparent;
+    border: 1.5px solid #ff6b6b;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+}
+
+.clear-filters-btn:hover {
+    background: #ff6b6b;
+    color: white;
+}
+
+/* Filter chips container */
+.filter-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+/* Individual filter chips */
+.filter-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: #f7f7f7;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #4a5568;
+    cursor: pointer;
+    font-weight: 500;
+    will-change: transform, background-color;
+    transition: background-color 0.15s ease-in-out, transform 0.15s ease-in-out;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.filter-chip:hover {
+    background: #ff6b6b;
+    color:white;
+}
+
+.filter-chip:active {
+    transform: scale(0.98);
+}
+
+.filter-chip.active {
+    background: #ff6b6b;
+    color: white;
+    border-color: #ff6b6b;
+}
+
+.filter-chip .filter-text {
+    margin-right: 0.4rem;
+}
+
+.filter-chip .filter-icon {
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.15s ease-in-out;
+}
+
+.filter-chip.active .filter-icon {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Selected filters count */
+.selected-filters {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.filter-count {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    background: #edf2f7;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .filters-container {
+        padding: 1rem;
+    }
+
+    .skills-filter-section {
+        padding: 1rem;
+    }
+
+    .filter-chips {
+        gap: 0.6rem;
+    }
+
+    .filter-chip {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Optional: Add hardware acceleration for smoother animations */
+.filter-chip,
+.filter-chip .filter-icon,
+.skills-filter-section {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
 }
