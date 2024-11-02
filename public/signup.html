@@ -11,8 +11,10 @@
         body {
             margin: 0;
             padding: 0;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            /* Changed from height to min-height */
+            overflow-y: auto;
+            /* Allow vertical scrolling */
         }
 
         .navbar {
@@ -21,6 +23,9 @@
             background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 245, 245, 0.95));
             backdrop-filter: blur(10px);
             transition: all 0.3s ease;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         .navbar:hover {
@@ -178,7 +183,9 @@
         }
 
         .students-col {
-            height: calc(100vh - 76px);
+            height: auto;
+            /* Changed from calc to auto */
+            min-height: calc(100vh - 76px);
             display: flex;
             justify-content: flex-end;
             align-items: center;
@@ -193,10 +200,13 @@
         }
 
         .row {
-            height: calc(100vh - 76px);
+            min-height: calc(100vh - 76px);
+            /* Changed from fixed height to min-height */
             display: flex;
-            align-items: center;
-            overflow: hidden;
+            align-items: stretch;
+            /* Changed from center to stretch */
+            overflow-y: auto;
+            /* Allow vertical scrolling */
         }
 
         .content {
@@ -204,9 +214,25 @@
             padding: 20px;
             width: 100%;
             max-width: 600px;
+            height: 100%;
         }
 
-        @media (max-width: 991.98px) {
+		@media (max-width: 991.98px) {
+            .row {
+                min-height: auto;
+                /* Allow content to determine height on mobile */
+            }
+
+            .students-col {
+                display: none;
+                /* Hide image on mobile to save space */
+            }
+
+            .content {
+                padding: 20px;
+                /* Consistent padding */
+            }
+
             .navbar-nav {
                 width: 100%;
                 padding: 1rem 0;
@@ -232,6 +258,7 @@
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             }
         }
+
     </style>
 </head>
 
