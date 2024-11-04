@@ -339,8 +339,6 @@
                             console.error("Error adding document: ", e)
                         }
 
-
-
                     },
 
                     async send_to_calendar_nonrecurring(daysOfWeek, startTime, endTime, recurring, title, date){
@@ -686,7 +684,9 @@
 
                         }
                         else{
-                            return this.recommendedCards
+                            
+                            const remainingListings = this.recommendedCards
+                            return remainingListings.filter(listing => this.matchesFilters(listing));
                         }
                     }
                 },
