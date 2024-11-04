@@ -21,7 +21,17 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="../config.js"></script> <!-- Firebase config file -->
     <script src="https://maps.googleapis.com/maps/api/js?key="></script>
+    <script></script>
 </head>
+
+<script>
+    // Setting the userId global variable through sessionStorage.
+    let userId;
+    window.onload = function(){
+        userId = sessionStorage.getItem('userId');
+        console.log("The user ID is : ", userId);
+    }
+</script>
 
 <body>
     <nav class="navbar navbar-expand-lg">
@@ -168,7 +178,8 @@
                         <div class="card-footer text-center">
                             <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
                             <a :href="selectedCard.mainurl" target="_blank" class="btn btn-primary mx-5">View Website</a>
-                            <button class="btn btn-primary">Add to Calendar</button>
+                            <button v-if="selectedCard.isRecurring " class="btn btn-primary" @click="send_to_calendar_recurring(selectedCard.recurringDays, selectedCard.startTime, selectedCard.endTime, true, selectedCard.title, selectedCard.recurringStartDate, selectedCard.recurringEndDate)">Add to Calendar</button>
+                            <button v-else class="btn btn-primary" @click="send_to_calendar_nonrecurring(selectedCard.daysOfWeek, selectedCard.startTime, selectedCard.endTime, false, selectedCard.title, selectedCard.date)">Add to Calendar</button>
                         </div>
                     </div>
                 </div>
@@ -309,6 +320,46 @@ document.addEventListener("DOMContentLoaded", function () {
                     };
                 },
                 methods: {
+
+                    async send_to_calendar_recurring(recurringDays, startTime, endTime, recurring, title, startdate, enddate){
+                        try{
+                            const docRef = await db.collection("UserEvents").add({
+                                'Start Time': startTime,
+                                'End Time': endTime,
+                                'Days Needed': recurringDays,
+                                'UID': userId,
+                                'Recurring': recurring,
+                                'Event Name': title,
+                                'Start Date': startdate,
+                                'End Date': enddate
+                            });
+                            console.log("Document ready");
+                        }catch (e){
+                            console.error("Error adding document: ", e)
+                        }
+
+
+
+                    },
+
+                    async send_to_calendar_nonrecurring(daysOfWeek, startTime, endTime, recurring, title, date){
+                        try{
+                            const docRef = await db.collection("UserEvents").add({
+                                'Start Time': startTime,
+                                'End Time': endTime,
+                                'Days Needed': daysOfWeek,
+                                'UID': userId,
+                                'Recurring': recurring,
+                                'Event Name': title,
+                                'Start Date': date,
+                                'End Date': date
+                            });
+                            console.log("Document ready");
+                        }catch (e){
+                            console.error("Error adding document: ", e)
+                        }
+                    },
+
                     clearAllFilters() {
                         this.selectedFilters = [];
                     },
@@ -407,6 +458,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     endTime: data.endTime,
                                     recurringStartDate: data.recurringStartDate,
                                     recurringEndDate: data.recurringEndDate,
+                                    id:data.id
                                 });
                             });
 
