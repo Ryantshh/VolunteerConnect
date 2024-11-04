@@ -353,6 +353,11 @@ body, html {
   }
 
 
+  .scrollable-row-wrapper.active {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+}
+
 
   /* CSS Changes */
 /* Reset the general card-text class */
