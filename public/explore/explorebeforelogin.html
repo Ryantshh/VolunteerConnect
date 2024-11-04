@@ -571,39 +571,39 @@
                         const skillsMatch = (matchedSkills / listing.skills.length) * 100;
 
                         // Location match (for now assume 100%)
-                        // var locationMatch = 100;
+                        var locationMatch = 100;
                         // Brandyn Testing stuff
-                        console.log("This is the listing location: ", listing.location)
-                        console.log("This is the user's location: ", user.location)
-                        const originLocation = encodeURIComponent(user.location);
-                        const destinationLocation = encodeURIComponent(listing.location);
-                        console.log("API Request URL:", `http://brandynchua.pythonanywhere.com/google_api/distancegetter?origins=${originLocation}&destinations=${destinationLocation}&units=metric`);
-                        if (listing.location !== "No location") {
-                            const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
-                                params: {
-                                    origins: user.location,
-                                    destinations: listing.location,
-                                    units: 'metric',
-                                }
-                            })
-                                .then(response => {
-                                    var temp_holding = response.data
-                                    var distance_value = temp_holding.rows[0].elements[0].distance.value
-                                    console.log("This is the distance_value: ", distance_value)
-                                    console.log("This is the type of distance_value: ", typeof (distance_value))
-                                    // Distance calculation
-                                    // If distance is more then 20km, set to 0. Else, 20km minus 
-                                    if (distance_value >= 20000) {
-                                        locationMatch = 0
-                                    }
-                                    else {
-                                        locationMatch = (20000 - distance_value) / 200
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error("No distance? : ", error)
-                                    console.log("error location: ", destinationLocation)
-                                })
+                        // console.log("This is the listing location: ", listing.location)
+                        // console.log("This is the user's location: ", user.location)
+                        // const originLocation = encodeURIComponent(user.location);
+                        // const destinationLocation = encodeURIComponent(listing.location);
+                        // console.log("API Request URL:", `http://brandynchua.pythonanywhere.com/google_api/distancegetter?origins=${originLocation}&destinations=${destinationLocation}&units=metric`);
+                        // if (listing.location !== "No location") {
+                        //     const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+                        //         params: {
+                        //             origins: user.location,
+                        //             destinations: listing.location,
+                        //             units: 'metric',
+                        //         }
+                        //     })
+                        //         .then(response => {
+                        //             var temp_holding = response.data
+                        //             var distance_value = temp_holding.rows[0].elements[0].distance.value
+                        //             console.log("This is the distance_value: ", distance_value)
+                        //             console.log("This is the type of distance_value: ", typeof (distance_value))
+                        //             // Distance calculation
+                        //             // If distance is more then 20km, set to 0. Else, 20km minus 
+                        //             if (distance_value >= 20000) {
+                        //                 locationMatch = 0
+                        //             }
+                        //             else {
+                        //                 locationMatch = (20000 - distance_value) / 200
+                        //             }
+                        //         })
+                        //         .catch(error => {
+                        //             console.error("No distance? : ", error)
+                        //             console.log("error location: ", destinationLocation)
+                        //         })
                         }
 
                         // Availability match calculation
