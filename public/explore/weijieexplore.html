@@ -99,7 +99,7 @@
     <div id="body">
         <div id="app">
             <!-- Top Matches Section -->
-            <div class="container mt-0">
+            <div class="container mt-0" v-if="showMatchBar>
                 <div class="topmatch-container">
                     <h3 class="header">Your Top Matches</h3>
                     <div class="scrollable-row-wrapper d-flex flex-nowrap overflow-auto">
@@ -108,7 +108,7 @@
                             <img :src="card.imageUrl" class="card-img-top" alt="Card image">
 
                             <!-- Progress Bar for Match Score -->
-                            <div v-if="showMatchBar" class="progress" style="height: 20px; margin-top: -4px;">
+                            <div class="progress" style="height: 20px; margin-top: -4px;">
                                 <div style="background-color: rgb(10, 243, 10);" class="progress-bar" role="progressbar"
                                     :style="{ width: card.matchScore + '%' }" :aria-valuenow="card.matchScore"
                                     aria-valuemin="0" aria-valuemax="100">
