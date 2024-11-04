@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nonprofit Listings</title>
+  <!-- Vue.js -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <!-- Bootstrap for styling -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="admin.css">
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+  <script src="public/config.js"></script> <!-- Firebase config file -->
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <!-- Navbar Brand -->
+        <a class="navbar-brand" href="#">
+            <img src="images/Volunteer.png" alt="logo"/>
+        </a>
+
+        <!-- Toggler for mobile view -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Navbar Links-->
+        <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Explore</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  href="#">Donate</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="active" href="#">Approvals</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Sign In Button on the far right -->
+        <div class="d-flex">
+            <button id="signin" class="btn" type="button">My Profile</button>
+        </div>
+    </div>
+</nav>
+
+
+
+  <div id="app">
+    <div v-if = 'recommendedCards.length != 0' class="container my-4">
+      <div class="text-center my-4">
+        <h2 class='header' >Pending Approval</h2>
+      </div>
+
+      <!-- Center the entire General Listings section below the View button on small screens -->
+      <div  class="d-flex d-sm-block justify-content-center">
+        <!-- Card deck container for responsive cards -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+          <div v-for="(listing, index) in recommendedCards" :key="index" class="col">
+            <div class="card m-2" style="width: 100%;">
+              <img :src="listing.imageUrl" class="card-img-top" alt="Listing image">
+              <div class="card-body">
+                <h5 class="card-title">{{ listing.title }}</h5>
+                <p class="card-text">{{ listing.description }}</p>
+                <p class="card-text"><strong>Location:</strong> {{ listing.location }}</p>
+                <p class="card-text">
+                  <strong>Skills:</strong>
+                  {{ Array.isArray(listing.skills) ? listing.skills.join(', ') : listing.skills || "No skills listed" }}
+                </p>
+                <p class="card-text" v-if="listing.isRecurring">
+                  <strong>Days Required:</strong>
+                  {{ Array.isArray(listing.recurringDays) ? listing.recurringDays.join(', ') : listing.recurringDays || "No days listed" }}
+                </p>
+                <p class="card-text" v-else>
+                  <strong>Date:</strong>
+                  {{listing.date}}
+                </p>
+
+                <p class="card-text">
+                  <strong>Email:</strong>
+                  {{listing.email}}
+                </p>
+                <p class="card-text">
+                  <strong>Website:</strong>
+                  {{listing.mainurl}}
+                </p>
+
+                <p class="card-text">
+                  <strong>Time:</strong>
+                  {{listing.startTime}}-{{listing.endTime}}
+                </p>
+
+              </div>
+              <div class="card-footer text-center">
+                <button @click="remove(index, listing.id)" class="btn btn-primary my-2">Deny Request</button>
+                <button @click="approve(index, listing.id)" class="btn btn-primary">Approve Request</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+    </div>
+
+    <div v-else>
+      <h1 class = 'no_request' >No Outstanding Approvals</h1>
+    </div>
+  </div>
+
+
+
+  <!--vue instance-->
+  <script>
+    // start of 1st instance
+    const app = Vue.createApp({
+      data() {
+        return {
+          recommendedCards: []
+        };
+      },
+      methods: {
+        // Method to remove a document from Firestore and the local array
+        remove(input, id) {
+          db.collection("notApproved").doc(id).delete()
+            .then(() => {
+              console.log("Document successfully deleted!");
+
+              // Remove the item from the recommendedCards array
+              this.recommendedCards.splice(input, 1);
+            })
+            .catch((error) => {
+              console.error("Error removing document: ", error);
+            });
+        },
+
+        // Method to approve a document by moving it to the "listings" collection and deleting it from "notApproved"
+        approve(input, id) {
+          db.collection("notApproved").doc(id).get()
+            .then((doc) => {
+              if (doc.exists) {
+                const documentData = doc.data();
+
+                // Add the document data to the "listings" collection
+                return db.collection("listings").add(documentData);
+              } else {
+                throw new Error("Document does not exist");
+              }
+            })
+            .then((docRef) => {
+              console.log("Document successfully added to listings with ID:", docRef.id); // Log the new document ID
+
+              // Delete the document from "notApproved"
+              return db.collection("notApproved").doc(id).delete();
+            })
+            .then(() => {
+              console.log("Document successfully moved to listings and deleted from notApproved.");
+
+              // Remove the item from the recommendedCards array
+              this.recommendedCards.splice(input, 1);
+            })
+            .catch((error) => {
+              console.error("Error moving document: ", error);
+            });
+        },
+        // Method to fetch all listings from Firestore's "notApproved" collection
+        async fetchListings() {
+          try {
+            const snapshot = await db.collection("notApproved").get();
+
+            // Map each document to an object and store it in recommendedCards
+            this.recommendedCards = snapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            }));
+
+            console.log("Fetched recommended cards:", this.recommendedCards);
+
+          } catch (error) {
+            console.error("Error fetching recommended cards:", error);
+          }
+        }
+      },
+      created() {
+        this.fetchListings();  // Fetch listings when the component is created
+      }
+    });
+
+    // Mount the Vue instance to the #app element
+    const vm = app.mount('#app');
+
+
+
+    // end of 1st instance
+
+  </script>
+  <!-- <script src="testing.js"></script> -->
+</body>
+
+</html>
