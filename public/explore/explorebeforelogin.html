@@ -178,7 +178,6 @@
                             <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
                             <a :href="selectedCard.mainurl" target="_blank" class="btn btn-primary mx-5">View Website</a>
                             <button v-if="selectedCard.isRecurring " class="btn btn-primary" @click="send_to_calendar_recurring(selectedCard.recurringDays, selectedCard.startTime, selectedCard.endTime, true, selectedCard.title, selectedCard.recurringStartDate, selectedCard.recurringEndDate)">Add to Calendar</button>
-                            <button v-else class="btn btn-primary" @click="send_to_calendar_nonrecurring(selectedCard.daysOfWeek, selectedCard.startTime, selectedCard.endTime, false, selectedCard.title, selectedCard.date)">Add to Calendar</button>
                         </div>
                     </div>
                 </div>
