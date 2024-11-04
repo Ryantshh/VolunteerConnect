@@ -109,7 +109,7 @@
     <div id="body">
         <div id="app">
             <!-- Top Matches Section -->
-            <div class="container mt-0">
+            <div class="container mt-0" v-if="showMatchBar">
                 <div class="topmatch-container">
                     <h3 class="header">Your Top Matches</h3>
                     <div class="scrollable-row-wrapper d-flex flex-nowrap overflow-auto">
@@ -118,8 +118,8 @@
                             <img :src="card.imageUrl" class="card-img-top" alt="Card image">
 
                             <!-- Progress Bar for Match Score -->
-                            <div v-if="showMatchBar" class="progress" style="height: 20px; margin-top: -4px;">
-                                <div style="background-color: lightgreen;" class="progress-bar" role="progressbar"
+                            <div class="progress" style="height: 20px; margin-top: -4px; z-index:1 ;">
+                                <div style="background-color: rgb(10, 243, 10);" class="progress-bar" role="progressbar"
                                     :style="{ width: card.matchScore + '%' }" :aria-valuenow="card.matchScore"
                                     aria-valuemin="0" aria-valuemax="100">
                                     {{ card.matchScore }}% Match
@@ -163,7 +163,6 @@
 
                         <div class="card-body">
                             <p class="card-text">{{ selectedCard.description }}</p>
-                            <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>
                             <p class="card-text"><strong>Skills Needed:</strong> {{ Array.isArray(selectedCard.skills) ?
                                 selectedCard.skills.join(', ') : selectedCard.skills || "No skills listed" }}</p>
                             <p v-if="selectedCard.isRecurring" class="card-text"><strong>Weekly Commitment:</strong> {{
@@ -174,6 +173,8 @@
                             <p v-else class="card-text"><strong>Date: </strong>{{selectedCard.date}}</p>
                             <p class="card-text"><strong>Time:</strong> {{ selectedCard.startTime }} - {{
                                 selectedCard.endTime}}</p>
+                                <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>
+
                         </div>
                         <div class="card-footer text-center">
                             <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
@@ -237,7 +238,7 @@
                 </div>
 
                 <!-- Updated listings grid -->
-                <div class="d-flex d-sm-block justify-content-center">
+                <div class="d-flex d-sm-block justify-content-center  row row-cols-1">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                         <div v-for="listing in filteredListings" :key="listing.uid">
                             <div class="card m-2" style="width: 100%;" @click="openPreview(listing)">
@@ -271,40 +272,40 @@
 
             //scrolling
 
-document.addEventListener("DOMContentLoaded", function () {
-    const scrollWrapper = document.querySelector('.scrollable-row-wrapper');
+            document.addEventListener("DOMContentLoaded", function () {
+                const scrollWrapper = document.querySelector('.scrollable-row-wrapper');
 
-    let isDown = false;
-    let startX;
-    let scrollLeft;
+                let isDown = false;
+                let startX;
+                let scrollLeft;
 
-    scrollWrapper.addEventListener('mousedown', (e) => {
-        isDown = true;
-        scrollWrapper.classList.add('active');
-        startX = e.pageX - scrollWrapper.offsetLeft;
-        scrollLeft = scrollWrapper.scrollLeft;
-    });
+                scrollWrapper.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    scrollWrapper.classList.add('active');
+                    startX = e.pageX - scrollWrapper.offsetLeft;
+                    scrollLeft = scrollWrapper.scrollLeft;
+                });
 
-    scrollWrapper.addEventListener('mouseleave', () => {
-        isDown = false;
-        scrollWrapper.classList.remove('active');
-    });
+                scrollWrapper.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    scrollWrapper.classList.remove('active');
+                });
 
-    scrollWrapper.addEventListener('mouseup', () => {
-        isDown = false;
-        scrollWrapper.classList.remove('active');
-    });
+                scrollWrapper.addEventListener('mouseup', () => {
+                    isDown = false;
+                    scrollWrapper.classList.remove('active');
+                });
 
-    scrollWrapper.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - scrollWrapper.offsetLeft;
-        const walk = (x - startX) * 2; // The multiplier controls scroll speed
-        scrollWrapper.scrollLeft = scrollLeft - walk;
-    });
-});
+                scrollWrapper.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - scrollWrapper.offsetLeft;
+                    const walk = (x - startX) * 2; // The multiplier controls scroll speed
+                    scrollWrapper.scrollLeft = scrollLeft - walk;
+                });
+            });
 
-//end scroll
+            //end scroll
 
 
             const app = Vue.createApp({
@@ -573,39 +574,40 @@ document.addEventListener("DOMContentLoaded", function () {
                         const skillsMatch = (matchedSkills / listing.skills.length) * 100;
 
                         // Location match (for now assume 100%)
-                        var locationMatch = 100;
+                        // var locationMatch = 100;
                         // Brandyn Testing stuff
                         console.log("This is the listing location: ", listing.location)
                         console.log("This is the user's location: ", user.location)
                         const originLocation = encodeURIComponent(user.location);
                         const destinationLocation = encodeURIComponent(listing.location);
                         console.log("API Request URL:", `http://brandynchua.pythonanywhere.com/google_api/distancegetter?origins=${originLocation}&destinations=${destinationLocation}&units=metric`);
-                        // if(listing.location !== "No location"){
-                        //   const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
-                        //     params: {
-                        //       origins: user.location,
-                        //       destinations: listing.location,
-                        //       units: 'metric',
-                        //     }
-                        //   })
-                        //   .then(response=> {
-                        //     var temp_holding = response.data
-                        //     var distance_value = temp_holding.rows[0].elements[0].distance.value
-                        //     console.log("This is the distance_value: ", distance_value)
-                        //     console.log("This is the type of distance_value: ", typeof(distance_value))
-                        //     // Distance calculation
-                        //     // If distance is more then 20km, set to 0. Else, 20km minus 
-                        //     if(distance_value >= 20000){
-                        //       locationMatch = 0
-                        //     }
-                        //     else{
-                        //       locationMatch = (20000 - distance_value)/200
-                        //     }
-                        //   })
-                        //   .catch(error=> {
-                        //     console.error("No distance? : ", error)
-                        //   })
-                        // }
+                        if (listing.location !== "No location") {
+                            const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+                                params: {
+                                    origins: user.location,
+                                    destinations: listing.location,
+                                    units: 'metric',
+                                }
+                            })
+                                .then(response => {
+                                    var temp_holding = response.data
+                                    var distance_value = temp_holding.rows[0].elements[0].distance.value
+                                    console.log("This is the distance_value: ", distance_value)
+                                    console.log("This is the type of distance_value: ", typeof (distance_value))
+                                    // Distance calculation
+                                    // If distance is more then 20km, set to 0. Else, 20km minus 
+                                    if (distance_value >= 20000) {
+                                        locationMatch = 0
+                                    }
+                                    else {
+                                        locationMatch = (20000 - distance_value) / 200
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("No distance? : ", error)
+                                    console.log("error location: ", destinationLocation)
+                                })
+                        }
 
                         // Availability match calculation
                         // Log the value and type of listing.daysOfWeek for debugging
@@ -671,15 +673,21 @@ document.addEventListener("DOMContentLoaded", function () {
                     },
 
                     filteredListings() {
-                        const remainingListings = this.recommendedCards
-                            .filter(listing => this.isValidDate(listing))
-                            .slice(8);
+                        if (this.showMatchBar) {
+                            const remainingListings = this.recommendedCards
+                                .filter(listing => this.isValidDate(listing))
+                                .slice(8);
 
-                        if (!this.selectedFilters.length) {
-                            return remainingListings;
+                            if (!this.selectedFilters.length) {
+                                return remainingListings;
+                            }
+
+                            return remainingListings.filter(listing => this.matchesFilters(listing));
+
                         }
-
-                        return remainingListings.filter(listing => this.matchesFilters(listing));
+                        else{
+                            return this.recommendedCards
+                        }
                     }
                 },
                 created() {
