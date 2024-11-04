@@ -191,7 +191,7 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-image: url('./volunteerbackground.jpg');
+    background-image: url('volunteerbackground.jpg');
     background-attachment: fixed;
     background-size: cover;
     background-position: center;
