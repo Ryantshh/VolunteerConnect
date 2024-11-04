@@ -153,7 +153,6 @@
 
                         <div class="card-body">
                             <p class="card-text">{{ selectedCard.description }}</p>
-                            <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>
                             <p class="card-text"><strong>Skills Needed:</strong> {{ Array.isArray(selectedCard.skills) ?
                                 selectedCard.skills.join(', ') : selectedCard.skills || "No skills listed" }}</p>
                             <p v-if="selectedCard.isRecurring" class="card-text"><strong>Weekly Commitment:</strong> {{
@@ -164,6 +163,8 @@
                             <p v-else class="card-text"><strong>Date: </strong>{{selectedCard.date}}</p>
                             <p class="card-text"><strong>Time:</strong> {{ selectedCard.startTime }} - {{
                                 selectedCard.endTime}}</p>
+                                <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>
+
                         </div>
                         <div class="card-footer text-center">
                             <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
