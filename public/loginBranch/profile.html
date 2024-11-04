@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>User Profile</title>
+		<link type="text/css" href="css/profile.css" rel="stylesheet" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+			crossorigin="anonymous"
+		/>
+		<!-- Load Firebase App, Auth, and Firestore scripts from the CDN -->
+		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+		<script src="config.js"></script>
+	</head>
+
+	<body>
+		<div id="app">
+			<!-- Navbar -->
+			<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="#">
+						<img
+							src="images/Volunteer.png"
+							alt="logo"
+							class="me-2"
+							style="width: 40px"
+						/>
+						Volunteer Platform
+					</a>
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarNav"
+						aria-controls="navbarNav"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div
+						class="collapse navbar-collapse justify-content-center"
+						id="navbarNav"
+					>
+						<ul class="navbar-nav">
+							<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+							<li class="nav-item"><a class="nav-link" href="#">Explore</a></li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Calendar</a>
+							</li>
+							<li class="nav-item"><a class="nav-link" href="#">Donate</a></li>
+						</ul>
+					</div>
+					<div class="d-flex">
+						<button id="signin" class="btn btn-primary" @click="goToProfile">
+							My Profile
+						</button>
+					</div>
+				</div>
+			</nav>
+
+			<!-- User Profile Form -->
+			<div v-if="loading">Loading...</div>
+
+			<div v-else class="profile">
+				<h1>User Profile</h1>
+
+				<button v-if="! isEditing" @click="isEditing = !isEditing" class="btn btn-primary mb-4">
+				Edit Profile
+				</button>
+
+				<div class="mb-3 text-center">
+					<label for="name" class="form-label"><h3>Name:</h3></label>
+					<div>
+						<span v-if="!isEditing">{{ userProfile.fullName }}</span>
+						<input
+							v-if="isEditing"
+							type="text"
+							v-model="userProfile.fullName"
+							class="form-control mx-auto"
+							id="name"
+							style="max-width: 300px"
+						/>
+					</div>
+				</div>
+
+				<div class="mb-3 text-center">
+					<label for="postalCode" class="form-label"><h3>Postal Code:</h3></label>
+					<div>
+						<span v-if="!isEditing">{{ userProfile.postalCode }}</span>
+						<input
+							v-if="isEditing"
+							type="text"
+							v-model="userProfile.postalCode"
+							class="form-control mx-auto"
+							id="postalCode"
+							style="max-width: 300px"
+						/>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<h3>Interests</h3>
+					<div id="interestsDisplay" class="mb-3">
+						<button
+							v-for="interest in userProfile.interests"
+							:key="interest"
+							class="btn btn-outline-primary btn-sm me-2 mb-2"
+						>
+							{{ interest }}
+							<span
+								class="removeButton"
+								v-if="isEditing"
+								@click="removeInterest(interest)"
+								>✖</span
+							>
+						</button>
+					</div>
+					<div class="input-group mb-3" v-if="isEditing">
+						<select
+							v-model="selectedInterest"
+							class="form-select"
+							aria-label="Select an interest"
+						>
+							<option
+								v-for="interest in interestsList"
+								:key="interest"
+								:value="interest"
+							>
+								{{ interest }}
+							</option>
+						</select>
+						<button @click="addInterest" class="btn btn-primary">
+							Add Interest
+						</button>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<h3>Skills</h3>
+					<div id="skillsDisplay" class="mb-3">
+						<button
+							v-for="skill in userProfile.skills"
+							:key="skill"
+							class="btn btn-outline-secondary btn-sm me-2 mb-2"
+						>
+							{{ skill }}
+							<span
+								class="removeButton"
+								v-if="isEditing"
+								@click="removeSkill(skill)"
+								>✖</span
+							>
+						</button>
+					</div>
+					<div class="input-group mb-3" v-if="isEditing">
+						<select
+							v-model="selectedSkill"
+							class="form-select"
+							aria-label="Select a skill"
+						>
+							<option v-for="skill in skillsList" :key="skill" :value="skill">
+								{{ skill }}
+							</option>
+						</select>
+						<button @click="addSkill" class="btn btn-secondary">
+							Add Skill
+						</button>
+					</div>
+				</div>
+
+				<div class="mb-4">
+					<h3>Available Days</h3>
+					<div id="availableDaysDisplay" class="mb-3">
+						<button
+							v-for="day in userProfile.availability"
+							:key="day"
+							class="btn btn-outline-info btn-sm me-2 mb-2"
+						>
+							{{ day }}
+							<span
+								class="removeButton"
+								v-if="isEditing"
+								@click="removeAvailableDay(day)"
+								>✖</span
+							>
+						</button>
+					</div>
+					<div class="input-group mb-3" v-if="isEditing">
+						<select
+							v-model="selectedDay"
+							class="form-select"
+							aria-label="Select a day"
+						>
+							<option v-for="day in daysOfWeek" :key="day" :value="day">
+								{{ day }}
+							</option>
+						</select>
+						<button @click="addAvailableDay" class="btn btn-info">
+							Add Day
+						</button>
+					</div>
+				</div>
+
+				<div v-if="userPosting.length" class="mb-5">
+					<h3>Your Events</h3>
+					<div class="d-flex flex-wrap">
+						<div
+							class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
+						>
+							<div
+								v-for="(listing, index) in userPosting"
+								:key="index"
+								class="col-12 col-sm-6 col-md-4 col-lg-3"
+							>
+								<div
+									class="card m-2"
+									style="width: 100%; min-width: 250px; max-width: 100%"
+								>
+									<img
+										:src="listing.imageUrl"
+										class="card-img-top"
+										alt="Listing image"
+										style="height: 180px; object-fit: cover"
+									/>
+									<div class="card-body">
+										<h5 class="card-title">{{ listing.title }}</h5>
+										<p class="card-text">{{ listing.description }}</p>
+										<p class="card-text">
+											<strong>Location:</strong> {{ listing.location }}
+										</p>
+										<p class="card-text">
+											<strong>Skills:</strong> {{ listing.skills?.join(', ') ||
+											"No skills listed" }}
+										</p>
+										<p class="card-text">
+											<strong>Days Required:</strong> {{
+											listing.daysOfWeek?.join(',') || "No days listed" }}
+										</p>
+									</div>
+									<div class="card-footer text-center">
+										<button
+											@click="removeListing(index, listing.id)"
+											class="btn btn-danger"
+										>
+											Delete Post
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Only show this button in editing mode -->
+				<button
+					v-if="isEditing"
+					@click="submitProfile"
+					class="btn btn-success mt-4 mx-auto"
+				>
+					Save Changes
+				</button>
+			</div>
+		</div>
+
+		<script src="https://unpkg.com/vue@3.0.0-rc.11/dist/vue.global.js"></script>
+		<script>
+			const app = Vue.createApp({
+				data() {
+					return {
+						userProfile: {
+							fullName: "",
+							postalCode: "",
+							interests: [],
+							skills: [],
+							availability: [],
+						},
+						interestsList: [
+							"Environmental",
+							"Community Development",
+							"Education",
+							"Healthcare",
+							"Animal Welfare",
+							"Disaster Relief",
+							"Youth Services",
+							"Senior Care",
+							"Human Rights",
+							"Sports Coaching",
+							"Poverty Alleviation",
+							"Homelessness",
+							"Cultural Heritage",
+							"Mental Health",
+							"Advocacy",
+						],
+						skillsList: [
+							"First Aid/CPR",
+							"Teaching",
+							"Public Speaking",
+							"Fundraising",
+							"Event Planning",
+							"Communication",
+							"Leadership",
+							"Project Management",
+							"Mentoring/Coaching",
+							"Social Media Management",
+							"Grant Writing",
+							"Graphic Design",
+							"Web Development",
+							"Data Analysis",
+							"Tutoring",
+							"Photography/Videography",
+							"Technical Support",
+							"Healthcare Assistance",
+							"Food Preparation",
+							"Marketing",
+						],
+						daysOfWeek: [
+							"Monday",
+							"Tuesday",
+							"Wednesday",
+							"Thursday",
+							"Friday",
+							"Saturday",
+							"Sunday",
+						],
+						selectedInterest: null,
+						selectedSkill: null,
+						selectedDay: null,
+						loading: true,
+						userPosting: [],
+						isEditing: false, // New state for editing mode
+					};
+				},
+				created() {
+					firebase.auth().onAuthStateChanged((user) => {
+						if (user) {
+							this.getUserProfile(user.uid);
+							this.fetchUserPostings(user.uid);
+						} else {
+							window.location.href = "/";
+						}
+						this.loading = false;
+					});
+				},
+				methods: {
+					async fetchUserPostings(uid) {
+						try {
+							const querySnapshot = await db
+								.collection("listings")
+								.where("userId", "==", uid)
+								.get();
+							this.userPosting = querySnapshot.docs.map((doc) => ({
+								id: doc.id,
+								...doc.data(),
+							}));
+						} catch (error) {
+							console.error("Error fetching user postings:", error);
+						}
+					},
+					async removeListing(index, listingId) {
+						try {
+							await db.collection("listings").doc(listingId).delete();
+							this.userPosting.splice(index, 1);
+						} catch (error) {
+							console.error("Error deleting listing:", error);
+						}
+					},
+					async getUserProfile(uid) {
+						try {
+							const querySnapshot = await db
+								.collection("UserQuestionnaire")
+								.where("uid", "==", uid)
+								.limit(1)
+								.get();
+							if (!querySnapshot.empty) {
+								this.userProfile = querySnapshot.docs[0].data();
+							}
+						} catch (error) {
+							console.error("Error loading user profile:", error);
+						}
+					},
+					addInterest() {
+						if (
+							this.selectedInterest &&
+							!this.userProfile.interests.includes(this.selectedInterest)
+						) {
+							this.userProfile.interests.push(this.selectedInterest);
+							this.selectedInterest = null;
+						}
+					},
+					removeInterest(interest) {
+						this.userProfile.interests = this.userProfile.interests.filter(
+							(i) => i !== interest
+						);
+					},
+					addSkill() {
+						if (
+							this.selectedSkill &&
+							!this.userProfile.skills.includes(this.selectedSkill)
+						) {
+							this.userProfile.skills.push(this.selectedSkill);
+							this.selectedSkill = null;
+						}
+					},
+					removeSkill(skill) {
+						this.userProfile.skills = this.userProfile.skills.filter(
+							(s) => s !== skill
+						);
+					},
+					addAvailableDay() {
+						if (
+							this.selectedDay &&
+							!this.userProfile.availability.includes(this.selectedDay)
+						) {
+							this.userProfile.availability.push(this.selectedDay);
+							this.selectedDay = null;
+						}
+					},
+					removeAvailableDay(day) {
+						this.userProfile.availability =
+							this.userProfile.availability.filter((d) => d !== day);
+					},
+					async submitProfile() {
+						try {
+							const user = firebase.auth().currentUser;
+							if (user) {
+								await db
+									.collection("UserQuestionnaire")
+									.doc(user.uid)
+									.set(this.userProfile);
+							}
+                            window.location.href = "profile.html";
+
+						} catch (error) {
+							console.error("Error submitting profile:", error);
+						}
+					},
+					goToProfile() {
+						console.log("Profile button clicked");
+					},
+				},
+			}).mount("#app");
+		</script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+			crossorigin="anonymous"
+		></script>
+	</body>
+</html>
