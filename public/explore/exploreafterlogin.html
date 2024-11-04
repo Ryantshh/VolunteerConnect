@@ -108,9 +108,17 @@
 
     <div id="body">
         <div id="app">
+
+            
             <!-- Top Matches Section -->
             <div class="container mt-0" v-if="showMatchBar">
-                <div class="topmatch-container">
+                <div v-if="isLoading" class="text-center my-5">
+                    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Calculating your top matches...</p>
+                </div>
+                <div v-else class="topmatch-container">
                     <h3 class="header">Your Top Matches</h3>
                     <div class="scrollable-row-wrapper d-flex flex-nowrap overflow-auto">
                         <div class="card topmatch" v-for="(card, index) in topRecommendedCards" :key="index"
@@ -148,19 +156,19 @@
 
 
 
-            <!-- Add this right after your <div id="app"> -->
+        <!-- Add this right after your <div id="app"> -->
             <div class="topmatch-preview" v-if="showPreview" @click.self="closePreview">
                 <div class="preview">
                     <div class="close-button" @click="closePreview">
                         <i class="fas fa-times"></i>
                     </div>
-
+            
                     <div v-if="selectedCard" class="preview-content">
                         <div class="preview-header">
                             <img :src="selectedCard.imageUrl" class="preview-logo" alt="Organization logo">
                             <h5 class="card-title">{{ selectedCard.title }}</h5>
                         </div>
-
+            
                         <div class="card-body">
                             <p class="card-text">{{ selectedCard.description }}</p>
                             <p class="card-text"><strong>Skills Needed:</strong> {{ Array.isArray(selectedCard.skills) ?
@@ -173,14 +181,31 @@
                             <p v-else class="card-text"><strong>Date: </strong>{{selectedCard.date}}</p>
                             <p class="card-text"><strong>Time:</strong> {{ selectedCard.startTime }} - {{
                                 selectedCard.endTime}}</p>
-                                <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>
-
+                            <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>
                         </div>
+            
                         <div class="card-footer text-center">
                             <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
                             <a :href="selectedCard.mainurl" target="_blank" class="btn btn-primary mx-5">View Website</a>
-                            <button v-if="selectedCard.isRecurring " class="btn btn-primary" @click="send_to_calendar_recurring(selectedCard.recurringDays, selectedCard.startTime, selectedCard.endTime, true, selectedCard.title, selectedCard.recurringStartDate, selectedCard.recurringEndDate)">Add to Calendar</button>
-                            <button v-else class="btn btn-primary" @click="send_to_calendar_nonrecurring(selectedCard.daysOfWeek, selectedCard.startTime, selectedCard.endTime, false, selectedCard.title, selectedCard.date)">Add to Calendar</button>
+                            <button v-if="selectedCard.isRecurring" class="btn btn-primary" 
+                                @click="send_to_calendar_recurring(selectedCard.recurringDays, selectedCard.startTime, 
+                                    selectedCard.endTime, true, selectedCard.title, selectedCard.recurringStartDate, 
+                                    selectedCard.recurringEndDate)">Add to Calendar</button>
+                            <button v-else class="btn btn-primary" 
+                                @click="send_to_calendar_nonrecurring(selectedCard.daysOfWeek, selectedCard.startTime, 
+                                    selectedCard.endTime, false, selectedCard.title, selectedCard.date)">Add to Calendar</button>
+                        </div>
+                    </div>
+            
+                    <!-- Toast Notification -->
+                    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                        <div id="calendarToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                <strong class="me-auto">Calendar Update</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body" id="toastMessage">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -318,12 +343,22 @@
                         selectedFilters: [], // Combined filters array
                         availableSkills: [],
                         availableCategories: [],
+                        isLoading: false,  // Add this new data property
                     };
                 },
                 methods: {
 
-                    async send_to_calendar_recurring(recurringDays, startTime, endTime, recurring, title, startdate, enddate){
-                        try{
+                    showToast(message, success = true) {
+                        const toastEl = document.getElementById('calendarToast');
+                        const messageEl = document.getElementById('toastMessage');
+                        messageEl.textContent = message;
+                        messageEl.className = 'toast-body ' + (success ? 'bg-success' : 'bg-danger') + ' text-white';
+                        const toast = new bootstrap.Toast(toastEl);
+                        toast.show();
+                    },
+
+                    async send_to_calendar_recurring(recurringDays, startTime, endTime, recurring, title, startdate, enddate) {
+                        try {
                             const docRef = await db.collection("UserEvents").add({
                                 'Start Time': startTime,
                                 'End Time': endTime,
@@ -334,30 +369,33 @@
                                 'Start Date': startdate,
                                 'End Date': enddate
                             });
+                            this.showToast('Event successfully added to your calendar!', true);
                             console.log("Document ready");
-                        }catch (e){
-                            console.error("Error adding document: ", e)
-                        }
-
-                    },
-
-                    async send_to_calendar_nonrecurring(daysOfWeek, startTime, endTime, recurring, title, date){
-                        try{
-                            const docRef = await db.collection("UserEvents").add({
-                                'Start Time': startTime,
-                                'End Time': endTime,
-                                'Days Needed': daysOfWeek,
-                                'UID': userId,
-                                'Recurring': recurring,
-                                'Event Name': title,
-                                'Start Date': date,
-                                'End Date': date
-                            });
-                            console.log("Document ready");
-                        }catch (e){
-                            console.error("Error adding document: ", e)
+                        } catch (e) {
+                            this.showToast('Error adding event to calendar. Please try again.', false);
+                            console.error("Error adding document: ", e);
                         }
                     },
+
+                    async send_to_calendar_nonrecurring(daysOfWeek, startTime, endTime, recurring, title, date) {
+                            try {
+                                const docRef = await db.collection("UserEvents").add({
+                                    'Start Time': startTime,
+                                    'End Time': endTime,
+                                    'Days Needed': daysOfWeek,
+                                    'UID': userId,
+                                    'Recurring': recurring,
+                                    'Event Name': title,
+                                    'Start Date': date,
+                                    'End Date': date
+                                });
+                                this.showToast('Event successfully added to your calendar!', true);
+                                console.log("Document ready");
+                            } catch (e) {
+                                this.showToast('Error adding event to calendar. Please try again.', false);
+                                console.error("Error adding document: ", e);
+                            }
+                        },
 
                     clearAllFilters() {
                         this.selectedFilters = [];
@@ -521,36 +559,32 @@
                     async calculateMatch(userData) {
                         if (userData && this.recommendedCards.length) {
                             this.showMatchBar = true;
+                            this.isLoading = true;  // Start loading
 
-                            /* Original code
-                            // Loop through each listing and calculate match score
-                            this.recommendedCards = this.recommendedCards.map((listing) => {
-                              const matchScore = this.calculateMatchScore(userData, listing);
-                              return {
-                                ...listing,  // Spread operator to keep other listing data intact
-                                matchScore  // Add/Update matchScore property
-                              };
-                            });
-                            */
-                            // Create an array of promises for calculating match scores
-                            const matchScorePromises = this.recommendedCards.map(async (listing) => {
-                                const matchScore = await this.calculateMatchScore(userData, listing);
-                                return {
-                                    ...listing,  // Spread operator to keep other listing data intact
-                                    matchScore  // Add/Update matchScore property
-                                };
-                            });
+                            try {
+                                const matchScorePromises = this.recommendedCards.map(async (listing) => {
+                                    const matchScore = await this.calculateMatchScore(userData, listing);
+                                    return {
+                                        ...listing,
+                                        matchScore
+                                    };
+                                });
 
-                            // Wait for all match score calculations to complete
-                            this.recommendedCards = await Promise.all(matchScorePromises);
+                                // Wait for all match score calculations to complete
+                                this.recommendedCards = await Promise.all(matchScorePromises);
 
-                            // Sort listings based on matchScore descending once
-                            this.recommendedCards.sort((a, b) => b.matchScore - a.matchScore);
+                                // Sort listings based on matchScore descending once
+                                this.recommendedCards.sort((a, b) => b.matchScore - a.matchScore);
 
-                            console.log("Listings with match scores:", this.recommendedCards);
-
+                                console.log("Listings with match scores:", this.recommendedCards);
+                            } catch (error) {
+                                console.error("Error calculating matches:", error);
+                            } finally {
+                                this.isLoading = false;  // End loading regardless of success/failure
+                            }
                         } else {
                             this.showMatchBar = false;
+                            this.isLoading = false;
                         }
                     },
 
