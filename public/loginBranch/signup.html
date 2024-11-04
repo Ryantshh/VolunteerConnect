@@ -1,22 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            /* Changed from height to min-height */
-            overflow-y: auto;
-            /* Allow vertical scrolling */
-        }
-
+        /* Navbar styles (kept the same) */
         .navbar {
             width: 100%;
             border-bottom: 2px solid rgba(255, 0, 0, 0.1);
@@ -27,36 +17,14 @@
             top: 0;
             z-index: 1000;
         }
-
-        .navbar:hover {
-            border-bottom: 2px solid rgba(255, 0, 0, 0.3);
-        }
-
-        .navbar-nav {
-            width: 50%;
-            justify-content: space-around;
-        }
-
-        .navbar-brand img {
-            border-radius: 50%;
-            width: 60px;
-            height: 50px;
-        }
-
-        .navbar-toggler {
-            border: none;
-            padding: 0.5rem;
-        }
-
-        .navbar-toggler:focus {
-            box-shadow: none;
-            outline: none;
-        }
-
+        .navbar:hover { border-bottom: 2px solid rgba(255, 0, 0, 0.3); }
+        .navbar-nav { width: 50%; justify-content: space-around; }
+        .navbar-brand img { border-radius: 50%; width: 60px; height: 50px; }
+        .navbar-toggler { border: none; padding: 0.5rem; }
+        .navbar-toggler:focus { box-shadow: none; outline: none; }
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
         }
-
         .nav-link {
             position: relative;
             color: #333 !important;
@@ -64,9 +32,8 @@
             overflow: hidden;
             padding: 0.5rem 1.2rem;
         }
-
         .nav-link::before {
-            content: '';
+            content: "";
             position: absolute;
             bottom: 0;
             left: 50%;
@@ -76,25 +43,10 @@
             transition: all 0.3s ease;
             transform: translateX(-50%);
         }
-
-        .nav-link:hover {
-            color: #ff0000 !important;
-        }
-
-        .nav-link:hover::before {
-            width: 100%;
-        }
-
-        #active {
-            color: #ff0000 !important;
-            font-weight: bold;
-        }
-
-        #active::before {
-            width: 100%;
-            background-color: #ff0000;
-        }
-
+        .nav-link:hover { color: #ff0000 !important; }
+        .nav-link:hover::before { width: 100%; }
+        #active { color: #ff0000 !important; font-weight: bold; }
+        #active::before { width: 100%; background-color: #ff0000; }
         #signin {
             background-color: #ff4444;
             color: #ffffff;
@@ -105,132 +57,172 @@
             position: relative;
             overflow: hidden;
         }
-
         #signin:hover {
             background-color: #cc0000;
             transform: translateY(-2px);
         }
 
+        /* New styles for the signup page */
+        body {
+            min-height: 100vh;
+            background-color: #f8f9fa;
+        }
+
         .login-container {
-            text-align: center;
-            padding: 20px;
-            width: 60%;
+            min-height: calc(100vh - 76px);
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
         }
 
-        .login-container img {
-            width: 100px;
+        .login-left {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        h1 {
-            font-size: 24px;
-            margin: 20px 0 10px;
+        .login-right {
+            background-color: #ff4444;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
         }
 
-        p {
-            font-size: 14px;
-            color: #666;
-            margin-bottom: 30px;
+        .login-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(0.9);
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .login-form {
+            width: 100%;
+            max-width: 400px;
         }
 
         .input-container {
             position: relative;
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .input-container label {
             position: absolute;
-            top: -8px;
-            left: 10px;
+            top: -10px;
+            left: 15px;
             background-color: white;
-            padding: 0 5px;
-            font-size: 14px;
-            color: #666;
+            padding: 0 8px;
+            font-size: 0.875rem;
+            color: #6c757d;
+            transition: all 0.3s ease;
+            z-index: 1;
         }
 
-        .input-container input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .icon-container {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
-
-        .button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 10px;
-            margin: 25px 0;
-            border: 1px solid #ddd;
-            border-radius: 30px;
-            text-decoration: none;
-            color: #333;
-            font-size: 16px;
-        }
-
-        .button:hover {
-            background-color: lightgray;
-            cursor: pointer;
-        }
-
-        .students-col {
-            height: auto;
-            /* Changed from calc to auto */
-            min-height: calc(100vh - 76px);
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            overflow: hidden;
-        }
-
-        .students {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: right;
-        }
-
-        .row {
-            min-height: calc(100vh - 76px);
-            /* Changed from fixed height to min-height */
-            display: flex;
-            align-items: stretch;
-            /* Changed from center to stretch */
-            overflow-y: auto;
-            /* Allow vertical scrolling */
-        }
-
-        .content {
+        .form-control {
+            border: 2px solid #e9ecef;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
             position: relative;
-            padding: 20px;
-            width: 100%;
-            max-width: 600px;
-            height: 100%;
+            background-color: white;
         }
 
-		@media (max-width: 991.98px) {
-            .row {
-                min-height: auto;
-                /* Allow content to determine height on mobile */
-            }
+        .form-control:focus {
+            border-color: #ff4444;
+            box-shadow: 0 0 0 0.2rem rgba(255, 68, 68, 0.25);
+        }
 
-            .students-col {
+        .password-hint {
+            color: #6c757d;
+            font-size: 0.875rem;
+            margin-top: -1rem;
+            margin-bottom: 1rem;
+            text-align: left;
+            font-style: italic;
+        }
+
+        .btn-primary {
+            background-color: #ff4444;
+            border-color: #ff4444;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #cc0000;
+            border-color: #cc0000;
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #6c757d;
+            margin: 1.5rem 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .divider span {
+            padding: 0 1rem;
+        }
+
+        .btn-google {
+            border: 2px solid #e9ecef;
+            background-color: white;
+            color: #333;
+            padding: 0.75rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-google:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .login-link {
+            margin-top: 2rem;
+            color: #6c757d;
+        }
+
+        .login-link a {
+            color: #ff4444;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 991.98px) {
+            .login-right {
                 display: none;
-                /* Hide image on mobile to save space */
             }
 
-            .content {
-                padding: 20px;
-                /* Consistent padding */
+            .login-left {
+                padding: 2rem;
             }
 
             .navbar-nav {
@@ -258,11 +250,10 @@
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             }
         }
-
     </style>
 </head>
-
 <body>
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="../index.html">
@@ -274,22 +265,19 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div
-					class="collapse navbar-collapse justify-content-center"
-					id="navbarNav"
-				>
-					<ul class="navbar-nav">
-						<li class="nav-item">
-							<a class="nav-link" id="active" href="../index.html">Home</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="../explore/explorebeforelogin.html">Explore</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="../donation/donatebeflogin.html">Donate</a>
-						</li>
-					</ul>
-				</div>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" id="active" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../explore/explorebeforelogin.html">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../donation/donatebeflogin.html">Donate</a>
+                    </li>
+                </ul>
+            </div>
 
             <div class="d-flex">
                 <button id="signin" class="btn" type="button" onclick="window.location.href='login.html'">Login</button>
@@ -297,74 +285,75 @@
         </div>
     </nav>
 
+    <!-- New Signup Section -->
     <div class="container-fluid">
-        <div class="row">
-            <div class="col p-5 text-center content">
-                <img src="images/Volunteer.png" style="height: 100px" />
+        <div class="row login-container">
+            <div class="col-lg-6 login-left">
+                <img src="images/Volunteer.png" alt="Logo" class="logo" />
+                <div class="login-form">
+                    <h1 class="text-center mb-4">Welcome to Volunteer Connect!</h1>
+                    <p class="text-center text-muted mb-4">Join us today to make a difference!</p>
 
-                <h1>Welcome to Volunteer Connect!</h1>
+                    <form id="signUpForm">
+                        <div class="input-container">
+                            <label for="signUpEmail">Email address</label>
+                            <input type="email" class="form-control" id="signUpEmail" placeholder="Enter your email" required />
+                        </div>
 
-                <p>Join us today to make a difference!</p>
+                        <div class="input-container">
+                            <label for="signUpPassword">Password</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="signUpPassword" placeholder="Enter your password" required />
+                                <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent" 
+                                    onclick="togglePassword('signUpPassword','toggleIcon1')">
+                                    <img src="images/hide.png" alt="Toggle Password" id="toggleIcon1" style="height: 20px" />
+                                </button>
+                            </div>
+                        </div>
 
-                <form id="signUpForm">
-                    <div class="input-container">
-                        <label for="signUpEmail" class="form-label">Email address</label>
-                        <input type="email" class="form-control" id="signUpEmail" placeholder="Enter your email"
-                            required />
+                        <div class="input-container">
+                            <label for="cfm_password">Confirm password</label>
+                            <div class="position-relative">
+                                <input type="password" class="form-control" id="cfm_password" placeholder="Confirm your password" required />
+                                <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent" 
+                                    onclick="togglePassword('cfm_password','toggleIcon2')">
+                                    <img src="images/hide.png" alt="Toggle Password" id="toggleIcon2" style="height: 20px" />
+                                </button>
+                            </div>
+                        </div>
+
+                        <p class="password-hint">Password needs to be at least 6 characters.</p>
+
+                        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                    </form>
+
+                    <div class="divider">
+                        <span>OR</span>
                     </div>
 
-                    <div class="input-container">
-                        <label for="signUpPassword" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="signUpPassword" placeholder="Enter your password"
-                            required />
-                        <span class="icon-container" onclick="togglePassword('signUpPassword','toggleIcon1')">
-                            <img src="images/hide.png" alt="Toggle Password" id="toggleIcon1" style="height: 20px" />
-                        </span>
-                    </div>
+                    <button id="googleSignInButton" class="btn btn-google w-100">
+                        <img src="images/google-icon.png" alt="Google Icon" style="height: 20px; margin-right: 10px" />
+                        Continue with Google
+                    </button>
 
-                    <div class="input-container">
-                        <label for="cfm_password" class="form-label">Confirm password</label>
-                        <input type="password" class="form-control" id="cfm_password" placeholder="Confirm your password"
-                            required />
-                        <span class="icon-container" onclick="togglePassword('cfm_password','toggleIcon2')">
-                            <img src="images/hide.png" alt="Toggle Password" id="toggleIcon2" style="height: 20px" />
-                        </span>
-                    </div>
-                    <p class="text-start" style="font-style: italic; font-size: small">
-                        Password needs to be at least 6 characters.
+                    <p class="text-center login-link">
+                        Already have an account? <a href="login.html">Log in</a>
                     </p>
-
-                    <button type="submit" class="btn btn-primary">Sign Up</button>
-                </form>
-
-                <div class="divider my-3">OR</div>
-
-                <button id="googleSignInButton"
-                    class="btn btn-outline-primary google d-inline-flex align-items-center justify-content-center"
-                    style="width: 100%; padding: 10px; margin-top: 10px">
-                    <img src="images/google-icon.png" alt="Google Icon" style="height: 20px; margin-right: 10px" />
-                    Continue with Google
-                </button>
-
-                <br /><br />
-                <p>Already have an account? <a href="login.html">Log in</a></p>
+                </div>
             </div>
-
-            <div class="col students-col">
-                <img src="images/student.jpg" class="students" />
+            <div class="col-lg-6 login-right">
+                <img src="images/student.jpg" alt="Students" />
             </div>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
     <script src="../config.js"></script>
     <script src="app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function togglePassword(inputId, iconId) {
             const passwordInput = document.getElementById(inputId);
@@ -380,5 +369,4 @@
         }
     </script>
 </body>
-
 </html>
