@@ -109,8 +109,9 @@
 
                             <!-- Progress Bar for Match Score -->
                             <div v-if="showMatchBar" class="progress" style="height: 20px; margin-top: -4px;">
-                                <div style="background-color: lightgreen;" class="progress-bar" role="progressbar" :style="{ width: card.matchScore + '%' }"
-                                    :aria-valuenow="card.matchScore" aria-valuemin="0" aria-valuemax="100">
+                                <div style="background-color: lightgreen;" class="progress-bar" role="progressbar"
+                                    :style="{ width: card.matchScore + '%' }" :aria-valuenow="card.matchScore"
+                                    aria-valuemin="0" aria-valuemax="100">
                                     {{ card.matchScore }}% Match
                                 </div>
                             </div>
@@ -485,6 +486,9 @@
                         // Brandyn Testing stuff
                         console.log("This is the listing location: ", listing.location)
                         console.log("This is the user's location: ", user.location)
+                        const originLocation = encodeURIComponent(user.location);
+                        const destinationLocation = encodeURIComponent(listing.location);
+                        console.log("API Request URL:", `http://brandynchua.pythonanywhere.com/google_api/distancegetter?origins=${originLocation}&destinations=${destinationLocation}&units=metric`);
                         // if(listing.location !== "No location"){
                         //   const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
                         //     params: {
