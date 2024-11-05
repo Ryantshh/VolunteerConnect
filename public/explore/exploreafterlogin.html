@@ -366,6 +366,8 @@
                         isLoading: false,  // Add this new data property
                         map: null,
                         marker: null,
+                        isAdmin:false,
+
                     };
                 },
                 methods: {
@@ -537,6 +539,9 @@
                             if (user) {
                                 const uid = user.uid;  // Get the logged-in user's UID
                                 console.log("User ID:", uid);
+                                if(uid=="Sx2Al5DFAEOazuO4ZO37dCOKQTt1"){
+                                    this.isAdmin=true;
+                                }
 
                                 try {
                                     const querySnapshot = await db.collection('UserQuestionnaire')
