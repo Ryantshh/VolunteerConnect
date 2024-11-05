@@ -13,6 +13,10 @@
     <link rel="stylesheet" href="homepage.css" />
     <script src="https://unpkg.com/vue@3.2.45/dist/vue.global.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="../config.js"></script> <!-- Firebase config file -->
 
 <script>
     let userId;
@@ -24,6 +28,8 @@
 
 </head>
 <body>
+
+    <div id="app">
         <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg">
             <div class="container-fluid">
@@ -52,17 +58,19 @@
                         <li class="nav-item">
                             <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
                         </li>
+                        <li class="nav-item" v-if="isAdmin">
+                            <a class="nav-link" href="../admin/admin.html">Approval</a>
+                        </li>
                     </ul>
                 </div>
     
                 <!-- Sign In Button on the far right -->
                 <div class="d-flex">
-                    <button id="signin" class="btn" type="button">My Profile</button>
+                    <button id="signin" class="btn" type="button" onclick="window.location.href='../loginBranch/profile.html'">My Profile</button>
                 </div>
             </div>
         </nav>
     
-<div id="app">
     <div class="container">
         <div class="d-flex justify-content-between mb-3">
           <div>
@@ -123,6 +131,7 @@ const { createApp } = Vue;
         createApp({
             data() {
                 return {
+                    isAdmin:false,
                     selectedMonth: new Date().getMonth() + 1,
                     viewType: "calendar",
                     daysOfWeek: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
@@ -154,11 +163,11 @@ const { createApp } = Vue;
             },
             computed: {
                 calendarWeeks() {
-        const firstDayOfMonth = new Date(
-            new Date().getFullYear(),
-            this.selectedMonth - 1,
-            1
-        );
+                const firstDayOfMonth = new Date(
+                    new Date().getFullYear(),
+                    this.selectedMonth - 1,
+                    1
+                );
 
         const lastDayOfMonth = new Date(
             new Date().getFullYear(),
@@ -214,6 +223,17 @@ const { createApp } = Vue;
     },
     },
     methods: {
+        checkAdmin() {
+                    firebase.auth().onAuthStateChanged(async (user) => {
+                        if (user) {
+                            const uid = user.uid;  // Get the logged-in user's UID
+                            console.log("User ID:", uid);
+                            if (uid == "Sx2Al5DFAEOazuO4ZO37dCOKQTt1") {
+                                this.isAdmin = true;
+                            }
+                        }
+                    })
+        },
     toggleView(view) {
         this.viewType = view;
     },
@@ -304,6 +324,7 @@ const { createApp } = Vue;
         this.distance_calc();
         this.firestore_test();
         this.user_events_retrieval();
+        this.checkAdmin(); // Add this line to make the admin check work
     },
 
     watch:{
