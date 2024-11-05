@@ -16,6 +16,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
     <script src="../config.js"></script> <!-- Firebase config file -->
+    
 </head>
 <script>
     window.onload = function(){
@@ -24,7 +25,6 @@
     }
 </script>
 <body>
-<div id="app">
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
@@ -52,9 +52,6 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
-                    </li>
-                    <li class="nav-item" v-if="isAdmin">
-                        <a class="nav-link" href="../admin/admin.html">Approval</a>
                     </li>
                 </ul>
             </div>
@@ -123,7 +120,6 @@
         </button>
     </div>
 
-</div>
     <!-- Mission Statement Section -->
     <div id="mission" class="mission-section">
         <div class="mission-content fade-in">
@@ -155,9 +151,10 @@
         </div>
     </div>
 </div>
+</div>
+
 
 <div class="teamsection">
-
 <div class="main-content">
     <h1>😊 Meet the Team 😊</h1>
 </div>
@@ -215,30 +212,6 @@
 
 
     <script>
-        const app = Vue.createApp({
-            data(){
-                return{
-                    isAdmin : false,
-                }
-            },
-            methods:{
-                checkAdmin() {
-                    firebase.auth().onAuthStateChanged(async (user) => {
-                        if (user) {
-                            const uid = user.uid;  // Get the logged-in user's UID
-                            console.log("User ID:", uid);
-                            if (uid == "Sx2Al5DFAEOazuO4ZO37dCOKQTt1") {
-                                this.isAdmin = true;
-                            }
-                        }
-                    })
-                  },
-            },
-            created(){
-                this.checkAdmin(); // Add this line to make the admin check work
-            }
-        }).mount('#app')
-
 
 
         function showFunFact(element) {

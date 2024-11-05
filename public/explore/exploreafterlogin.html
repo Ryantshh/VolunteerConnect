@@ -71,10 +71,6 @@
                         <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
                     </li>
 
-                    <li class="nav-item" v-if="isAdmin">
-                        <a class="nav-link" href="../admin/admin.html">Approval</a>
-                    </li>
-
                 </ul>
             </div>
 
@@ -116,6 +112,7 @@
             <h1>EXPLORE</h1>
             <p>The opportunities designed to fit you</p>
             <a href="../Posting/posting.html" class="button">Create a Post</a>
+            <a v-if="isAdmin" href="../admin/admin.html" class="button mx-2">Approve Posts!</a>
         </div>
     </div>
 
