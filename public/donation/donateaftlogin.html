@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./donate.css">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
@@ -40,20 +42,21 @@
                         <a class="nav-link" href="../calendar/calendar.html">Calendar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="active"  href="#">Donate</a>
+                        <a class="nav-link" id="active" href="#">Donate</a>
                     </li>
 
                     <li class="nav-item" v-if="isAdmin">
 
                         <a class="nav-link" href="../admin/admin.html">Approval</a>
                     </li>
-                    
+
                 </ul>
             </div>
 
             <!-- Sign In Button on the far right -->
             <div class="d-flex">
-                <button id="signin" class="btn" type="button" onclick="window.location.href='../loginBranch/profile.html'">My Profile</button>
+                <button id="signin" class="btn" type="button"
+                    onclick="window.location.href='../loginBranch/profile.html'">My Profile</button>
             </div>
         </div>
     </nav>
@@ -70,30 +73,32 @@
         <div class="container">
             <div class="jumbotron-content">
                 <h1 class="display-4">Make a Difference Today</h1>
-                <p class="lead">Your generosity can transform lives. Join us in creating positive change through giving if you are
+                <p class="lead">Your generosity can transform lives. Join us in creating positive change through giving
+                    if you are
                     unable to dedicate physical time.</p>
                 <p class="lead">Our donations are proudly supported by Every.org</p>
-                <a class="btn btn-primary btn-lg" href="https://www.every.org/about-us" target="_blank" role="button">Learn More</a>
+                <a class="btn btn-primary btn-lg" href="https://www.every.org/about-us" target="_blank"
+                    role="button">Learn More</a>
             </div>
         </div>
     </div>
     <div id="app">
         <div id="body2" class="container-fluid" style="text-align:center">
             <h5 id="cat">Our Featured Categories</h5>
-                <button @click="setOption('animals')">Animals</button>
-                <button @click="setOption('culture')">Culture</button>
-                <button @click="setOption('education')">Education</button>
-                <button @click="setOption('environment')">Environment</button>
-                <button @click="setOption('humans')">Humans</button>
-                <button @click="setOption('health')">Health</button>
-                <button @click="setOption('justice')">Justice</button>
-                <button @click="setOption('research')">Research</button>
+            <button @click="setOption('animals')">Animals</button>
+            <button @click="setOption('culture')">Culture</button>
+            <button @click="setOption('education')">Education</button>
+            <button @click="setOption('environment')">Environment</button>
+            <button @click="setOption('humans')">Humans</button>
+            <button @click="setOption('health')">Health</button>
+            <button @click="setOption('justice')">Justice</button>
+            <button @click="setOption('research')">Research</button>
             <h6>Search Your Own</h6>
             <div class="search-container">
                 <input type="text" placeholder="Search" v-model="search">
                 <button @click="triggerChildSearch" class="search-btn">Search</button>
             </div>
-    
+
             <!-- Styled current option display -->
             <div class="current-option">
                 <span class="option-text">
@@ -101,49 +106,65 @@
                 </span>
             </div>
 
-            </div>
+        </div>
         <nonprofit-list ref="nonprofitList" :option="curOption" :search="search"></nonprofit-list>
     </div>
 
     <!-- Vue.js App -->
-     <script>
+    <script>
         const app = Vue.createApp({
-            data(){
-                return{
-                    search:'',
-                    curOption:'animals',
+            data() {
+                return {
+                    search: '',
+                    curOption: 'animals',
+                    isAdmin: false,
                 }
             },
             mounted() {
-                    this.startSlideshow();
-             },
+                this.startSlideshow();
+                this.checkAdmin();
+            },
+           
             methods: {
-                setOption(newOption){
+                checkAdmin() {
+                    firebase.auth().onAuthStateChanged(async (user) => {
+                        if (user) {
+                            const uid = user.uid;  // Get the logged-in user's UID
+                            console.log("User ID:", uid);
+                            if (uid == "Sx2Al5DFAEOazuO4ZO37dCOKQTt1") {
+                                this.isAdmin = true;
+                            }
+                        }
+                    })
+
+                },
+                setOption(newOption) {
                     this.curOption = newOption;
                     this.search = '';
                 },
                 triggerChildSearch() {
                     this.curOption = this.search
                     this.$refs.nonprofitList.triggerSearch();  // Trigger search in child component via $refs
-                 },
+                },
                 startSlideshow() {
                     const slides = document.querySelectorAll('.slide');
                     let currentSlide = 0;
-                    
-                        setInterval(() => {
-                            // Remove active class from current slide
-                            slides[currentSlide].classList.remove('active');
-                            
-                            // Move to next slide
-                            currentSlide = (currentSlide + 1) % slides.length;
-                            
-                            // Add active class to new slide
-                            slides[currentSlide].classList.add('active');
-                        }, 5000); // Change slide every 5 seconds
-                    },
-                }
+
+                    setInterval(() => {
+                        // Remove active class from current slide
+                        slides[currentSlide].classList.remove('active');
+
+                        // Move to next slide
+                        currentSlide = (currentSlide + 1) % slides.length;
+
+                        // Add active class to new slide
+                        slides[currentSlide].classList.add('active');
+                    }, 5000); // Change slide every 5 seconds
+                },
+            }
         });
-     </script>
+    </script>
     <script src="./donate.js"></script>
 </body>
+
 </html>
