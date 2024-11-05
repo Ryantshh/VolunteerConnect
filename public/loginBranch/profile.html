@@ -365,12 +365,13 @@
 				},
 				async submitProfile() {
 					try {
+						console.log("submitting profile");
 						const user = firebase.auth().currentUser;
 						if (user) {
 							await db
 								.collection("UserQuestionnaire")
 								.doc(user.uid)
-								.set(this.userProfile);
+								.update(this.userProfile);
 						}
 						window.location.href = "profile.html";
 
