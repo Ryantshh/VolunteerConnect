@@ -57,7 +57,7 @@
     <div class="container">
         <div class="d-flex justify-content-between mb-3">
           <div>
-            <label for="monthSelect">Month</label>
+            <label for="monthSelect"><h1>Month</h1></label>
             <select id="monthSelect" class="form-select" v-model="selectedMonth">
               <option
                 v-for="month in months"
@@ -76,6 +76,7 @@
           </div>-->
         </div>
             <!-- Calendar View -->
+           
             <div v-if="viewType === 'calendar'" class="calendar">
                 <table class="table table-bordered">
                     <thead>
