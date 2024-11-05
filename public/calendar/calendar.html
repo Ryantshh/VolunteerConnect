@@ -13,6 +13,15 @@
     <link rel="stylesheet" href="homepage.css" />
     <script src="https://unpkg.com/vue@3.2.45/dist/vue.global.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+    let userId;
+    window.onload = function(){
+    userId = sessionStorage.getItem('userId');
+    console.log("This is the UID", userId)
+    }
+</script>
+
 </head>
 <body>
         <!-- Navigation Bar -->
@@ -274,7 +283,7 @@ const { createApp } = Vue;
     user_events_retrieval(){
         axios.get("http://brandynchua.pythonanywhere.com/firestore_api/calendar_data", {
             params: {
-                user_id: "KGLKnr1QyXOQxXeCjNKDCwgTV9T2", //Replace this with the session/firebase auth pulled user ID. For now testing with static
+                user_id: sessionStorage.getItem('userId'),//"KGLKnr1QyXOQxXeCjNKDCwgTV9T2", //Replace this with the session/firebase auth pulled user ID. For now testing with static
                 selected_month: this.selectedMonth
             }
         })
