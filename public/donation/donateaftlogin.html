@@ -122,8 +122,10 @@
             },
             mounted() {
                 this.startSlideshow();
+                this.checkAdmin();
             },
-            created: {
+           
+            methods: {
                 checkAdmin() {
                     firebase.auth().onAuthStateChanged(async (user) => {
                         if (user) {
@@ -135,9 +137,7 @@
                         }
                     })
 
-                }
-            },
-            methods: {
+                },
                 setOption(newOption) {
                     this.curOption = newOption;
                     this.search = '';
