@@ -849,8 +849,7 @@
 
                         }
                         else{
-                            
-                            const remainingListings = this.recommendedCards
+                            const remainingListings = this.recommendedCards.filter(listing=> this.isValidDate(listing))
                             return remainingListings.filter(listing => this.matchesFilters(listing));
                         }
                     }
