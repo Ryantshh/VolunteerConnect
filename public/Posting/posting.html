@@ -32,7 +32,7 @@
         <div class="container-fluid">
             <!-- Navbar Brand -->
             <a class="navbar-brand" href="#">
-                <img src="images/Volunteer.png" alt="logo" />
+                <img src="../loginBranch/images/Volunteer.png" alt="logo" />
             </a>
 
             <!-- Toggler for mobile view -->
@@ -58,6 +58,10 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">For You</a>
+                    </li>
+                    <li class="nav-item" v-if="isAdmin">
+
+                        <a class="nav-link" href="../admin/admin.html">Approval</a>
                     </li>
                 </ul>
             </div>
