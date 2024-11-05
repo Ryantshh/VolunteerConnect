@@ -54,7 +54,6 @@ app.component('nonprofit-list',{
                 this.detailedNonprofits = detailedNonprofits.filter(
                     n => n !== undefined && n.coverImageUrl &&n.description
                 );
-                console.log("Filtered detailed nonprofits data:", this.detailedNonprofits);
             } catch (error) {
                 console.error('Error fetching detailed info:', error);
             }
@@ -72,7 +71,6 @@ app.component('nonprofit-list',{
         },
         // Generate a donation link using the nonprofit slug
         donateLink(slug) {
-            console.log(`Generating donation link for slug: ${slug}`);
             return `https://www.every.org/${slug}/donate`;
         }
     },

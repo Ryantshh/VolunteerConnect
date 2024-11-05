@@ -40,6 +40,8 @@
 </script>
 
 <body>
+    <div id="body">
+        <div id="app">
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <!-- Navbar Brand -->
@@ -70,7 +72,6 @@
                     </li>
 
                     <li class="nav-item" v-if="isAdmin">
-
                         <a class="nav-link" href="../admin/admin.html">Approval</a>
                     </li>
 
@@ -117,9 +118,6 @@
             <a href="../Posting/posting.html" class="button">Create a Post</a>
         </div>
     </div>
-
-    <div id="body">
-        <div id="app">
 
             
             <!-- Top Matches Section -->
@@ -542,7 +540,6 @@
                                 if(uid=="Sx2Al5DFAEOazuO4ZO37dCOKQTt1"){
                                     this.isAdmin=true;
                                 }
-
                                 try {
                                     const querySnapshot = await db.collection('UserQuestionnaire')
                                         .where('uid', '==', uid).get();
