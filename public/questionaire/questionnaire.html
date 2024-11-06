@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+    <script src="/config.js"></script> <!-- Firebase config file -->
+</head>
+<body>
+    <div class="container">
+        <h2>Questionnaire</h2>
+        <form id="questionnaireForm">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" placeholder="Enter your name" required><br>
+
+            <label for="question1">How satisfied are you with our service?</label>
+            <select id="question1">
+                <option value="Very Satisfied">Very Satisfied</option>
+                <option value="Satisfied">Satisfied</option>
+                <option value="Neutral">Neutral</option>
+                <option value="Dissatisfied">Dissatisfied</option>
+                <option value="Very Dissatisfied">Very Dissatisfied</option>
+            </select><br>
+
+            <label for="question2">Would you recommend our service to others?</label>
+            <select id="question2">
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select><br>
+
+            <button type="submit">Submit</button>
+        </form>
+        <p id="statusMessage"></p>
+    </div>
+
+    <script src="questionnaire.js"></script> <!-- Firestore logic for the questionnaire -->
+</body>
+</html>
