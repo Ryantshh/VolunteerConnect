@@ -20,21 +20,23 @@
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
-<script src="../config.js"></script> <!-- Firebase config file -->
+    <script src="../config.js"></script> <!-- Firebase config file -->
     <script>
         const googleMapsScript = document.createElement('script');
         googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${window.APP_CONFIG.GOOGLE_MAPS_API_KEY}`;
         document.head.appendChild(googleMapsScript);
     </script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script></script>
 </head>
 
 <script>
     // Setting the userId global variable through sessionStorage.
     let userId;
-    window.onload = function(){
+    window.onload = function () {
         userId = sessionStorage.getItem('userId');
         console.log("The user ID is : ", userId);
     }
@@ -43,81 +45,82 @@
 <body>
     <div id="body">
         <div id="app">
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            <!-- Navbar Brand -->
-            <a class="navbar-brand" href="../loginBranch/homepageafterlogin.html">
-                <img src="../loginBranch/images/Volunteer.png" alt="logo" />
-            </a>
+            <nav class="navbar navbar-expand-lg">
+                <div class="container-fluid">
+                    <!-- Navbar Brand -->
+                    <a class="navbar-brand" href="../loginBranch/homepageafterlogin.html">
+                        <img src="../loginBranch/images/Volunteer.png" alt="logo" />
+                    </a>
 
-            <!-- Toggler for mobile view -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+                    <!-- Toggler for mobile view -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-            <!-- Navbar Links-->
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../loginBranch/homepageafterlogin.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="active" href="#">Explore</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../calendar/calendar.html">Calendar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
-                    </li>
+                    <!-- Navbar Links-->
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="../loginBranch/homepageafterlogin.html">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="active" href="#">Explore</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../calendar/calendar.html">Calendar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
+                            </li>
 
-                </ul>
+                        </ul>
+                    </div>
+
+                    <!-- Sign In Button on the far right -->
+                    <div class="d-flex">
+                        <button id="signin" class="btn" type="button"
+                            onclick="window.location.href='../loginBranch/profile.html'">My Profile</button>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="jumbotron">
+                <div id="jumbotron-carousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="help6.jpg" class="d-block w-100" alt="Image 1">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="help5.jpg" class="d-block w-100" alt="Image 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="vol1.jpg" class="d-block w-100" alt="Image 3">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="help8.jpg" class="d-block w-100" alt="Image 4">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#jumbotron-carousel"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#jumbotron-carousel"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <div class="jumbotron-content">
+                    <h1>EXPLORE</h1>
+                    <p>The opportunities designed to fit you</p>
+                    <a href="../Posting/posting.html" class="button mb-2">Create a Post</a>
+                    <a v-if="isAdmin" href="../admin/admin.html" class="button mx-2">Approve Posts!</a>
+                </div>
             </div>
 
-            <!-- Sign In Button on the far right -->
-            <div class="d-flex">
-                <button id="signin" class="btn" type="button" onclick="window.location.href='../loginBranch/profile.html'">My Profile</button>
-            </div>
-        </div>
-    </nav>
 
-    <div class="jumbotron">
-        <div id="jumbotron-carousel" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <img src="help6.jpg" class="d-block w-100" alt="Image 1">
-                </div>
-                <div class="carousel-item">
-                    <img src="help5.jpg" class="d-block w-100" alt="Image 2">
-                </div>
-                <div class="carousel-item">
-                    <img src="vol1.jpg" class="d-block w-100" alt="Image 3">
-                </div>
-                <div class="carousel-item">
-                    <img src="help8.jpg" class="d-block w-100" alt="Image 4">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#jumbotron-carousel"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#jumbotron-carousel"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-        <div class="jumbotron-content">
-            <h1>EXPLORE</h1>
-            <p>The opportunities designed to fit you</p>
-            <a href="../Posting/posting.html" class="button mb-2">Create a Post</a>
-            <a v-if="isAdmin" href="../admin/admin.html" class="button mx-2">Approve Posts!</a>
-        </div>
-    </div>
-
-            
             <!-- Top Matches Section -->
             <div class="container mt-0" v-if="showMatchBar">
                 <div v-if="isLoading" class="text-center my-5">
@@ -164,19 +167,19 @@
 
 
 
-        <!-- Add this right after your <div id="app"> -->
+            <!-- Add this right after your <div id="app"> -->
             <div class="topmatch-preview" v-if="showPreview" @click.self="closePreview">
                 <div class="preview">
                     <div class="close-button" @click="closePreview">
                         <i class="fas fa-times"></i>
                     </div>
-            
+
                     <div v-if="selectedCard" class="preview-content">
                         <div class="preview-header">
                             <img :src="selectedCard.imageUrl" class="preview-logo" alt="Organization logo">
                             <h5 class="card-title">{{ selectedCard.title }}</h5>
                         </div>
-            
+
                         <div class="card-body">
                             <p class="card-text">{{ selectedCard.description }}</p>
                             <p class="card-text"><strong>Skills Needed:</strong> {{ Array.isArray(selectedCard.skills) ?
@@ -190,38 +193,42 @@
                             <p class="card-text"><strong>Time:</strong> {{ selectedCard.startTime }} - {{
                                 selectedCard.endTime}}</p>
                             <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>
-                            <div id="previewMap" style="height: 300px; width: 100%; margin-top: 15px; background: #f0f0f0; border: 1px solid #ccc; position: relative; min-height: 300px;">
+                            <div id="previewMap"
+                                style="height: 300px; width: 100%; margin-top: 15px; background: #f0f0f0; border: 1px solid #ccc; position: relative; min-height: 300px;">
                                 <!-- Loading indicator -->
-                                <div class="map-loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                <div class="map-loading"
+                                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                                     <div class="spinner-border text-primary" role="status">
                                         <span class="visually-hidden">Loading map...</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-            
+
                         <div class="card-footer text-center">
                             <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
                             <div class="row d-flex justify-content-center">
-                                <a :href="selectedCard.mainurl" target="_blank" class="btn btn-primary mx-5 m-2 col-md-3 col-12">View Website</a>
-                                <button v-if="selectedCard.isRecurring" class="btn btn-primary m-2 col-md-3 col-12" 
-                                @click="send_to_calendar_recurring(selectedCard.recurringDays, selectedCard.startTime, 
+                                <a :href="selectedCard.mainurl" target="_blank"
+                                    class="btn btn-primary m-2 col-md-3 col-12">View Website</a>
+                                <button v-if="selectedCard.isRecurring" class="btn btn-primary m-2 col-md-3 col-12"
+                                    @click="send_to_calendar_recurring(selectedCard.recurringDays, selectedCard.startTime, 
                                     selectedCard.endTime, true, selectedCard.title, selectedCard.recurringStartDate, 
                                     selectedCard.recurringEndDate, selectedCard.id)">Add to Calendar</button>
-                            <button v-else class="btn btn-primary col-md-3 col-12" 
-                                @click="send_to_calendar_nonrecurring(selectedCard.daysOfWeek, selectedCard.startTime, 
+                                <button v-else class="btn btn-primary  m-2 col-md-3 col-12"
+                                    @click="send_to_calendar_nonrecurring(selectedCard.daysOfWeek, selectedCard.startTime, 
                                     selectedCard.endTime, false, selectedCard.title, selectedCard.date, selectedCard.id)">Add to Calendar</button>
 
                             </div>
                         </div>
                     </div>
-            
+
                     <!-- Toast Notification -->
                     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
                         <div id="calendarToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="toast-header">
                                 <strong class="me-auto">Calendar Update</strong>
-                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast"
+                                    aria-label="Close"></button>
                             </div>
                             <div class="toast-body" id="toastMessage">
                             </div>
@@ -365,7 +372,7 @@
                         isLoading: false,  // Add this new data property
                         map: null,
                         marker: null,
-                        isAdmin:false,
+                        isAdmin: false,
 
                     };
                 },
@@ -402,25 +409,25 @@
                     },
 
                     async send_to_calendar_nonrecurring(daysOfWeek, startTime, endTime, recurring, title, date, id) {
-                            try {
-                                const docRef = await db.collection("UserEvents").add({
-                                    'Start Time': startTime,
-                                    'End Time': endTime,
-                                    'Days Needed': daysOfWeek,
-                                    'UID': userId,
-                                    'Recurring': recurring,
-                                    'Event Name': title,
-                                    'Start Date': date,
-                                    'End Date': date,
-                                    'event_id': id
-                                });
-                                this.showToast('Event successfully added to your calendar!', true);
-                                console.log("Document ready");
-                            } catch (e) {
-                                this.showToast('Error adding event to calendar. Please try again.', false);
-                                console.error("Error adding document: ", e);
-                            }
-                        },
+                        try {
+                            const docRef = await db.collection("UserEvents").add({
+                                'Start Time': startTime,
+                                'End Time': endTime,
+                                'Days Needed': daysOfWeek,
+                                'UID': userId,
+                                'Recurring': recurring,
+                                'Event Name': title,
+                                'Start Date': date,
+                                'End Date': date,
+                                'event_id': id
+                            });
+                            this.showToast('Event successfully added to your calendar!', true);
+                            console.log("Document ready");
+                        } catch (e) {
+                            this.showToast('Error adding event to calendar. Please try again.', false);
+                            console.error("Error adding document: ", e);
+                        }
+                    },
 
                     clearAllFilters() {
                         this.selectedFilters = [];
@@ -520,7 +527,7 @@
                                     endTime: data.endTime,
                                     recurringStartDate: data.recurringStartDate,
                                     recurringEndDate: data.recurringEndDate,
-                                    id:data.id
+                                    id: data.id
                                 });
                             });
 
@@ -540,8 +547,8 @@
                             if (user) {
                                 const uid = user.uid;  // Get the logged-in user's UID
                                 console.log("User ID:", uid);
-                                if(uid=="Sx2Al5DFAEOazuO4ZO37dCOKQTt1"){
-                                    this.isAdmin=true;
+                                if (uid == "Sx2Al5DFAEOazuO4ZO37dCOKQTt1") {
+                                    this.isAdmin = true;
                                 }
                                 try {
                                     const querySnapshot = await db.collection('UserQuestionnaire')
@@ -680,10 +687,10 @@
                     async initializeMap(postalCode) {
                         try {
                             console.log("Starting map initialization...");
-                            
+
                             // Wait for DOM to be ready
                             await Vue.nextTick();
-                            
+
                             // Get and verify container
                             const mapContainer = document.getElementById('previewMap');
                             if (!mapContainer) {
@@ -733,7 +740,7 @@
                             // If we have a postal code, geocode and update map
                             if (postalCode) {
                                 const geocoder = new google.maps.Geocoder();
-                                
+
                                 const results = await new Promise((resolve, reject) => {
                                     geocoder.geocode({
                                         address: `${postalCode}, Singapore`,
@@ -749,14 +756,14 @@
 
                                 const lat = results.geometry.location.lat();
                                 const lng = results.geometry.location.lng();
-                                
+
                                 // Update view and add marker
                                 this.map.setView([lat, lng], 16);
-                                
+
                                 if (this.marker) {
                                     this.map.removeLayer(this.marker);
                                 }
-                                
+
                                 this.marker = L.marker([lat, lng])
                                     .addTo(this.map)
                                     .bindPopup(this.selectedCard.title)
@@ -780,41 +787,41 @@
                             }
                         }
                     },
-                async openPreview(card) {
-                    try {
-                        const currentFilters = [...this.selectedFilters];
-                        this.selectedCard = card;
-                        this.showPreview = true;
-                        this.selectedFilters = currentFilters;
-                        document.body.classList.add('modal-open');
+                    async openPreview(card) {
+                        try {
+                            const currentFilters = [...this.selectedFilters];
+                            this.selectedCard = card;
+                            this.showPreview = true;
+                            this.selectedFilters = currentFilters;
+                            document.body.classList.add('modal-open');
 
-                        // Wait for the DOM to update before initializing the map
-                        await Vue.nextTick();
-                        
-                        if (card.location && card.location !== 'No location') {
-                            await this.initializeMap(card.location);
+                            // Wait for the DOM to update before initializing the map
+                            await Vue.nextTick();
+
+                            if (card.location && card.location !== 'No location') {
+                                await this.initializeMap(card.location);
+                            }
+                        } catch (error) {
+                            console.error("Error in openPreview:", error);
                         }
-                    } catch (error) {
-                        console.error("Error in openPreview:", error);
-                    }
-                },
+                    },
 
-                closePreview() {
-                    const currentFilters = [...this.selectedFilters];
-                    this.showPreview = false;
-                    this.selectedCard = null;
-                    this.selectedFilters = currentFilters;
-                    document.body.classList.remove('modal-open');
+                    closePreview() {
+                        const currentFilters = [...this.selectedFilters];
+                        this.showPreview = false;
+                        this.selectedCard = null;
+                        this.selectedFilters = currentFilters;
+                        document.body.classList.remove('modal-open');
 
-                    // Properly clean up the map
-                    if (this.map) {
-                        this.map.remove();
-                        this.map = null;
+                        // Properly clean up the map
+                        if (this.map) {
+                            this.map.remove();
+                            this.map = null;
+                        }
+                        if (this.marker) {
+                            this.marker = null;
+                        }
                     }
-                    if (this.marker) {
-                        this.marker = null;
-                    }
-                }
                 },
                 computed: {
                     // Helper computed property for selected filters visibility
@@ -859,8 +866,8 @@
                             return remainingListings.filter(listing => this.matchesFilters(listing));
 
                         }
-                        else{
-                            const remainingListings = this.recommendedCards.filter(listing=> this.isValidDate(listing))
+                        else {
+                            const remainingListings = this.recommendedCards.filter(listing => this.isValidDate(listing))
                             return remainingListings.filter(listing => this.matchesFilters(listing));
                         }
                     }
