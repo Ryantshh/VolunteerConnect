@@ -11,13 +11,14 @@
         crossorigin="anonymous"
     />
     <link rel="stylesheet" href="homepage.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://unpkg.com/vue@3.2.45/dist/vue.global.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
-<script src="../config.js"></script> <!-- Firebase config file -->
+    <script src="../config.js"></script> <!-- Firebase config file -->
 
 <script>
     let userId;
@@ -68,6 +69,8 @@
                 </div>
             </div>
         </nav>
+    
+    <br>
     
     <div class="container">
         <div class="d-flex justify-content-between mb-3">
@@ -137,7 +140,8 @@
             <h5 style="font-size: 1.5rem; font-weight: bold; color:red; background-color: white ;">You have nothing planned for now!</h5>   
         </div>
         <div v-else>
-            List of events:
+            <br>
+            <h2 class="events-header">List of Events</h2>
             <table class = "table table-bordered">
                 <tr>
                     <th>Event name</th>
@@ -155,7 +159,10 @@
                     <td>{{event['Start Time']}}</td>
                     <td>{{event['End Time']}}</td>
                     <td>{{event.event_id}}</td>
-                    <td><button @click="delete_from_calendar_db(event.event_id)">Remove</button></td>
+                    <td><button @click="delete_from_calendar_db(event.event_id)">
+                        <i class="fas fa-trash-alt"></i>
+                        Remove
+                    </button></td>
                 </tr>
             </table>
         </div>
