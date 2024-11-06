@@ -112,7 +112,7 @@
         <div class="jumbotron-content">
             <h1>EXPLORE</h1>
             <p>The opportunities designed to fit you</p>
-            <a href="../Posting/posting.html" class="button">Create a Post</a>
+            <a href="../Posting/posting.html" class="button mb-2">Create a Post</a>
             <a v-if="isAdmin" href="../admin/admin.html" class="button mx-2">Approve Posts!</a>
         </div>
     </div>
@@ -202,14 +202,17 @@
             
                         <div class="card-footer text-center">
                             <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
-                            <a :href="selectedCard.mainurl" target="_blank" class="btn btn-primary mx-5">View Website</a>
-                            <button v-if="selectedCard.isRecurring" class="btn btn-primary" 
+                            <div class="row d-flex justify-content-center">
+                                <a :href="selectedCard.mainurl" target="_blank" class="btn btn-primary mx-5 m-2 col-md-3 col-12">View Website</a>
+                                <button v-if="selectedCard.isRecurring" class="btn btn-primary m-2 col-md-3 col-12" 
                                 @click="send_to_calendar_recurring(selectedCard.recurringDays, selectedCard.startTime, 
                                     selectedCard.endTime, true, selectedCard.title, selectedCard.recurringStartDate, 
                                     selectedCard.recurringEndDate, selectedCard.id)">Add to Calendar</button>
-                            <button v-else class="btn btn-primary" 
+                            <button v-else class="btn btn-primary col-md-3 col-12" 
                                 @click="send_to_calendar_nonrecurring(selectedCard.daysOfWeek, selectedCard.startTime, 
                                     selectedCard.endTime, false, selectedCard.title, selectedCard.date, selectedCard.id)">Add to Calendar</button>
+
+                            </div>
                         </div>
                     </div>
             
