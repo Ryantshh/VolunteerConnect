@@ -89,6 +89,12 @@
               Calendar View
             </button>
           </div>-->
+        <div>
+            <label for="year"><h1>Year</h1></label>
+            <select id = "year" class = "form-select" v-model="selectedYear">
+                <option v-for="year in years">{{year}}</option>
+            </select>
+        </div>
         </div>
             <!-- Calendar View -->
            
@@ -163,6 +169,8 @@ const { createApp } = Vue;
                 return {
                     isAdmin:false,
                     selectedMonth: new Date().getMonth() + 1,
+                    selectedYear: new Date().getFullYear(),
+                    years: Array.from({ length: 11 }, (_, index) => new Date().getFullYear() - 5 + index),
                     viewType: "calendar",
                     daysOfWeek: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
                     months: [
@@ -190,19 +198,22 @@ const { createApp } = Vue;
                     distance: { "destination_addresses": [ "Singapore 544692" ], "origin_addresses": [ "Singapore 541281" ], "rows": [ { "elements": [ { "distance": { "text": "0.8 km", "value": 767 }, "duration": { "text": "3 mins", "value": 198 }, "status": "OK" } ] } ], "status": "OK" },
                     testing_firestore_connection: "Delulu",
                     list_of_events: [],
-                    loading: true
+                    loading: true,
+
                 };
             },
             computed: {
                 calendarWeeks() {
                 const firstDayOfMonth = new Date(
-                    new Date().getFullYear(),
+                    //new Date().getFullYear(),
+                    this.selectedYear,
                     this.selectedMonth - 1,
                     1
                 );
 
         const lastDayOfMonth = new Date(
-            new Date().getFullYear(),
+            //new Date().getFullYear(),
+            this.selectedYear,
             this.selectedMonth,
             0
         );
@@ -215,7 +226,8 @@ const { createApp } = Vue;
         // Adjust the loop to create weeks
         for (let i = startDate; i <= lastDayOfMonth.getDate(); i++) {
             const dayDate = new Date(
-                new Date().getFullYear(),
+                //new Date().getFullYear(),
+                this.selectedYear,
                 this.selectedMonth - 1,
                 i
             );
