@@ -127,8 +127,8 @@
         <div v-if=loading>
             <h5>Loading, please hold!</h5>
         </div>
-        <div v-else-if="list_of_events.length === 0">
-            <h5>You have nothing planned for now!</h5>   
+        <div v-else-if="list_of_events.length === 0" class = "d-flex justify-content-center align-items-center text-center my-4">
+            <h5 style="font-size: 1.5rem; font-weight: bold; color:red; background-color: white ;">You have nothing planned for now!</h5>   
         </div>
         <div v-else>
             List of events:

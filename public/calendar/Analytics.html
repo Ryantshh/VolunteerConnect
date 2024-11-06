@@ -68,8 +68,10 @@
             </div>
         </nav>
     <div id="charts">
-        <h2>Availability Charts</h2>
+        <h2>Availability Chart</h2>
         <canvas id = "availchart"></canvas>
+        <h2>Skills Chart</h2>
+        <canvas id="skillschart"></canvas>
     </div>  
 <script>
 const { createApp } = Vue;
@@ -80,10 +82,14 @@ createApp({
             avail_label: [],
             avail_data: [],
             availchart: null, 
+            skill_label: [],
+            skill_data: [],
+            skillchart: null,
         }
     },
     mounted(){
         this.avail_data_call();
+        this.skills_data_call();
     },
     methods: {
         avail_data_call(){
@@ -125,14 +131,62 @@ createApp({
                     }
                 }
             })
-        }
+        },
+
+        createSkillsCharts(){
+            const skillsCtx = document.getElementById('skillschart').getContext('2d');
+            this.availchart = new Chart(skillsCtx, {
+                type: 'bar',
+                data: {
+                    labels: this.skill_label,
+                    datasets: [{
+                        label: "In demand skills",
+                        data: this.skill_data,
+                        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            })
+        },
+
+        skills_data_call(){
+            axios.get("http://127.0.0.1:5000/chart_processing_api_skills")
+            .then(response=> {
+            var skills_data = response.data
+            console.log(skills_data)
+            var skills_data_label = []
+            var skills_data_data = []
+            for(let [x, value] of Object.entries(skills_data)){
+                skills_data_label.push(x)
+                skills_data_data.push(value)
+            }
+            this.skill_label = skills_data_label
+            this.skill_data = skills_data_data
+            this.createSkillsCharts();
+
+
+            })
+            .catch(error=>{
+                console.error("Error fetching skills data: ",error)
+            })
+        },
+
     }
 }).mount('#charts')
 
 
 
 
-
+/*
 axios.get("http://127.0.0.1:5000/chart_processing_api")
 .then(response=> {
     var returned_stuff = response.data
@@ -152,6 +206,28 @@ axios.get("http://127.0.0.1:5000/chart_processing_api")
 .catch(error=>{
     console.error("Firestore is ded wtf?: ", error);
 })
+*/
+/*
+axios.get("http://127.0.0.1:5000/chart_processing_api_skills")
+.then(response=> {
+    var returned_stuff = response.data
+    console.log(returned_stuff)
+    //var avail_label = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    //var avail_data = []
+    //for(x of avail_label){
+    //    avail_data.push(returned_stuff[x])
+    //}
+    //console.log(avail_label)
+    //console.log(avail_data)
+    //const availability_labels = Object.keys(returned_stuff)
+    //const availability_data = Object.values(returned_stuff)
+    //console.log("This is the availability_labels: ", availability_labels)
+    //console.log("This is the availability_data: ", availability_data)
+})
+.catch(error=>{
+    console.error("Firestore is ded wtf?: ", error);
+})
+*/
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" 
