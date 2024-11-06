@@ -15,6 +15,7 @@
 		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
 		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
 		<script src="../config.js"></script>
 	</head>
 
@@ -125,7 +126,7 @@
 						<input
 							v-if="isEditing"
 							type="text"
-							v-model="userProfile.postalCode"
+							v-model="userProfile.location"
 							class="form-control mx-auto"
 							id="postalCode"
 							style="max-width: 300px"
@@ -306,7 +307,8 @@
 					return {
 						userProfile: {
 							fullName: "",
-							postalCode: "",
+							// postalCode: "",
+							location:"",
 							interests: [],
 							skills: [],
 							availability: [],

@@ -16,10 +16,11 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="explore.css">
     <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-    <script src="../config.js"></script> <!-- Firebase config file -->
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
+<script src="../config.js"></script> <!-- Firebase config file -->
     <script>
         const googleMapsScript = document.createElement('script');
         googleMapsScript.src = `https://maps.googleapis.com/maps/api/js?key=${window.APP_CONFIG.GOOGLE_MAPS_API_KEY}`;
@@ -628,35 +629,35 @@
                         const skillsMatch = (matchedSkills / listing.skills.length) * 100;
 
                         // Location match (for now assume 100%)
-                        // var locationMatch = 100;
+                        var locationMatch = 100;
                         // Brandyn Testing stuff
-                        const originLocation = encodeURIComponent(user.location);
-                        const destinationLocation = encodeURIComponent(listing.location);
-                        if (listing.location !== "No location") {
-                            const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
-                                params: {
-                                    origins: user.location,
-                                    destinations: listing.location,
-                                    units: 'metric',
-                                }
-                            })
-                                .then(response => {
-                                    var temp_holding = response.data
-                                    var distance_value = temp_holding.rows[0].elements[0].distance.value
-                                    // Distance calculation
-                                    // If distance is more then 20km, set to 0. Else, 20km minus 
-                                    if (distance_value >= 20000) {
-                                        locationMatch = 0
-                                    }
-                                    else {
-                                        locationMatch = (20000 - distance_value) / 200
-                                    }
-                                })
-                                .catch(error => {
-                                    console.error("No distance? : ", error)
-                                    console.log("error location: ", destinationLocation)
-                                })
-                        }
+                        // const originLocation = encodeURIComponent(user.location);
+                        // const destinationLocation = encodeURIComponent(listing.location);
+                        // if (listing.location !== "No location") {
+                        //     const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+                        //         params: {
+                        //             origins: user.location,
+                        //             destinations: listing.location,
+                        //             units: 'metric',
+                        //         }
+                        //     })
+                        //         .then(response => {
+                        //             var temp_holding = response.data
+                        //             var distance_value = temp_holding.rows[0].elements[0].distance.value
+                        //             // Distance calculation
+                        //             // If distance is more then 20km, set to 0. Else, 20km minus 
+                        //             if (distance_value >= 20000) {
+                        //                 locationMatch = 0
+                        //             }
+                        //             else {
+                        //                 locationMatch = (20000 - distance_value) / 200
+                        //             }
+                        //         })
+                        //         .catch(error => {
+                        //             console.error("No distance? : ", error)
+                        //             console.log("error location: ", destinationLocation)
+                        //         })
+                        // }
 
                         // Availability match calculation
                         // Log the value and type of listing.daysOfWeek for debugging

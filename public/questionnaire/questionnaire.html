@@ -11,10 +11,11 @@
 	<script src="https://cdn.jsdelivr.net/npm/vue@3.2.37/dist/vue.global.min.js"></script>
 	<link rel="stylesheet" href="questionnaire.css" />
 	<!-- Firebase SDK -->
-	<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-	<script src="../config.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
+<script src="../config.js"></script>
 </head>
 
 <body>
@@ -263,7 +264,7 @@
 								skills: this.formData.skills,
 								location: this.formData.postalCode,
 								availability:this.formData.availability,
-								postalCode: this.formData.postalCode,
+								// postalCode: this.formData.postalCode,
 								fullName: this.formData.fullName,
 								uid: uid  // Store the authenticated user's UID
 							};
