@@ -124,8 +124,13 @@
             Test firestore connection with flask: {{testing_firestore_connection}} -->
 
         </div>
-
-        <div>
+        <div v-if=loading>
+            <h5>Loading, please hold!</h5>
+        </div>
+        <div v-else-if="list_of_events.length === 0">
+            <h5>You have nothing planned for now!</h5>   
+        </div>
+        <div v-else>
             List of events:
             <table class = "table table-bordered">
                 <tr>
@@ -184,7 +189,8 @@ const { createApp } = Vue;
                     goodbye: "maybe",
                     distance: { "destination_addresses": [ "Singapore 544692" ], "origin_addresses": [ "Singapore 541281" ], "rows": [ { "elements": [ { "distance": { "text": "0.8 km", "value": 767 }, "duration": { "text": "3 mins", "value": 198 }, "status": "OK" } ] } ], "status": "OK" },
                     testing_firestore_connection: "Delulu",
-                    list_of_events: [{'Start Time': '14:00', 'UID': 'KGLKnr1QyXOQxXeCjNKDCwgTV9T2', 'Recurring': 'True', 'Start Date': '2024-11-28', 'Event Name': 'SMU Caretalyst', 'event_id': 'careforsomethingig', 'End Time': '17:00', 'End Date': '2025-02-25', 'Days Needed': ['Tuesday']}],
+                    list_of_events: [],
+                    loading: true
                 };
             },
             computed: {
@@ -350,6 +356,7 @@ const { createApp } = Vue;
         })
         .then(response=>{
             this.list_of_events = response.data
+            this.loading = false
             console.log("This is the log for the list of events: " ,this.list_of_events)
         })
         .catch(error=>{
@@ -412,7 +419,7 @@ const { createApp } = Vue;
 
 
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" 
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" 
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" 
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" 
