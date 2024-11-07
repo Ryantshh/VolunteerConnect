@@ -22,10 +22,167 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        canvas {
+        /* canvas {
             max-width: 600px;
             /*margin: 20px auto;*/
-        }
+        /* }  */
+
+
+   /* Analytics Dashboard Section */
+.analytics-dashboard {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    padding: 3rem 1rem;
+    margin-bottom: 3rem;
+}
+
+.dashboard-title {
+    color: white;
+    text-align: center;
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+/* Charts container */
+#charts {
+    max-width: 1400px;
+    margin: -2rem auto 2rem;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 600px), 1fr));
+    gap: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Individual chart sections */
+#charts > div {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#charts > div:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Chart headings */
+#charts h2 {
+    color: #1f2937;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+#charts h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(to right, #6366f1, #4f46e5);
+    border-radius: 2px;
+}
+
+/* Canvas containers */
+canvas {
+    width: 100% !important;
+    height: 300px !important;
+    max-width: none;
+    margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    #charts {
+        gap: 1.5rem;
+        padding: 1rem;
+        margin-top: -1.5rem;
+    }
+
+    .analytics-dashboard {
+        padding: 2.5rem 1rem;
+    }
+
+    .dashboard-title {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #charts {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: -1rem;
+    }
+
+    #charts > div {
+        padding: 1.5rem;
+    }
+
+    #charts h2 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .analytics-dashboard {
+        padding: 2rem 1rem;
+    }
+
+    .dashboard-title {
+        font-size: 1.75rem;
+    }
+
+    .dashboard-subtitle {
+        font-size: 1rem;
+    }
+
+    canvas {
+        height: 250px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .analytics-dashboard {
+        padding: 1.5rem 1rem;
+    }
+
+    .dashboard-title {
+        font-size: 1.5rem;
+    }
+
+    #charts > div {
+        padding: 1rem;
+    }
+
+    canvas {
+        height: 200px !important;
+    }
+}
+
+/* Loading state */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
     </style>
 
 </head>
@@ -73,12 +230,24 @@
                 </div>
             </div>
         </nav>
+        <!-- Analytics Dashboard Header -->
+    <div class="analytics-dashboard">
+        <h1 class="dashboard-title">Volunteer Analytics Dashboard</h1>
+        <p class="dashboard-subtitle">Track volunteer availability and skills distribution</p>
+    </div>
+
     <div id="charts">
-        <h2>Availability Chart</h2>
-        <canvas id = "availchart"></canvas>
-        <h2>Skills Chart</h2>
-        <canvas id="skillschart"></canvas>
-    </div>  
+        <div>
+            <h2>Availability Chart</h2>
+            <canvas id="availchart"></canvas>
+        </div>
+        <div>
+            <h2>Skills Chart</h2>
+            <canvas id="skillschart"></canvas>
+        </div>
+    </div>
+
+    
 <script>
 const { createApp } = Vue;
 
