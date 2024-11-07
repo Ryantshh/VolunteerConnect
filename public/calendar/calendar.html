@@ -109,8 +109,8 @@
         </div>
             <!-- Calendar View -->
            
-            <div v-if="viewType === 'calendar'" class="calendar">
-                <table class="table table-bordered">
+            <div v-if="viewType === 'calendar'" class="calendar container-fluid">
+                <table class="table table-bordered w-100" style="table-layout: fixed;" >
                     <thead>
                         <tr>
                             <th v-for="day in daysOfWeek" :key="day">{{ day }}</th>
@@ -118,7 +118,7 @@
                     </thead>
                     <tbody>
                         <tr v-for="week in calendarWeeks" :key="week">
-                            <td v-for="day in week" :key="day.date">
+                            <td v-for="day in week" :key="day.date" style="width: 100px;">
                                 <div :class="['calendar-day', { today: isToday(day.date) }]">
                                     <span>{{ day.dayNumber }}</span>
                                     <div v-if="day.events.length" class="events">
