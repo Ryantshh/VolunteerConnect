@@ -1,4 +1,3 @@
-
 // Function to show an error popup
 function showErrorPopup(message) {
     const errorPopup = document.createElement('div');
@@ -27,9 +26,9 @@ function showErrorPopup(message) {
         const field = document.getElementById(fieldId);
         if (field) field.value = ''; // Clear the field if it exists
     });
-    // Remove the popup after 5 seconds
+
+    // Remove the popup after 3 seconds
     setTimeout(() => {
-        // Check if errorPopup exists before attempting to remove
         if (document.body.contains(errorPopup)) {
             document.body.removeChild(errorPopup);
         }
@@ -44,36 +43,43 @@ if (signUpForm) {
 
         const email = document.getElementById('signUpEmail').value;
         const password = document.getElementById('signUpPassword').value;
-        const cfm_password = document.getElementById('cfm_password').value
+        const cfm_password = document.getElementById('cfm_password').value;
 
-        if (cfm_password != password) {
-            showErrorPopup('Passwords do not match. Please try again.')
+        if (cfm_password !== password) {
+            showErrorPopup('Passwords do not match. Please try again.');
             return;
         }
 
-        // Sign up the user with email and password using Firebase Auth
-        firebase.auth().createUserWithEmailAndPassword(email, password)
-            .then(userCredential => {
-                // User successfully signed up
-                const user = userCredential.user;
-                const uid = user.uid;
-                const createdAt = firebase.firestore.FieldValue.serverTimestamp(); // Current timestamp
+        // Check if the email already exists in Firestore
+        firebase.firestore().collection('users').where('email', '==', email).get()
+            .then(querySnapshot => {
+                if (!querySnapshot.empty) {
+                    showErrorPopup('This email is already registered. Please log in instead.');
+                } else {
+                    firebase.auth().createUserWithEmailAndPassword(email, password)
+                        .then(userCredential => {
+                            const user = userCredential.user;
+                            const uid = user.uid;
+                            const createdAt = firebase.firestore.FieldValue.serverTimestamp();
 
-                // Add the user data to Firestore
-                return firebase.firestore().collection('users').doc(uid).set({
-                    uid: uid,
-                    email: email,
-                    createdAt: createdAt
-                });
-            })
-            .then(() => {
-                // Show success message with a countdown
-                showPopupAndRedirect();
+                            return firebase.firestore().collection('users').doc(uid).set({
+                                uid: uid,
+                                email: email,
+                                createdAt: createdAt
+                            });
+                        })
+                        .then(() => {
+                            showPopupAndRedirect();
+                        })
+                        .catch(error => {
+                            console.error('Error signing up or saving data:', error);
+                            showErrorPopup('Error signing up. Please try again.');
+                        });
+                }
             })
             .catch(error => {
-                // Handle any errors
-                console.error('Error signing up or saving data: ', error);
-                showErrorPopup(error.message); // Show error in popup
+                console.error('Error checking email in Firestore:', error);
+                showErrorPopup('An error occurred while checking the email. Please try again.');
             });
     });
 }
@@ -87,47 +93,51 @@ if (loginForm) {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
 
-        auth.signInWithEmailAndPassword(email, password)
-            .then((userCredential) => {
-                sessionStorage.setItem("userId", userCredential.user.uid)
-                // Delete this log later
-                console.log("This is the UID: ", sessionStorage.getItem("userId"))
-                window.location.href = 'homepageafterlogin.html';
-                console.log('Login successful:', userCredential.user);
-            })
-            .catch((error) => {
-                console.log(error.code);
-                console.log(error.message);
-                let errorMessage;
-                if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'The email address is not valid.';
-                } else if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No user found with this email address.';
-                } else if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'Incorrect password. Please try again.';
+        // Check if the email exists in Firestore before attempting to log in
+        firebase.firestore().collection('users').where('email', '==', email).get()
+            .then(querySnapshot => {
+                if (querySnapshot.empty) {
+                    // No user found with this email in Firestore
+                    showErrorPopup('No user found with this email address. Please sign up.');
                 } else {
-                    errorMessage = 'An error occurred during login. Please try again.';
+                    // Email found, attempt to sign in
+                    auth.signInWithEmailAndPassword(email, password)
+                        .then((userCredential) => {
+                            sessionStorage.setItem("userId", userCredential.user.uid);
+                            window.location.href = 'homepageafterlogin.html';
+                            console.log('Login successful:', userCredential.user);
+                        })
+                        .catch((error) => {
+                            let errorMessage;
+                            if (error.code === 'auth/invalid-email') {
+                                errorMessage = 'The email address is not valid.';
+                            } else if (error.code === 'auth/user-not-found') {
+                                errorMessage = 'No user found with this email address.';
+                            } else if (error.code === 'auth/wrong-password') {
+                                errorMessage = 'Incorrect password. Please try again.';
+                            } else {
+                                errorMessage = 'An error occurred during login. Please try again.';
+                            }
+                            showErrorPopup(errorMessage);
+                        });
                 }
-                document.getElementById('loginEmail').value = '';
-                document.getElementById('loginPassword').value = '';
-
-                console.error('Error during login:', error.message);
-                showErrorPopup(errorMessage); // Show error in popup
-
+            })
+            .catch(error => {
+                console.error('Error checking email in Firestore:', error);
+                showErrorPopup('An error occurred while checking the email. Please try again.');
             });
     });
 }
 
+// Google Sign-In Logic
 const googleSignInButton = document.getElementById('googleSignInButton');
 googleSignInButton.addEventListener('click', () => {
     auth.signInWithPopup(googleProvider)
         .then((result) => {
-            // Check if user exists in Firestore
             const user = result.user;
             db.collection('users').doc(user.uid).get()
                 .then((doc) => {
                     if (!doc.exists) {
-                        // If new user, store user info in Firestore
                         db.collection('users').doc(user.uid).set({
                             uid: user.uid,
                             email: user.email,
@@ -137,26 +147,20 @@ googleSignInButton.addEventListener('click', () => {
                         });
                         showPopupAndRedirect();
                     } else {
-                        showErrorPopup("Google sign-in successful!"); // Change to a popup instead of alert
-                        // Insert path to profile page when created
-                        // Delete this if its not working. Have not test google sign in storage.
-                        sessionStorage.setItem("userId", user.uid)
-                        // Delete this log later
-                        console.log("This is the UID: ", sessionStorage.getItem("userId"))
+                        showErrorPopup("Google sign-in successful!");
+                        sessionStorage.setItem("userId", user.uid);
                         window.location.href = "homepageafterlogin.html";
                     }
                 });
-
         })
         .catch((error) => {
             console.error("Error signing in with Google:", error.message);
-            showErrorPopup("Error signing in with Google "); // Show error in popup
+            showErrorPopup("Error signing in with Google.");
         });
 });
 
 // Function to show a popup and redirect after 5 seconds
 function showPopupAndRedirect() {
-    // Create a div element for the popup
     const popup = document.createElement('div');
     popup.id = 'popup';
     popup.style.position = 'fixed';
@@ -171,19 +175,14 @@ function showPopupAndRedirect() {
     popup.style.fontSize = '18px';
     popup.style.zIndex = '9999';
 
-    // Add the message to the popup
     popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">5</span> seconds...';
-
-    // Append the popup to the body
     document.body.appendChild(popup);
 
-    // Countdown logic
     let countdown = 5;
     const interval = setInterval(() => {
         countdown--;
         document.getElementById('countdown').textContent = countdown;
 
-        // After 5 seconds, redirect
         if (countdown === 0) {
             clearInterval(interval);
             window.location.href = 'introduction.html';
