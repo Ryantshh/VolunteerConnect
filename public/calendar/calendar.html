@@ -32,52 +32,55 @@
 <body>
 
     <div id="app">
-        <!-- Navigation Bar -->
-       <!-- new navbar start -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-            
-            <a class="navbar-brand" href="../loginBranch/homepageafterlogin.html">
-                <img src="../loginBranch/images/Volunteer.png" alt="logo"/>
-            </a>
-    
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-    
-            
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="../loginBranch/homepageafterlogin.html">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"  href="../explore/exploreafterlogin.html">Explore</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id ='active' href="../calendar/calendar.html">Calendar</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
-                    </li>
-            
-                    <li class="nav-item d-lg-none"> 
-                        <a class="nav-link btn" href="../loginBranch/profile.html" style="text-decoration: none; color: white;">My Profile</a>
-                    </li>
-                </ul>
-            </div>
-    
-           
-            <div class="d-none d-lg-flex"> 
-                <button id="signin" class="btn" type="button">
-                    <a href="../loginBranch/profile.html" style="text-decoration: none; color: white;">My Profile</a>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                
+                <a class="navbar-brand" href="../loginBranch/homepageafterlogin.html">
+                    <img src="../loginBranch/images/Volunteer.png" alt="logo"/>
+                </a>
+        
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
+        
+                
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="../loginBranch/homepageafterlogin.html">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id ='active' href="../explore/exploreafterlogin.html">Explore</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../calendar/calendar.html">Calendar</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
+                        </li>
+                
+                        <li class="nav-item d-lg-none"> 
+                            <a class="nav-link btn" href="../loginBranch/profile.html" style="text-decoration: none; color: white;">My Profile</a>
+                        </li>
+                    </ul>
+                </div>
+        
+               
+                <div class="d-none d-lg-flex"> 
+                    <button id="signin" class="btn" type="button">
+                        <a href="../loginBranch/profile.html" style="text-decoration: none; color: white;">My Profile</a>
+                    </button>
+                </div>
             </div>
-        </div>
-    </nav>
+        </nav>
     
-    <!-- new navbar end -->
+                <!-- Sign In Button on the far right -->
+                <div class="d-flex">
+                    <button id="signin" class="btn" type="button" onclick="window.location.href='../loginBranch/profile.html'">My Profile</button>
+                </div>
+            </div>
+        </nav>
     
     <br>
     
@@ -152,7 +155,7 @@
         </div>
         <div v-else-if="list_of_events.length === 0" class = "d-flex flex-column justify-content-center align-items-center text-center my-4">
             <h5 style="font-size: 1.5rem; font-weight: bold; color:red; background-color: white ;">You have nothing planned for now!</h5>
-            <span>Click <a href="../explore/exploreafterlogin.html">here</a> to get started.</span>   
+            <span>Click <a style="text-decoration: none; color:red" href="../explore/exploreafterlogin.html">here</a> to get started.</span>   
         </div>
         <div v-else>
             <br>
@@ -330,7 +333,7 @@ const { createApp } = Vue;
         //return date.toISOString().split('T')[0] === today;
     },
     runsomething(){
-        axios.get("http://brandynchua.pythonanywhere.com/basic_api/hello_world")
+        axios.get("https://brandynchua.pythonanywhere.com/basic_api/hello_world")
             .then(response => {
                 this.hello = response.data;
                 console.log(this.hello);
@@ -357,7 +360,7 @@ const { createApp } = Vue;
         }); 
     }*/
     distance_calc(){
-        axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+        axios.get("https://brandynchua.pythonanywhere.com/google_api/distancegetter", {
             params: {
                 origins: "824110",//"738343",
                 destinations: "188065",//"Suntec Convention Centre",//"739980",
@@ -375,7 +378,7 @@ const { createApp } = Vue;
     },
 
     firestore_test(){
-        axios.get("http://brandynchua.pythonanywhere.com/firestore_api")
+        axios.get("https://brandynchua.pythonanywhere.com/firestore_api")
         .then(response =>{
             this.testing_firestore_connection = response.data;
             console.log(this.testing_firestore_connection)
@@ -386,7 +389,7 @@ const { createApp } = Vue;
     },
     
     user_events_retrieval(){
-        axios.get("http://brandynchua.pythonanywhere.com/firestore_api/calendar_data", {
+        axios.get("https://brandynchua.pythonanywhere.com/firestore_api/calendar_data", {
             params: {
                 user_id: sessionStorage.getItem('userId'),//"KGLKnr1QyXOQxXeCjNKDCwgTV9T2", //Replace this with the session/firebase auth pulled user ID. For now testing with static
                 selected_month: this.selectedMonth
@@ -401,7 +404,7 @@ const { createApp } = Vue;
         })
     },
     user_events_retrieval_list(){
-        axios.get("http://brandynchua.pythonanywhere.com/firestore_api/list_of_events", {
+        axios.get("https://brandynchua.pythonanywhere.com/firestore_api/list_of_events", {
             params: {
                 user_id: sessionStorage.getItem('userId'),//"KGLKnr1QyXOQxXeCjNKDCwgTV9T2", //Replace this with the session/firebase auth pulled user ID. For now testing with static
             }
@@ -418,7 +421,7 @@ const { createApp } = Vue;
     
     delete_from_calendar_db(event_id){
         console.log("hehehaha", event_id)
-        axios.get("http://brandynchua.pythonanywhere.com/delete_from_calendar", {
+        axios.get("https://brandynchua.pythonanywhere.com/delete_from_calendar", {
             params: {
                 user_id: sessionStorage.getItem('userId'),//"KGLKnr1QyXOQxXeCjNKDCwgTV9T2", //Replace this with the session/firebase auth pulled user ID. For now testing with static
                 event_id: event_id
