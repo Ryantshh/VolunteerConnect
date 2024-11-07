@@ -161,7 +161,7 @@ function showPopupAndRedirect() {
     popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">5</span> seconds...';
     document.body.appendChild(popup);
 
-    let countdown = 5;
+    let countdown = 3;
     const interval = setInterval(() => {
         countdown--;
         document.getElementById('countdown').textContent = countdown;
