@@ -273,7 +273,7 @@ createApp({
     },
     methods: {
         avail_data_call(){
-            axios.get("http://brandynchua.pythonanywhere.com/chart_processing_api").then(response=>{
+            axios.get("https://brandynchua.pythonanywhere.com/chart_processing_api").then(response=>{
                 var returned_stuff = response.data
                 var avail_label_prep = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
                 var avail_data_prep = []
@@ -339,7 +339,7 @@ createApp({
         },
 
         skills_data_call(){
-            axios.get("http://brandynchua.pythonanywhere.com/chart_processing_api_skills")
+            axios.get("https://brandynchua.pythonanywhere.com/chart_processing_api_skills")
             .then(response=> {
             var skills_data = response.data
             console.log(skills_data)
