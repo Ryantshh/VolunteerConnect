@@ -294,6 +294,7 @@ button:not(#signin):not(.navbar-toggler):hover::after {
     font-size: 14px;
     transition: all 0.3s ease;
     animation: buttonPop 0.3s ease-out;
+    width: 30px;
 }
 
 .button-container:hover {
@@ -406,3 +407,12 @@ button#submit:hover {
     box-shadow: 0 6px 20px rgba(255, 0, 102, 0.3);
 }
 
+.profile-header{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.edit:hover{
+    cursor: pointer;
+}
