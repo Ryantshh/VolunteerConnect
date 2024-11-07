@@ -15,7 +15,7 @@
 	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
 	<script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
-<script src="../config.js"></script>
+	<script src="../config.js"></script>
 </head>
 
 <body>
@@ -102,17 +102,23 @@
 			<div v-if="currentStep === 4" class="form-page active">
 
 				<div class="mb-3">
-					<label for="fullName" class="form-label">Full Name</label>
-					<input type="text" v-model="formData.fullName" class="form-control"
-						placeholder="Enter your full name" @blur="validateFullName" required />
+					<div class="d-flex">
+
+						<label for="fullName" class="form-label">Full Name</label>
+						<input type="text" v-model="formData.fullName" class="form-control"
+							placeholder="Enter your full name" @blur="validateFullName" required />
+
+					</div>
 					<p class="error text-danger" v-if="fullNameError">{{ fullNameError }}</p>
 				</div>
 
 
 				<div class="mb-3">
-					<label for="postalCode" class="form-label">Postal Code</label>
-					<input type="text" v-model="formData.postalCode" class="form-control"
-						placeholder="Enter your postal code" @blur="validatePostalCode" required />
+					<div class="d-flex">
+						<label for="postalCode" class="form-label">Postal Code</label>
+						<input type="text" v-model="formData.postalCode" class="form-control"
+							placeholder="Enter your postal code" @blur="validatePostalCode" required />
+					</div>
 					<p class="error text-danger" v-if="postalCodeError">
 						{{ postalCodeError }}
 					</p>
@@ -263,7 +269,7 @@
 								interests: this.formData.interests,
 								skills: this.formData.skills,
 								location: this.formData.postalCode,
-								availability:this.formData.availability,
+								availability: this.formData.availability,
 								// postalCode: this.formData.postalCode,
 								fullName: this.formData.fullName,
 								uid: uid  // Store the authenticated user's UID
@@ -332,7 +338,7 @@
 									setTimeout(() => {
 										this.showMessageBar = false;
 									}, 3000);
-									window.location.href="../loginBranch/homepageafterlogin.html";
+									window.location.href = "../loginBranch/homepageafterlogin.html";
 								});
 
 						} else {
