@@ -203,13 +203,23 @@
                             <p class="card-text"><strong>Time:</strong> {{ selectedCard.startTime }} - {{
                                 selectedCard.endTime}}</p>
                             <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>
-                            <div id="previewMap"
-                                style="height: 300px; width: 100%; margin-top: 15px; background: #f0f0f0; border: 1px solid #ccc; position: relative; min-height: 300px;">
-                                <!-- Loading indicator -->
-                                <div class="map-loading"
-                                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                    <div class="spinner-border text-primary" role="status">
-                                        <span class="visually-hidden">Loading map...</span>
+                            <div class="map-container" style="position: relative; width: 100%; height: 200px; margin-top: 15px;">
+                                <div id="previewMap" 
+                                     style="height: 200px; 
+                                            width: 100%; 
+                                            background: #f0f0f0; 
+                                            border: 1px solid #ccc; 
+                                            border-radius: 8px;
+                                            position: relative;">
+                                    <!-- Loading indicator -->
+                                    <div class="map-loading"
+                                        style="position: absolute; 
+                                               top: 50%; 
+                                               left: 50%; 
+                                               transform: translate(-50%, -50%);">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading map...</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -736,8 +746,15 @@
                             this.map = L.map('previewMap', {
                                 center: [1.3521, 103.8198], // Singapore
                                 zoom: 11,
-                                zoomControl: true
+                                zoomControl: true,
+                                scrollWheelZoom: false, // Disable scroll wheel zoom
+                                dragging: true,         // Enable dragging
+                                touchZoom: true,        // Enable touch zoom
+                                doubleClickZoom: true,  // Enable double click zoom
                             });
+
+                            this.map.zoomControl.setPosition('topright');
+
 
                             // Add tile layer immediately
                             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
