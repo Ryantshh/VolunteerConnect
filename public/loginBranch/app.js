@@ -60,6 +60,7 @@ if (signUpForm) {
                         .then(userCredential => {
                             const user = userCredential.user;
                             const uid = user.uid;
+                            sessionStorage.setItem('userId', user.uid)
                             const createdAt = firebase.firestore.FieldValue.serverTimestamp();
 
                             return firebase.firestore().collection('users').doc(uid).set({

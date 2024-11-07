@@ -410,6 +410,22 @@
                     },
 
                     async send_to_calendar_recurring(recurringDays, startTime, endTime, recurring, title, startdate, enddate, id) {
+                        /*axios.get("http://127.0.0.1:5000/check_if_in_calendar", {
+                            params: {
+                                user_id: userId,
+                                event_id: id
+                            }
+                        })
+                        .then(response=>{
+                            if (response.data.already_in){
+                                this.showToast('This event is already added to your calendar!', false)
+                                console.log('Attempted duplicate entry')
+                                return; // Stop function and return nothing.
+                            }
+                        })
+                        .catch(error=>{
+                            console.error("Python checker not responding: ", error)
+                        })*/
                         try {
                             const docRef = await db.collection("UserEvents").add({
                                 'Start Time': startTime,
@@ -431,6 +447,22 @@
                     },
 
                     async send_to_calendar_nonrecurring(daysOfWeek, startTime, endTime, recurring, title, date, id) {
+                        /*axios.get("http://127.0.0.1:5000/check_if_in_calendar", {
+                            params: {
+                                user_id: userId,
+                                event_id: id
+                            }
+                        })
+                        .then(response=>{
+                            if (response.data.already_in){
+                                this.showToast('This event is already added to your calendar!', false)
+                                console.log('Attempted duplicate entry')
+                                return; // Stop function and return nothing.
+                            }
+                        })
+                        .catch(error=>{
+                            console.error("Python checker not responding: ", error)
+                        })*/
                         try {
                             const docRef = await db.collection("UserEvents").add({
                                 'Start Time': startTime,
