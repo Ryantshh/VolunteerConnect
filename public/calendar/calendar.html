@@ -292,9 +292,24 @@ const { createApp } = Vue;
         return new Date(dateStr).toLocaleDateString("en-US");
     },
     isToday(date) {
-        if (!date) return false; // Guard against null
-        const today = new Date().toISOString().split('T')[0];
-        return date.toISOString().split('T')[0] === today;
+    if (!date) return false; // Guard against null
+    
+    // Get today's date in your timezone (GMT+8)
+    const today = new Date();
+    const todayDate = today.getDate();
+    const todayMonth = today.getMonth();
+    const todayYear = today.getFullYear();
+
+    // Get the comparison date in your timezone
+    const compareDate = new Date(date);
+    const compareDateDate = compareDate.getDate();
+    const compareDateMonth = compareDate.getMonth();
+    const compareDateYear = compareDate.getFullYear();
+
+    // Compare the dates
+    return todayDate === compareDateDate && 
+           todayMonth === compareDateMonth && 
+           todayYear === compareDateYear;
     },
     runsomething(){
         axios.get("http://brandynchua.pythonanywhere.com/basic_api/hello_world")
