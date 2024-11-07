@@ -24,45 +24,51 @@
 <body>
 
     <div id="app">
-    <nav class="navbar navbar-expand-lg">
+     <!-- new navbar start -->
+     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <!-- Navbar Brand -->
+            
             <a class="navbar-brand" href="../loginBranch/homepageafterlogin.html">
-                <img src="../loginBranch/images/Volunteer.png" alt="logo" />
+                <img src="../loginBranch/images/Volunteer.png" alt="logo"/>
             </a>
-
-            <!-- Toggler for mobile view -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-
-            <!-- Navbar Links-->
+    
+            
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="nav-link" href="../loginBranch/homepageafterlogin.html">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../explore/exploreafterlogin.html">Explore</a>
+                        <a class="nav-link"  href="../explore/exploreafterlogin.html">Explore</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../calendar/calendar.html">Calendar</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="active" href="#">Donate</a>
+                        <a class="nav-link" id ='active' href="../donation/donateaftlogin.html">Donate</a>
+                    </li>
+            
+                    <li class="nav-item d-lg-none"> 
+                        <a class="nav-link btn" href="../loginBranch/profile.html" style="text-decoration: none; color: white;">My Profile</a>
                     </li>
                 </ul>
             </div>
-
-            <!-- Sign In Button on the far right -->
-            <div class="d-flex">
-                <button id="signin" class="btn" type="button"
-                    onclick="window.location.href='../loginBranch/profile.html'">My Profile</button>
+    
+           
+            <div class="d-none d-lg-flex"> 
+                <button id="signin" class="btn" type="button">
+                    <a href="../loginBranch/profile.html" style="text-decoration: none; color: white;">My Profile</a>
+                </button>
             </div>
         </div>
     </nav>
-
+    
+    <!-- new navbar end -->
 
     <div class="jumbotron-container">
         <div class="slideshow-container">
