@@ -224,25 +224,16 @@
 
 				<div v-if="userPosting.length" class="mb-5">
 					<h3>Your Events</h3>
-					<div class="d-flex flex-wrap">
-						<div
-							class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4"
-						>
-							<div
-								v-for="(listing, index) in userPosting"
-								:key="index"
-								class="col-12 col-sm-6 col-md-4 col-lg-3"
-							>
-								<div
-									class="card m-2"
-									style="width: 100%; margin:auto; justify-content: center; max-width: 100%"
-								>
-									<img
-										:src="listing.imageUrl"
-										class="card-img-top"
-										alt="Listing image"
-										style="height: 180px; object-fit: cover"
-									/>
+					<div class="container">
+						<div class="row justify-content-center">
+							<div v-for="(listing, index) in userPosting" 
+								 :key="index" 
+								 class="col-12 col-sm-6 col-md-4 col-lg-3 d-flex justify-content-center mb-4">
+								<div class="card" style="width: 100%; max-width: 300px;">
+									<img :src="listing.imageUrl" 
+										 class="card-img-top" 
+										 alt="Listing image" 
+										 style="height: 180px; object-fit: cover"/>
 									<div class="card-body">
 										<h5 class="card-title">{{ listing.title }}</h5>
 										<p class="card-text">{{ listing.description }}</p>
@@ -250,19 +241,15 @@
 											<strong>Location:</strong> {{ listing.location }}
 										</p>
 										<p class="card-text">
-											<strong>Skills:</strong> {{ listing.skills?.join(', ') ||
-											"No skills listed" }}
+											<strong>Skills:</strong> {{ listing.skills?.join(', ') || "No skills listed" }}
 										</p>
 										<p class="card-text">
-											<strong>Days Required:</strong> {{
-											listing.daysOfWeek?.join(',') || "No days listed" }}
+											<strong>Days Required:</strong> {{ listing.daysOfWeek?.join(',') || "No days listed" }}
 										</p>
 									</div>
 									<div class="card-footer text-center">
-										<button
-											@click="removeListing(index, listing.id)"
-											class="btn btn-danger"
-										>
+										<button @click="removeListing(index, listing.id)" 
+												class="btn btn-danger">
 											Delete Post
 										</button>
 									</div>
