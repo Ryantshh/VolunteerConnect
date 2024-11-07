@@ -5,36 +5,34 @@
     --white: #ffffff;
 }
 
-/* Navbar Styles */
-.container-fluid {
-    padding-left: 0;
-    padding-right: 0;
-}
+
+/* testing */
 
 .navbar {
     border-bottom: 2px solid rgba(255, 0, 0, 0.1);
     background: linear-gradient(to right, rgba(255, 255, 255, 0.95), rgba(255, 245, 245, 0.95));
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    padding: 0 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navbar:hover {
     border-bottom: 2px solid rgba(255, 0, 0, 0.3);
 }
 
+/* Adjust navbar-nav width for responsive design */
 .navbar-nav {
-    width: 50%;
+    width: 50%; /* Changed from 50% to auto */
     justify-content: space-around;
 }
 
+/* Navbar brand/logo */
 .navbar-brand img {
     border-radius: 50%;
     width: 60px;
     height: 50px;
 }
 
+/* Hamburger menu styles */
 .navbar-toggler {
     border: none;
     padding: 0.5rem;
@@ -49,6 +47,7 @@
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 0, 0, 0.55%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
+/* Nav links */
 .nav-link {
     position: relative;
     color: #333 !important;
@@ -77,6 +76,7 @@
     width: 100%;
 }
 
+/* Active link styles */
 #active {
     color: #ff0000 !important;
     font-weight: bold;
@@ -87,13 +87,94 @@
     background-color: #ff0000;
 }
 
+/* Sign in button styles */
+#signin {
+    position: relative;
+    overflow: hidden;
+    border: 2px solid #ff0000;
+    color: #ff0000;
+    transition: all 0.3s ease;
+    z-index: 1;
+}
+
+#signin::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background-color: #ff0000;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    transition: all 0.5s ease;
+    z-index: -1;
+}
+
+#signin:hover {
+    color: white;
+}
+
+#signin:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Responsive styles */
+@media (max-width: 991.98px) {
+    .navbar-nav {
+        width: 100%;
+        padding: 1rem 0;
+    }
+    
+    .nav-link {
+        padding: 0.75rem 0;
+        text-align: center;
+    }
+    
+    .nav-link::before {
+        bottom: 5px;
+    }
+    
+    #signin {
+        margin: 0.5rem 1rem;
+    }
+    
+    .navbar-collapse {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 0 0 1rem 1rem;
+        padding: 0.5rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* Navbar styles end */
+
+.navbar {
+    background-color: var(--white);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
 #signin {
     background-color: var(--primary-red);
     color: var(--white);
     padding: 0.5rem 1.5rem;
     border-radius: 25px;
     transition: all 0.3s ease;
-    border: none;
+}
+
+#signin:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+}
+
+#signin {
+    background-color: var(--primary-red);
+    color: var(--white);
+    padding: 0.5rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    border: none; /* Remove the border */
     position: relative;
     overflow: hidden;
 }
@@ -102,6 +183,10 @@
     background-color: var(--primary-dark);
     transform: translateY(-2px);
 }
+
+
+/* testing end */
+
 
 /* Main Container Styles */
 .container {
