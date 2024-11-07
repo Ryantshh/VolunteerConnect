@@ -75,11 +75,21 @@
 		<div v-if="loading">Loading...</div>
 
 		<div v-else class="profile container-fluid">
-			<h1>User Profile</h1>
-
-			<button v-if="! isEditing" @click="isEditing = !isEditing" class="btn btn-primary mb-4">
-				Edit Profile
-			</button>
+			<div class="profile-header">
+				<h1>User Profile
+					<a v-if="! isEditing" @click="isEditing = !isEditing" class="edit">
+						<img src="images/edit.png" style="width: 25px;height: 25px;">
+					</a>
+				
+				</h1>
+				
+				
+			</div>
+			
+			
+				
+			
+						
 
 			<div class="mb-3 text-center">
 				<label for="name" class="form-label">

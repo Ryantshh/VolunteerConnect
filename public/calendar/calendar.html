@@ -163,8 +163,7 @@
                     <th>End Date</th>
                     <th>Start Time</th>
                     <th>End Time</th>
-                    <th>Event ID</th>
-                    <th>Action Button</th>
+                    <th></th>
                 </tr>
                 <tr v-for="event in list_of_events" :key="event.event_id">
                     <td>{{event['Event Name']}}</td>
@@ -172,7 +171,6 @@
                     <td>{{event['End Date']}}</td>
                     <td>{{event['Start Time']}}</td>
                     <td>{{event['End Time']}}</td>
-                    <td>{{event.event_id}}</td>
                     <td><button @click="delete_from_calendar_db(event.event_id)">
                         <i class="fas fa-trash-alt"></i>
                         Remove

@@ -34,8 +34,7 @@ function showErrorPopup(message) {
         }
     }, 3000);
 }
-
-// Sign Up Logic
+// Signup logic
 const signUpForm = document.getElementById('signUpForm');
 if (signUpForm) {
     signUpForm.addEventListener('submit', (event) => {
@@ -50,37 +49,32 @@ if (signUpForm) {
             return;
         }
 
-        // Check if the email already exists in Firestore
-        firebase.firestore().collection('users').where('email', '==', email).get()
-            .then(querySnapshot => {
-                if (!querySnapshot.empty) {
-                    showErrorPopup('This email is already registered. Please log in instead.');
-                } else {
-                    firebase.auth().createUserWithEmailAndPassword(email, password)
-                        .then(userCredential => {
-                            const user = userCredential.user;
-                            const uid = user.uid;
-                            sessionStorage.setItem('userId', user.uid)
-                            const createdAt = firebase.firestore.FieldValue.serverTimestamp();
+        // Use Firebase Auth directly
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                const user = userCredential.user;
+                const uid = user.uid;
+                const createdAt = firebase.firestore.FieldValue.serverTimestamp();
 
-                            return firebase.firestore().collection('users').doc(uid).set({
-                                uid: uid,
-                                email: email,
-                                createdAt: createdAt
-                            });
-                        })
-                        .then(() => {
-                            showPopupAndRedirect();
-                        })
-                        .catch(error => {
-                            console.error('Error signing up or saving data:', error);
-                            showErrorPopup('Error signing up. Please try again.');
-                        });
-                }
+                // Save additional user data in Firestore
+                return firebase.firestore().collection('users').doc(uid).set({
+                    uid: uid,
+                    email: email,
+                    createdAt: createdAt
+                });
+            })
+            .then(() => {
+                showPopupAndRedirect(); // Redirect or show success popup
             })
             .catch(error => {
-                console.error('Error checking email in Firestore:', error);
-                showErrorPopup('An error occurred while checking the email. Please try again.');
+                let errorMessage;
+                if (error.code === 'auth/email-already-in-use') {
+                    errorMessage = 'This email is already registered. Please log in instead.';
+                } else {
+                    errorMessage = 'Error signing up. Please try again.';
+                }
+                console.error('Error signing up:', error);
+                showErrorPopup(errorMessage);
             });
     });
 }
@@ -94,38 +88,26 @@ if (loginForm) {
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
 
-        // Check if the email exists in Firestore before attempting to log in
-        firebase.firestore().collection('users').where('email', '==', email).get()
-            .then(querySnapshot => {
-                if (querySnapshot.empty) {
-                    // No user found with this email in Firestore
-                    showErrorPopup('No user found with this email address. Please sign up.');
-                } else {
-                    // Email found, attempt to sign in
-                    auth.signInWithEmailAndPassword(email, password)
-                        .then((userCredential) => {
-                            sessionStorage.setItem("userId", userCredential.user.uid);
-                            window.location.href = 'homepageafterlogin.html';
-                            console.log('Login successful:', userCredential.user);
-                        })
-                        .catch((error) => {
-                            let errorMessage;
-                            if (error.code === 'auth/invalid-email') {
-                                errorMessage = 'The email address is not valid.';
-                            } else if (error.code === 'auth/user-not-found') {
-                                errorMessage = 'No user found with this email address.';
-                            } else if (error.code === 'auth/wrong-password') {
-                                errorMessage = 'Incorrect password. Please try again.';
-                            } else {
-                                errorMessage = 'An error occurred during login. Please try again.';
-                            }
-                            showErrorPopup(errorMessage);
-                        });
-                }
+        // Use Firebase Auth directly to log in
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .then(userCredential => {
+                sessionStorage.setItem("userId", userCredential.user.uid);
+                window.location.href = 'homepageafterlogin.html';
+                console.log('Login successful:', userCredential.user);
             })
             .catch(error => {
-                console.error('Error checking email in Firestore:', error);
-                showErrorPopup('An error occurred while checking the email. Please try again.');
+                let errorMessage;
+                if (error.code === 'auth/invalid-email') {
+                    errorMessage = 'The email address is not valid.';
+                } else if (error.code === 'auth/user-not-found') {
+                    errorMessage = 'No user found with this email address. Please sign up.';
+                } else if (error.code === 'auth/wrong-password') {
+                    errorMessage = 'Incorrect password. Please try again.';
+                } else {
+                    errorMessage = 'An error occurred during login. Please try again.';
+                }
+                console.error('Error during login:', error);
+                showErrorPopup(errorMessage);
             });
     });
 }
@@ -179,7 +161,7 @@ function showPopupAndRedirect() {
     popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">5</span> seconds...';
     document.body.appendChild(popup);
 
-    let countdown = 5;
+    let countdown = 3;
     const interval = setInterval(() => {
         countdown--;
         document.getElementById('countdown').textContent = countdown;

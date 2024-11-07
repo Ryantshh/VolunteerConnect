@@ -10,7 +10,6 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
         crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="homepage.css" />
     <script src="https://unpkg.com/vue@3.2.45/dist/vue.global.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
@@ -18,7 +17,8 @@
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
     <script src="../config.js"></script> <!-- Firebase config file -->
-
+    
+    <link rel="stylesheet" href="homepage.css"/>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
@@ -30,7 +30,7 @@
 
    /* Analytics Dashboard Section */
 .analytics-dashboard {
-    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    background: linear-gradient(135deg, #ff4444 0%, #4f46e5 100%);
     padding: 3rem 1rem;
     margin-bottom: 3rem;
 }
@@ -98,18 +98,18 @@
     transform: translateX(-50%);
     width: 60px;
     height: 3px;
-    background: linear-gradient(to right, #6366f1, #4f46e5);
+    background: linear-gradient(to right, #ff4444, #ff4444);
     border-radius: 2px;
 }
 
 /* Hover effects for headers */
 #charts > div:hover h2 {
-    color: #4f46e5;
+    color: #ff4444;
 }
 
 #charts > div:hover h2::after {
     width: 100px;
-    background: linear-gradient(to right, #818cf8, #6366f1);
+    background: linear-gradient(to right, #ff4444, #ff4444);
 }
 
 
@@ -199,42 +199,53 @@ canvas {
 </head>
 <body>
         <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-lg">
-            <div class="container-fluid">
-                <!-- Navbar Brand -->
-                <a class="navbar-brand" href="#">
-                    <img src="images/Volunteer.png" alt="logo"/>
-                </a>
+        <!-- new navbar start -->
+     <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            
+            <a class="navbar-brand" href="../loginBranch/homepageafterlogin.html">
+                <img src="../loginBranch/images/Volunteer.png" alt="logo"/>
+            </a>
     
-                <!-- Toggler for mobile view -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
     
-                <!-- Navbar Links-->
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" id="active"  href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link"  href="../explore/exploreafterlogin.html">Explore</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../calendar/calendar.html">Calendar</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
-                        </li>
-                    </ul>
-                </div>
-    
-                <!-- Sign In Button on the far right -->
-                <div class="d-flex">
-                    <button id="signin" class="btn" type="button">My Profile</button>
-                </div>
+            
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../loginBranch/homepageafterlogin.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="../explore/exploreafterlogin.html">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../calendar/calendar.html">Calendar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"  href="../donation/donateaftlogin.html">Donate</a>
+                    </li>
+            
+                    <li class="nav-item d-lg-none"> 
+                        <a class="nav-link btn" href="../loginBranch/profile.html" style="text-decoration: none; color: white;">My Profile</a>
+                    </li>
+                </ul>
             </div>
-        </nav>
+    
+           
+            <div class="d-none d-lg-flex"> 
+                <button id="signin" class="btn" type="button">
+                    <a href="../loginBranch/profile.html" style="text-decoration: none; color: white;">My Profile</a>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- new navbar end -->
+
+
         <!-- Analytics Dashboard Header -->
     <div class="analytics-dashboard">
         <h1 class="dashboard-title">Volunteer Analytics Dashboard</h1>
