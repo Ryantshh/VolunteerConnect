@@ -50,13 +50,13 @@
                             <a class="nav-link" id="active"  href="#">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link"  href="#">Explore</a>
+                            <a class="nav-link"  href="../explore/exploreafterlogin.html">Explore</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Calendar</a>
+                            <a class="nav-link" href="../calendar/calendar.html">Calendar</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Donate</a>
+                            <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
                         </li>
                     </ul>
                 </div>
@@ -159,7 +159,7 @@ createApp({
         },
 
         skills_data_call(){
-            axios.get("http://127.0.0.1:5000/chart_processing_api_skills")
+            axios.get("http://brandynchua.pythonanywhere.com/chart_processing_api_skills")
             .then(response=> {
             var skills_data = response.data
             console.log(skills_data)

@@ -133,11 +133,17 @@
             Test firestore connection with flask: {{testing_firestore_connection}} -->
 
         </div>
+        <!--
+        <div class="load" v-if=loading>
+            <div class="speen"></div>
+            <h5>Loading, please hold!</h5>
+        </div> -->
         <div v-if=loading>
             <h5>Loading, please hold!</h5>
         </div>
-        <div v-else-if="list_of_events.length === 0" class = "d-flex justify-content-center align-items-center text-center my-4">
-            <h5 style="font-size: 1.5rem; font-weight: bold; color:red; background-color: white ;">You have nothing planned for now!</h5>   
+        <div v-else-if="list_of_events.length === 0" class = "d-flex flex-column justify-content-center align-items-center text-center my-4">
+            <h5 style="font-size: 1.5rem; font-weight: bold; color:red; background-color: white ;">You have nothing planned for now!</h5>
+            <span>Click <a href="../explore/exploreafterlogin.html">here</a> to get started.</span>   
         </div>
         <div v-else>
             <br>
@@ -292,7 +298,7 @@ const { createApp } = Vue;
         return new Date(dateStr).toLocaleDateString("en-US");
     },
     isToday(date) {
-    if (!date) return false; // Guard against null
+        if (!date) return false; // Guard against null
     
     // Get today's date in your timezone (GMT+8)
     const today = new Date();
@@ -310,6 +316,9 @@ const { createApp } = Vue;
     return todayDate === compareDateDate && 
            todayMonth === compareDateMonth && 
            todayYear === compareDateYear;
+        //if (!date) return false; // Guard against null
+        //const today = new Date().toISOString().split('T')[0];
+        //return date.toISOString().split('T')[0] === today;
     },
     runsomething(){
         axios.get("http://brandynchua.pythonanywhere.com/basic_api/hello_world")
