@@ -160,10 +160,10 @@
                                 <p class="card-text info-text"><strong>Location:</strong> {{ card.location }}</p>
                                 <p class="card-text  info-text"><strong>Skills:</strong> {{ Array.isArray(card.skills) ?
                                     card.skills.join(', ') : card.skills || "No skills listed" }}</p>
-                                <p v-if="card.isRecurring" class="card-text"><strong>Weekly: </strong> {{
+                                <p v-if="card.isRecurring" class="card-text info-text"><strong>Weekly: </strong> {{
                                     Array.isArray(card.recurringDays) ? card.recurringDays.join(', ') :
                                     selectedCard.recurringDays || "No days listed" }}</p>
-                                <p v-else class="card-text"><strong>Date: </strong>{{card.date}}</p>
+                                <p v-else class="card-text info-text"><strong>Date: </strong>{{card.date}}</p>
                             </div>
                             <div class="card-footer text-center">
                                 <a :href="card.mainurl" target="_blank" class="btn btn-primary">View Website</a>
