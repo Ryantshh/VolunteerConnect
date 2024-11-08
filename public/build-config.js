@@ -38,6 +38,6 @@ window.APP_CONFIG = {
 console.log("Firebase, Google Maps API, and Storage initialized successfully.");
 `;
 
-// Write the content to main.js
+// Write the content to config.js
 fs.writeFileSync('config.js', combinedContent);
 console.log("main.js with Firebase config and initialization generated successfully.");
