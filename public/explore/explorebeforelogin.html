@@ -681,14 +681,6 @@
                             mapContainer.style.position = 'relative';
                             mapContainer.style.display = 'block';
 
-                            // Log container dimensions
-                            console.log("Container dimensions:", {
-                                offsetHeight: mapContainer.offsetHeight,
-                                offsetWidth: mapContainer.offsetWidth,
-                                clientHeight: mapContainer.clientHeight,
-                                clientWidth: mapContainer.clientWidth
-                            });
-
                             // Clean up existing map
                             if (this.map) {
                                 this.map.remove();
@@ -698,12 +690,18 @@
                             // Wait a brief moment for any animations to complete
                             await new Promise(resolve => setTimeout(resolve, 100));
 
-                            // Initialize map
+                            // Initialize map with all interaction options explicitly set
                             this.map = L.map('previewMap', {
                                 center: [1.3521, 103.8198], // Singapore
                                 zoom: 11,
-                                zoomControl: true
+                                zoomControl: true,
+                                scrollWheelZoom: false,  // Disable scroll wheel zoom
+                                dragging: true,          // Enable dragging
+                                touchZoom: true,         // Enable touch zoom
+                                doubleClickZoom: true,   // Enable double click zoom
                             });
+
+                            this.map.zoomControl.setPosition('topright');
 
                             // Add tile layer immediately
                             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -763,7 +761,7 @@
                                 `;
                             }
                         }
-                    },
+},
                 async openPreview(card) {
                     try {
                         const currentFilters = [...this.selectedFilters];
