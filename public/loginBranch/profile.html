@@ -89,8 +89,6 @@
 			
 				
 			
-						
-
 			<div class="mb-3 text-center">
 				<label for="name" class="form-label">
 					<h3>Name:</h3>
@@ -210,11 +208,13 @@
 			</div>
 
 			<!-- Only show this button in editing mode -->
-			<button v-if="isEditing" @click="submitProfile" class="btn mt-4 mx-auto">
+			<button v-if="isEditing" @click="submitProfile" class="action-button">
 				Save Changes
 			</button>
 			<hr />
-			<button v-if="!isEditing" @click="logout">Log Out</button>
+			<button v-if="!isEditing" @click="logout" class="action-button logout">
+				Log Out
+			</button>
 		</div>
 	</div>
 
