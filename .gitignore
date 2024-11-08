@@ -1,5 +1,6 @@
 # Firebase config
 public/.env
+public/config.js
 
 # Node modules (if you're using npm)
 node_modules/
