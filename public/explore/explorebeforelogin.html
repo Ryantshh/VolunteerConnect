@@ -162,48 +162,63 @@
 
 
             <!-- Add this right after your <div id="app"> -->
-            <div class="topmatch-preview" v-if="showPreview" @click.self="closePreview">
-                <div class="preview">
-                    <div class="close-button" @click="closePreview">
-                        <i class="fas fa-times"></i>
-                    </div>
-
-                    <div v-if="selectedCard" class="preview-content">
-                        <div class="preview-header">
-                            <img :src="selectedCard.imageUrl" class="preview-logo" alt="Organization logo">
-                            <h5 class="card-title">{{ selectedCard.title }}</h5>
+                <div class="topmatch-preview" v-if="showPreview" @click.self="closePreview">
+                    <div class="preview">
+                        <div class="close-button" @click="closePreview">
+                            <i class="fas fa-times"></i>
                         </div>
-
-                        <div class="card-body">
-                            <p class="card-text">{{ selectedCard.description }}</p>
-                            <p class="card-text"><strong>Skills Needed:</strong> {{ Array.isArray(selectedCard.skills) ?
-                                selectedCard.skills.join(', ') : selectedCard.skills || "No skills listed" }}</p>
-                            <p v-if="selectedCard.isRecurring" class="card-text"><strong>Weekly Commitment:</strong> {{
-                                Array.isArray(selectedCard.recurringDays) ? selectedCard.recurringDays.join(', ') :
-                                selectedCard.recurringDays || "No days listed" }}</p>
-                            <p v-if="selectedCard.isRecurring" class="card-text"><strong>Event Commitment Period:
-                                </strong>{{selectedCard.recurringStartDate}} till {{ selectedCard.recurringEndDate}}</p>
-                            <p v-else class="card-text"><strong>Date: </strong>{{selectedCard.date}}</p>
-                            <p class="card-text"><strong>Time:</strong> {{ selectedCard.startTime }} - {{
-                                selectedCard.endTime}}</p>
+                
+                        <div v-if="selectedCard" class="preview-content">
+                            <div class="preview-header">
+                                <img :src="selectedCard.imageUrl" class="preview-logo" alt="Organization logo">
+                                <h5 class="card-title">{{ selectedCard.title }}</h5>
+                            </div>
+                
+                            <div class="card-body">
+                                <p class="card-text">{{ selectedCard.description }}</p>
+                                <p class="card-text"><strong>Skills Needed:</strong> {{ Array.isArray(selectedCard.skills) ?
+                                    selectedCard.skills.join(', ') : selectedCard.skills || "No skills listed" }}</p>
+                                <p v-if="selectedCard.isRecurring" class="card-text"><strong>Weekly Commitment:</strong> {{
+                                    Array.isArray(selectedCard.recurringDays) ? selectedCard.recurringDays.join(', ') :
+                                    selectedCard.recurringDays || "No days listed" }}</p>
+                                <p v-if="selectedCard.isRecurring" class="card-text"><strong>Event Commitment Period:
+                                    </strong>{{selectedCard.recurringStartDate}} till {{ selectedCard.recurringEndDate}}</p>
+                                <p v-else class="card-text"><strong>Date: </strong>{{selectedCard.date}}</p>
+                                <p class="card-text"><strong>Time:</strong> {{ selectedCard.startTime }} - {{
+                                    selectedCard.endTime}}</p>
                                 <p class="card-text"><strong>Postal Code:</strong> {{ selectedCard.location }}</p>
-                                <div id="previewMap" style="height: 300px; width: 100%; margin-top: 15px; background: #f0f0f0; border: 1px solid #ccc; position: relative; min-height: 300px;">
-                                    <!-- Loading indicator -->
-                                    <div class="map-loading" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
-                                        <div class="spinner-border text-primary" role="status">
-                                            <span class="visually-hidden">Loading map...</span>
+                                <div class="map-container" style="position: relative; width: 100%; height: 200px; margin-top: 15px;">
+                                    <div id="previewMap" 
+                                         style="height: 200px; 
+                                                width: 100%; 
+                                                background: #f0f0f0; 
+                                                border: 1px solid #ccc; 
+                                                border-radius: 8px;
+                                                position: relative;">
+                                        <!-- Loading indicator -->
+                                        <div class="map-loading"
+                                            style="position: absolute; 
+                                                   top: 50%; 
+                                                   left: 50%; 
+                                                   transform: translate(-50%, -50%);">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading map...</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                        </div>
-                        <div class="card-footer text-center">
-                            <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
-                            <a :href="selectedCard.mainurl" target="_blank" class="btn btn-primary mx-5">View Website</a>
+                            </div>
+                
+                            <div class="card-footer text-center">
+                                <p class="card-text"><strong>Email: </strong>{{ selectedCard.email }}</p>
+                                <div class="row d-flex justify-content-center">
+                                    <a :href="selectedCard.mainurl" target="_blank"
+                                        class="btn btn-primary m-2 col-md-3 col-12">View Website</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
 
 
