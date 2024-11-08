@@ -1,5 +1,7 @@
 const fs = require('fs');
-
+console.log("Environment Variables Debug:");
+console.log("FIREBASE_API_KEY:", process.env.FIREBASE_API_KEY);
+console.log("FIREBASE_AUTH_DOMAIN:", process.env.FIREBASE_AUTH_DOMAIN);
 // Generate Firebase configuration and initialization script
 const combinedContent = `
 // Firebase Configuration
