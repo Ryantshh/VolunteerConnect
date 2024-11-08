@@ -1,16 +1,16 @@
 // Initialize configuration object
 // Initialize configuration object
+// Initialize configuration object
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
-  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
+  apiKey: "AIzaSyCPkpoJZ4N4rRJ2BJB_WaZsHmt4pvInal4",
+  authDomain: "volunteerconnect-19a5a.firebaseapp.com",
+  databaseURL: "https://volunteerconnect-19a5a-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "volunteerconnect-19a5a",
+  storageBucket: "volunteerconnect-19a5a.appspot.com",
+  messagingSenderId: "459465867690",
+  appId: "1:459465867690:web:c3dad602925bbb7b29abd3",
+  measurementId: "G-XKKEQK9F35"
 };
-
 const GOOGLE_MAPS_API_KEY = "AIzaSyDOhAYVrKn0zlhOfXz-fkUETN16K1RiG0Q";
 
 // Initialize Firebase
