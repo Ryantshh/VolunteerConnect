@@ -53,17 +53,7 @@ if (signUpForm) {
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(userCredential => {
                 const user = userCredential.user;
-                const uid = user.uid;
-                const createdAt = firebase.firestore.FieldValue.serverTimestamp();
-
-                // Save additional user data in Firestore
-                return firebase.firestore().collection('users').doc(uid).set({
-                    uid: uid,
-                    email: email,
-                    createdAt: createdAt
-                });
-            })
-            .then(() => {
+                sessionStorage.setItem("userId", userCredential.user.uid);
                 showPopupAndRedirect(); // Redirect or show success popup
             })
             .catch(error => {
@@ -76,6 +66,7 @@ if (signUpForm) {
                 console.error('Error signing up:', error);
                 showErrorPopup(errorMessage);
             });
+
     });
 }
 
@@ -118,29 +109,29 @@ googleSignInButton.addEventListener('click', () => {
     auth.signInWithPopup(googleProvider)
         .then((result) => {
             const user = result.user;
-            db.collection('users').doc(user.uid).get()
-                .then((doc) => {
-                    if (!doc.exists) {
-                        db.collection('users').doc(user.uid).set({
-                            uid: user.uid,
-                            email: user.email,
-                            name: user.displayName,
-                            profilePic: user.photoURL,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        });
-                        showPopupAndRedirect();
-                    } else {
-                        showErrorPopup("Google sign-in successful!");
-                        sessionStorage.setItem("userId", user.uid);
-                        window.location.href = "homepageafterlogin.html";
-                    }
-                });
+            const isNewUser = result.additionalUserInfo.isNewUser;
+
+            // Store the user ID in sessionStorage for both new and returning users
+            sessionStorage.setItem("userId", user.uid);
+
+            if (isNewUser) {
+                // User is signing up for the first time
+                showPopupAndRedirect(); // Show a welcome popup or handle sign-up flow
+            } else {
+                // User is logging in
+                showErrorPopup("Google sign-in successful!");
+            }
+
+            // Redirect to the homepage or another relevant page
+            window.location.href = "homepageafterlogin.html";
         })
         .catch((error) => {
             console.error("Error signing in with Google:", error.message);
             showErrorPopup("Error signing in with Google.");
         });
 });
+
+
 
 // Function to show a popup and redirect after 5 seconds
 function showPopupAndRedirect() {
@@ -161,7 +152,7 @@ function showPopupAndRedirect() {
     popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">5</span> seconds...';
     document.body.appendChild(popup);
 
-    let countdown = 3;
+    let countdown = 4;
     const interval = setInterval(() => {
         countdown--;
         document.getElementById('countdown').textContent = countdown;
