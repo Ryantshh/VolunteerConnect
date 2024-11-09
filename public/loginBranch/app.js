@@ -137,7 +137,7 @@ function showPopupAndRedirect(isnew) {
     const popup = document.createElement('div');
     popup.id = 'popup';
     popup.style.position = 'fixed';
-    popup.style.top = '20px';
+    popup.style.top = '40px';
     popup.style.left = '50%';
     popup.style.transform = 'translateX(-50%)';
     popup.style.backgroundColor = '#03fc7f';
