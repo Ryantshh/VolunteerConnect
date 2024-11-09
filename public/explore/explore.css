@@ -358,6 +358,45 @@ body, html {
     cursor: -webkit-grabbing;
 }
 
+/* Always show scrollbar in WebKit browsers */
+.scrollable-row-wrapper::-webkit-scrollbar {
+    height: 8px;
+    display: block;
+}
+
+.scrollable-row-wrapper::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+.scrollable-row-wrapper::-webkit-scrollbar-thumb {
+    background: #FF6B6B;
+    border-radius: 4px;
+}
+
+.scrollable-row-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #ff4f4f;
+}
+
+
+/* Webkit scrollbar styles */
+.matches-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.matches-section::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+.matches-section::-webkit-scrollbar-thumb {
+    background: #FF6B6B;
+    border-radius: 4px;
+}
+
+.matches-section::-webkit-scrollbar-thumb:hover {
+    background: #ff4f4f;
+}
 
   /* CSS Changes */
 /* Reset the general card-text class */
