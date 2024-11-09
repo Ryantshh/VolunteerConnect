@@ -3,7 +3,7 @@ function showErrorPopup(message) {
     const errorPopup = document.createElement('div');
     errorPopup.id = 'errorPopup';
     errorPopup.style.position = 'fixed';
-    errorPopup.style.top = '20px';
+    errorPopup.style.top = '80px';
     errorPopup.style.left = '50%';
     errorPopup.style.transform = 'translateX(-50%)';
     errorPopup.style.backgroundColor = '#f44336'; // Red color for error
@@ -85,7 +85,7 @@ if (loginForm) {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(userCredential => {
                 sessionStorage.setItem("userId", userCredential.user.uid);
-                window.location.href = 'homepageafterlogin.html';
+                showPopupAndRedirect(false); // go to homepage
                 console.log('Login successful:', userCredential.user);
             })
             .catch(error => {
@@ -115,10 +115,11 @@ googleSignInButton.addEventListener('click', () => {
             if (isNewUser) {
                 // User is signing up for the first time
                 console.log("new user")
-                showPopupAndRedirect(); // Show a welcome popup or handle sign-up flow
+                showPopupAndRedirect(true); // Show a welcome popup or handle sign-up flow
             } else {
                 // User is logging in
-                window.location.href = 'homepageafterlogin.html';
+                showPopupAndRedirect(false); // go to homepage
+
             }
 
          
@@ -132,14 +133,14 @@ googleSignInButton.addEventListener('click', () => {
 
 
 // Function to show a popup and redirect after 5 seconds
-function showPopupAndRedirect() {
+function showPopupAndRedirect(isnew) {
     const popup = document.createElement('div');
     popup.id = 'popup';
     popup.style.position = 'fixed';
-    popup.style.top = '20px';
+    popup.style.top = '80px';
     popup.style.left = '50%';
     popup.style.transform = 'translateX(-50%)';
-    popup.style.backgroundColor = '#4caf50';
+    popup.style.backgroundColor = '#0ac467';
     popup.style.color = '#fff';
     popup.style.padding = '20px';
     popup.style.borderRadius = '10px';
@@ -155,9 +156,14 @@ function showPopupAndRedirect() {
         countdown--;
         document.getElementById('countdown').textContent = countdown;
 
-        if (countdown === 0) {
+        if (countdown === 0 && isnew==true) {
             clearInterval(interval);
             window.location.href = 'introduction.html';
         }
+        if (countdown === 0 && isnew==false) {
+            clearInterval(interval);
+            window.location.href = 'homepageafterlogin.html';
+        }
+        
     }, 1000);
 }
