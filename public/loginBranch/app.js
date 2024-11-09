@@ -53,29 +53,22 @@ if (signUpForm) {
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(userCredential => {
                 const user = userCredential.user;
-                const uid = user.uid;
-                const createdAt = firebase.firestore.FieldValue.serverTimestamp();
-
-                // Save additional user data in Firestore
-                return firebase.firestore().collection('users').doc(uid).set({
-                    uid: uid,
-                    email: email,
-                    createdAt: createdAt
-                });
-            })
-            .then(() => {
+                sessionStorage.setItem("userId", userCredential.user.uid);
                 showPopupAndRedirect(); // Redirect or show success popup
             })
             .catch(error => {
                 let errorMessage;
                 if (error.code === 'auth/email-already-in-use') {
                     errorMessage = 'This email is already registered. Please log in instead.';
-                } else {
+                }else if(error.code=="auth/weak-password"){
+                    errorMessage = 'Please use a password with at least 6 characters.';
+                }else {
                     errorMessage = 'Error signing up. Please try again.';
                 }
-                console.error('Error signing up:', error);
+                console.error('Error signing up:', error.code);
                 showErrorPopup(errorMessage);
             });
+
     });
 }
 
@@ -97,12 +90,8 @@ if (loginForm) {
             })
             .catch(error => {
                 let errorMessage;
-                if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'The email address is not valid.';
-                } else if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No user found with this email address. Please sign up.';
-                } else if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'Incorrect password. Please try again.';
+                if (error.code === 'auth/invalid-credential') {
+                    errorMessage = 'The email address or password is not valid! Please try again.';
                 } else {
                     errorMessage = 'An error occurred during login. Please try again.';
                 }
@@ -118,29 +107,29 @@ googleSignInButton.addEventListener('click', () => {
     auth.signInWithPopup(googleProvider)
         .then((result) => {
             const user = result.user;
-            db.collection('users').doc(user.uid).get()
-                .then((doc) => {
-                    if (!doc.exists) {
-                        db.collection('users').doc(user.uid).set({
-                            uid: user.uid,
-                            email: user.email,
-                            name: user.displayName,
-                            profilePic: user.photoURL,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        });
-                        showPopupAndRedirect();
-                    } else {
-                        showErrorPopup("Google sign-in successful!");
-                        sessionStorage.setItem("userId", user.uid);
-                        window.location.href = "homepageafterlogin.html";
-                    }
-                });
+            const isNewUser = result.additionalUserInfo.isNewUser;
+
+            // Store the user ID in sessionStorage for both new and returning users
+            sessionStorage.setItem("userId", user.uid);
+
+            if (isNewUser) {
+                // User is signing up for the first time
+                console.log("new user")
+                showPopupAndRedirect(); // Show a welcome popup or handle sign-up flow
+            } else {
+                // User is logging in
+                showErrorPopup("Google sign-in successful!");
+            }
+
+         
         })
         .catch((error) => {
             console.error("Error signing in with Google:", error.message);
             showErrorPopup("Error signing in with Google.");
         });
 });
+
+
 
 // Function to show a popup and redirect after 5 seconds
 function showPopupAndRedirect() {
@@ -158,7 +147,7 @@ function showPopupAndRedirect() {
     popup.style.fontSize = '18px';
     popup.style.zIndex = '9999';
 
-    popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">5</span> seconds...';
+    popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">3</span> seconds...';
     document.body.appendChild(popup);
 
     let countdown = 3;
