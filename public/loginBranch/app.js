@@ -118,7 +118,7 @@ googleSignInButton.addEventListener('click', () => {
                 showPopupAndRedirect(); // Show a welcome popup or handle sign-up flow
             } else {
                 // User is logging in
-                showErrorPopup("Google sign-in successful!");
+                window.location.href = 'homepageafterlogin.html';
             }
 
          
