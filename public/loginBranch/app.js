@@ -54,7 +54,7 @@ if (signUpForm) {
             .then(userCredential => {
                 const user = userCredential.user;
                 sessionStorage.setItem("userId", userCredential.user.uid);
-                showPopupAndRedirect(); // Redirect or show success popup
+                showPopupAndRedirect(true); // Redirect or show success popup
             })
             .catch(error => {
                 let errorMessage;
