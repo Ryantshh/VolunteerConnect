@@ -402,7 +402,7 @@
 
                     async check_calendar(event_id){
                         try{
-                        var response = await axios.get("http://127.0.0.1:5000/check_if_in_calendar", {
+                        var response = await axios.get("https://brandynchua.pythonanywhere.com/check_if_in_calendar", {
                             params: {
                                 user_id: userId,
                                 event_id: event_id
