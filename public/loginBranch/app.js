@@ -140,7 +140,7 @@ function showPopupAndRedirect(isnew) {
     popup.style.top = '80px';
     popup.style.left = '50%';
     popup.style.transform = 'translateX(-50%)';
-    popup.style.backgroundColor = '#03fc7f';
+    popup.style.backgroundColor = '#0ac467';
     popup.style.color = '#fff';
     popup.style.padding = '20px';
     popup.style.borderRadius = '10px';
