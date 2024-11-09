@@ -147,8 +147,12 @@ function showPopupAndRedirect(isnew) {
     popup.style.textAlign = 'center';
     popup.style.fontSize = '18px';
     popup.style.zIndex = '9999';
-
-    popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">3</span> seconds...';
+    if(isnew==true){
+        popup.innerHTML = 'Sign up successful, redirecting in <span id="countdown">3</span> seconds...';
+    }
+    if(isnew==false){
+        popup.innerHTML = 'Sign in successful, redirecting in <span id="countdown">3</span> seconds...';
+    }
     document.body.appendChild(popup);
 
     let countdown = 3;
