@@ -3,7 +3,7 @@ function showErrorPopup(message) {
     const errorPopup = document.createElement('div');
     errorPopup.id = 'errorPopup';
     errorPopup.style.position = 'fixed';
-    errorPopup.style.top = '20px';
+    errorPopup.style.top = '80px';
     errorPopup.style.left = '50%';
     errorPopup.style.transform = 'translateX(-50%)';
     errorPopup.style.backgroundColor = '#f44336'; // Red color for error
@@ -137,7 +137,7 @@ function showPopupAndRedirect(isnew) {
     const popup = document.createElement('div');
     popup.id = 'popup';
     popup.style.position = 'fixed';
-    popup.style.top = '40px';
+    popup.style.top = '80px';
     popup.style.left = '50%';
     popup.style.transform = 'translateX(-50%)';
     popup.style.backgroundColor = '#03fc7f';
