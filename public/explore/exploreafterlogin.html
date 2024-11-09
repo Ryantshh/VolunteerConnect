@@ -400,6 +400,30 @@
                 },
                 methods: {
 
+                    async check_calendar(event_id){
+                        try{
+                        var response = await axios.get("https://brandynchua.pythonanywhere.com/check_if_in_calendar", {
+                            params: {
+                                user_id: userId,
+                                event_id: event_id
+                            }
+                        })
+                        //console.log("Flask checker response: ", response.data)
+                        return response.data.already_in
+                        /*.then(response=>{
+                            console.log("Flask checker response: ", response.data)
+                            console.log(response.data.already_in)
+                            return response.data.already_in
+                        })
+                        .catch(error=>{
+                            console.error("Python checker not working.", error)
+                        })*/
+                    }
+                    catch(error){
+                        console.error("Axios get error, calendar checker: ", error)
+                    }    
+                },
+
                     showToast(message, success = true) {
                         const toastEl = document.getElementById('calendarToast');
                         const messageEl = document.getElementById('toastMessage');
@@ -426,6 +450,14 @@
                         .catch(error=>{
                             console.error("Python checker not responding: ", error)
                         })*/
+                        var duplicate = await this.check_calendar(id)
+                        //console.log("This is the duplicate var: ", duplicate)
+                        if(duplicate){
+                                this.showToast('This event is already added to your calendar!', false)
+                                console.log('Attempted duplicate entry')
+                                return; // Stop function and return nothing.
+                            }
+                        else{
                         try {
                             const docRef = await db.collection("UserEvents").add({
                                 'Start Time': startTime,
@@ -444,7 +476,7 @@
                             this.showToast('Error adding event to calendar. Please try again.', false);
                             console.error("Error adding document: ", e);
                         }
-                    },
+                    }},
 
                     async send_to_calendar_nonrecurring(daysOfWeek, startTime, endTime, recurring, title, date, id) {
                         /*axios.get("http://127.0.0.1:5000/check_if_in_calendar", {
@@ -463,6 +495,14 @@
                         .catch(error=>{
                             console.error("Python checker not responding: ", error)
                         })*/
+                        var duplicate = await this.check_calendar(id)
+                        //console.log("This is the duplicate var: ", duplicate)
+                        if(duplicate){           
+                                this.showToast('This event is already added to your calendar!', false)
+                                console.log('Attempted duplicate entry')
+                                return; // Stop function and return nothing.
+                            }
+                        else{
                         try {
                             const docRef = await db.collection("UserEvents").add({
                                 'Start Time': startTime,
@@ -481,7 +521,7 @@
                             this.showToast('Error adding event to calendar. Please try again.', false);
                             console.error("Error adding document: ", e);
                         }
-                    },
+                    }},
 
                     clearAllFilters() {
                         this.selectedFilters = [];
