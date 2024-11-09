@@ -60,10 +60,12 @@ if (signUpForm) {
                 let errorMessage;
                 if (error.code === 'auth/email-already-in-use') {
                     errorMessage = 'This email is already registered. Please log in instead.';
-                } else {
+                }else if(error.code=="auth/weak-password"){
+                    errorMessage = 'Please use a password with at least 6 characters.';
+                }else {
                     errorMessage = 'Error signing up. Please try again.';
                 }
-                console.error('Error signing up:', error);
+                console.error('Error signing up:', error.code);
                 showErrorPopup(errorMessage);
             });
 
@@ -88,12 +90,8 @@ if (loginForm) {
             })
             .catch(error => {
                 let errorMessage;
-                if (error.code === 'auth/invalid-email') {
-                    errorMessage = 'The email address is not valid.';
-                } else if (error.code === 'auth/user-not-found') {
-                    errorMessage = 'No user found with this email address. Please sign up.';
-                } else if (error.code === 'auth/wrong-password') {
-                    errorMessage = 'Incorrect password. Please try again.';
+                if (error.code === 'auth/invalid-credential') {
+                    errorMessage = 'The email address or password is not valid! Please try again.';
                 } else {
                     errorMessage = 'An error occurred during login. Please try again.';
                 }
@@ -116,14 +114,14 @@ googleSignInButton.addEventListener('click', () => {
 
             if (isNewUser) {
                 // User is signing up for the first time
+                console.log("new user")
                 showPopupAndRedirect(); // Show a welcome popup or handle sign-up flow
             } else {
                 // User is logging in
                 showErrorPopup("Google sign-in successful!");
             }
 
-            // Redirect to the homepage or another relevant page
-            window.location.href = "homepageafterlogin.html";
+         
         })
         .catch((error) => {
             console.error("Error signing in with Google:", error.message);
@@ -149,10 +147,10 @@ function showPopupAndRedirect() {
     popup.style.fontSize = '18px';
     popup.style.zIndex = '9999';
 
-    popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">5</span> seconds...';
+    popup.innerHTML = 'Signup successful, redirecting in <span id="countdown">3</span> seconds...';
     document.body.appendChild(popup);
 
-    let countdown = 4;
+    let countdown = 3;
     const interval = setInterval(() => {
         countdown--;
         document.getElementById('countdown').textContent = countdown;
