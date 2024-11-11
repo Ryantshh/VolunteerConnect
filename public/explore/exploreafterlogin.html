@@ -343,42 +343,7 @@
 
         <script>
 
-            //scrolling
-
-            document.addEventListener("DOMContentLoaded", function () {
-                const scrollWrapper = document.querySelector('.scrollable-row-wrapper');
-
-                let isDown = false;
-                let startX;
-                let scrollLeft;
-
-                scrollWrapper.addEventListener('mousedown', (e) => {
-                    isDown = true;
-                    scrollWrapper.classList.add('active');
-                    startX = e.pageX - scrollWrapper.offsetLeft;
-                    scrollLeft = scrollWrapper.scrollLeft;
-                });
-
-                scrollWrapper.addEventListener('mouseleave', () => {
-                    isDown = false;
-                    scrollWrapper.classList.remove('active');
-                });
-
-                scrollWrapper.addEventListener('mouseup', () => {
-                    isDown = false;
-                    scrollWrapper.classList.remove('active');
-                });
-
-                scrollWrapper.addEventListener('mousemove', (e) => {
-                    if (!isDown) return;
-                    e.preventDefault();
-                    const x = e.pageX - scrollWrapper.offsetLeft;
-                    const walk = (x - startX) * 2; // The multiplier controls scroll speed
-                    scrollWrapper.scrollLeft = scrollLeft - walk;
-                });
-            });
-
-            //end scroll
+            
 
 
             const app = Vue.createApp({
@@ -399,30 +364,6 @@
                     };
                 },
                 methods: {
-
-                    async check_calendar(event_id){
-                        try{
-                        var response = await axios.get("https://brandynchua.pythonanywhere.com/check_if_in_calendar", {
-                            params: {
-                                user_id: userId,
-                                event_id: event_id
-                            }
-                        })
-                        //console.log("Flask checker response: ", response.data)
-                        return response.data.already_in
-                        /*.then(response=>{
-                            console.log("Flask checker response: ", response.data)
-                            console.log(response.data.already_in)
-                            return response.data.already_in
-                        })
-                        .catch(error=>{
-                            console.error("Python checker not working.", error)
-                        })*/
-                    }
-                    catch(error){
-                        console.error("Axios get error, calendar checker: ", error)
-                    }    
-                },
 
                     showToast(message, success = true) {
                         const toastEl = document.getElementById('calendarToast');
@@ -450,14 +391,6 @@
                         .catch(error=>{
                             console.error("Python checker not responding: ", error)
                         })*/
-                        var duplicate = await this.check_calendar(id)
-                        //console.log("This is the duplicate var: ", duplicate)
-                        if(duplicate){
-                                this.showToast('This event is already added to your calendar!', false)
-                                console.log('Attempted duplicate entry')
-                                return; // Stop function and return nothing.
-                            }
-                        else{
                         try {
                             const docRef = await db.collection("UserEvents").add({
                                 'Start Time': startTime,
@@ -476,7 +409,7 @@
                             this.showToast('Error adding event to calendar. Please try again.', false);
                             console.error("Error adding document: ", e);
                         }
-                    }},
+                    },
 
                     async send_to_calendar_nonrecurring(daysOfWeek, startTime, endTime, recurring, title, date, id) {
                         /*axios.get("http://127.0.0.1:5000/check_if_in_calendar", {
@@ -495,14 +428,6 @@
                         .catch(error=>{
                             console.error("Python checker not responding: ", error)
                         })*/
-                        var duplicate = await this.check_calendar(id)
-                        //console.log("This is the duplicate var: ", duplicate)
-                        if(duplicate){           
-                                this.showToast('This event is already added to your calendar!', false)
-                                console.log('Attempted duplicate entry')
-                                return; // Stop function and return nothing.
-                            }
-                        else{
                         try {
                             const docRef = await db.collection("UserEvents").add({
                                 'Start Time': startTime,
@@ -521,7 +446,7 @@
                             this.showToast('Error adding event to calendar. Please try again.', false);
                             console.error("Error adding document: ", e);
                         }
-                    }},
+                    },
 
                     clearAllFilters() {
                         this.selectedFilters = [];
@@ -733,35 +658,35 @@
                         const skillsMatch = (matchedSkills / listing.skills.length) * 100;
 
                         // Location match (for now assume 100%)
-                        var locationMatch = 100;
+                        // var locationMatch = 100;
                         // Brandyn Testing stuff
-                        // const originLocation = encodeURIComponent(user.location);
-                        // const destinationLocation = encodeURIComponent(listing.location);
-                        // if (listing.location !== "No location") {
-                        //     const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
-                        //         params: {
-                        //             origins: user.location,
-                        //             destinations: listing.location,
-                        //             units: 'metric',
-                        //         }
-                        //     })
-                        //         .then(response => {
-                        //             var temp_holding = response.data
-                        //             var distance_value = temp_holding.rows[0].elements[0].distance.value
-                        //             // Distance calculation
-                        //             // If distance is more then 20km, set to 0. Else, 20km minus 
-                        //             if (distance_value >= 20000) {
-                        //                 locationMatch = 0
-                        //             }
-                        //             else {
-                        //                 locationMatch = (20000 - distance_value) / 200
-                        //             }
-                        //         })
-                        //         .catch(error => {
-                        //             console.error("No distance? : ", error)
-                        //             console.log("error location: ", destinationLocation)
-                        //         })
-                        // }
+                        const originLocation = encodeURIComponent(user.location);
+                        const destinationLocation = encodeURIComponent(listing.location);
+                        if (listing.location !== "No location") {
+                            const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+                                params: {
+                                    origins: user.location,
+                                    destinations: listing.location,
+                                    units: 'metric',
+                                }
+                            })
+                                .then(response => {
+                                    var temp_holding = response.data
+                                    var distance_value = temp_holding.rows[0].elements[0].distance.value
+                                    // Distance calculation
+                                    // If distance is more then 20km, set to 0. Else, 20km minus 
+                                    if (distance_value >= 20000) {
+                                        locationMatch = 0
+                                    }
+                                    else {
+                                        locationMatch = (20000 - distance_value) / 200
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("No distance? : ", error)
+                                    console.log("error location: ", destinationLocation)
+                                })
+                        }
 
                         // Availability match calculation
                         // Log the value and type of listing.daysOfWeek for debugging
