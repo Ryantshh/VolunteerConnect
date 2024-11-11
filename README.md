@@ -33,7 +33,7 @@ volunteer-connect/
 │   ├── Posting/              # Components related to posting new opportunities
 │   ├── questionnaire/        # Questionnaire for gathering user interests and preferences
 │   ├── build-config.js       # Build configuration for deployment and environment settings
-│   └── index.html            # Main HTML file
+│   └── index.html            # Landing HTML file
 ├── package.json              # Project metadata and dependencies
 ├── .gitignore                # Files and directories to ignore in Git
 └── README.md                 # Project documentation.
