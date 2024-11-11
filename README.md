@@ -73,8 +73,7 @@ The **Volunteer Connect** web app was deployed on **Netlify** to ensure a seamle
 8. **Continuous Deployment Setup**
    - Netlify set up **Continuous Deployment** automatically. Now, every time we push changes to our GitHub repository, Netlify detects the updates, rebuilds the project, and redeploys the site with the latest changes.
 
-9. **Setting Up a Custom Domain (Optional)**
-   - To establish branding, we linked a custom domain to the app by navigating to **Domain Settings** in Netlify and adding the domain. Netlify handled the DNS setup and provided an SSL certificate, ensuring our app is secure.
+Netlify handled the DNS setup and provided an SSL certificate, ensuring our app is secure.
 
 This deployment process on Netlify allows us to easily manage updates, environment variables, and custom domains, making it an ideal solution for hosting **Volunteer Connect**.
 
