@@ -161,6 +161,7 @@
                     <th>Event name</th>
                     <th>Start Date</th>
                     <th>End Date</th>
+                    <th>Recurring Day</th>
                     <th>Start Time</th>
                     <th>End Time</th>
                     <th></th>
@@ -169,6 +170,7 @@
                     <td>{{event['Event Name']}}</td>
                     <td>{{event['Start Date']}}</td>
                     <td>{{event['End Date']}}</td>
+                    <td>{{event['Days Needed']}}</td>
                     <td>{{event['Start Time']}}</td>
                     <td>{{event['End Time']}}</td>
                     <td><button @click="delete_from_calendar_db(event.event_id)">
