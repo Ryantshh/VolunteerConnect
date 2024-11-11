@@ -663,7 +663,7 @@
                         const originLocation = encodeURIComponent(user.location);
                         const destinationLocation = encodeURIComponent(listing.location);
                         if (listing.location !== "No location") {
-                            const response = await axios.get("http://brandynchua.pythonanywhere.com/google_api/distancegetter", {
+                            const response = await axios.get("https://brandynchua.pythonanywhere.com/google_api/distancegetter", {
                                 params: {
                                     origins: user.location,
                                     destinations: listing.location,
