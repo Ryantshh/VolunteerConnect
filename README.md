@@ -136,9 +136,9 @@ This guide explains how to use each feature in **Volunteer Connect**.
   
 
 ### **View Analytics**
- - **Days of the Week Required**: Shows which days most opportunities are available, helping users plan availability.
+ - **Click on the **View Analytics** button to see data insights based on all current listings:
     - **Skills Distribution**: Displays the skills most commonly needed, assisting users in aligning their skills with in-demand areas.
-    - Click on the **View Analytics** button to see data insights based on all current listings:
+    - **Days of the Week Required**: Shows which days most opportunities are available, helping users plan availability.
 
 ---
 
