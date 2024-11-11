@@ -133,7 +133,7 @@ This guide explains how to use each feature in **Volunteer Connect**.
    - The **Admin Account** has special privileges to manage posts submitted by users, access this function thorught the explore page, click on View Posts!.
    - **View Posts!**: Admins can view all submitted posts for volunteer opportunities.
    - **Approve or Deny Listings**: After reviewing, admins can approve posts to make them visible on the Explore page, or deny listings if they don’t meet the platform’s guidelines.
-   - **Manage Content**: Admins can monitor and manage active listings to ensure the quality and relevance of opportunities available on Volunteer Connect.
+  
 
 ### **View Analytics**
  - **Days of the Week Required**: Shows which days most opportunities are available, helping users plan availability.
