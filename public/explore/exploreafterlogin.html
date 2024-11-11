@@ -658,7 +658,7 @@
                         const skillsMatch = (matchedSkills / listing.skills.length) * 100;
 
                         // Location match (for now assume 100%)
-                        // var locationMatch = 100;
+                        var locationMatch = 100;
                         // Brandyn Testing stuff
                         const originLocation = encodeURIComponent(user.location);
                         const destinationLocation = encodeURIComponent(listing.location);
@@ -685,7 +685,7 @@
                                 .catch(error => {
                                     // console.error("No distance? : ", error)
                                     // console.log("error location: ", destinationLocation)
-                                    var locationMatch=0;
+                                    locationMatch=0;
                                 })
                         }
 
