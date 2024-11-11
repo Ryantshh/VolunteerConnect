@@ -103,7 +103,7 @@ This guide explains how to use each feature in **Volunteer Connect**.
 ### **Integrated Calendar**
    - The **Calendar** feature allows you to track all the volunteering events you sign up for.
    - **Add Events**: When viewing an opportunity on the Explore page, you can add it to your calendar to keep track of it.
-   - **Manage Availability**: Adjust your availability within the calendar if your schedule changes by removing events that don't fit your schdule. availability.
+   - **Manage Availability**: Adjust your availability within the calendar if your schedule changes by removing events that don't fit your schdule.
 
 ### **Donation Page**
    - Go to the **Donation** page to view partner organizations looking for support.
