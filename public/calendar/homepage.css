@@ -481,34 +481,36 @@ html {
   }
 
   /* The following code is unused, attempted to make a loading bar spinner but failed due to incompetence. */
-  .load{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    margin-top: 50px; /* Adjust as needed */
-    color: red;
-  }
 
-  @keyframes speen {
-    0%{
-      transform: rotate(0deg);
-    }
-    100%{
-      transform: rotate(360deg);
-    }
-  }
+}
+.chart-container {
+  position: relative;
+  min-height: 300px;
+}
 
-  .speen{
-    border: 8px solid #f3f3f3; /* Light grey */
-    border-top: 8px solid #3498db; /* Blue color */
-    border-radius: 50%;
-    width: 50px; /* Size of the spinner */
-    height: 50px;
-    animation: speen 2s linear infinite;
-  } 
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
 
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #ff4444;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
 
-
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
