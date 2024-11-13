@@ -6,8 +6,8 @@
 
 1. [Features](#features)
 2. [Project Structure](#project-structure)
-3. [Local Hosting](#local-host)
-4. [Deployment](#deployment)
+3. [Local Hosting](#local-hosting)
+4. [Hosting on Netlify](#hosting-on-netlify)
 5. [Usage](#usage)
 
 
@@ -41,23 +41,23 @@ volunteer-connect/
 ```
 ## **Local Hosting**
 
-1. **Remove-Files**
+1. **Remove Files**
    - Remove **build-config.js** and **package.json** from public folder
    - Add config.js to public folder provided in the zip folder
 2. Open via localhost/public on your browser with WAMP/MAMP server turned on
 
-## **Deployment**
+## **Hosting on Netlify**
 
-The **Volunteer Connect** web app was deployed on **Netlify** to ensure a seamless and efficient hosting experience. Here’s how we deployed the project:
+The **Volunteer Connect** web app was deployed on **Netlify** to ensure a seamless and efficient hosting experience. Here’s how you can deploy the project:
 
 1. **Setting Up the Git Repository**
-   - The project was first pushed to a Git repository on GitHub (you can also use GitLab or Bitbucket). This allowed us to integrate the repository with Netlify for automatic deployments.
+   - Push the public folder to a Git repository on GitHub (you can also use GitLab or Bitbucket).
 
 2. **Logging into Netlify**
-   - We logged into [Netlify](https://www.netlify.com/) and, from the dashboard, selected **"Add New Site"**, choosing the **"Import an existing project"** option.
+   - We log into [Netlify](https://www.netlify.com/) and, from the dashboard, selected **"Add New Site"**, choosing the **"Import an existing project"** option.
 
 3. **Connecting the Repository**
-   - In Netlify, we linked our GitHub repository where **Volunteer Connect** is hosted.
+   - In Netlify, link your GitHub repository where **Public folder** is hosted.
    - Netlify then prompted us to select the specific repository for deployment.
 
 4. **Configuring Build Settings**
@@ -67,22 +67,32 @@ The **Volunteer Connect** web app was deployed on **Netlify** to ensure a seamle
    - These settings ensured that Netlify would correctly build and deploy the application from the specified directory.
 
 5. **Adding Environment Variables**
-   - Since **Volunteer Connect** uses Firebase, we added necessary Firebase environment variables in Netlify.
-   - This was done by navigating to **Site Settings > Build & Deploy > Environment**, where we inputted our environment variables securely.
+   - Since **Volunteer Connect** uses Firebase, it is necessary Firebase environment variables in Netlify.
+   - This is done by navigating to **Site Configuration> Environment Variables> Add a variable> Import from a .env file**, copy and paste this in this format:
+     ```
+      VUE_APP_API_KEY=
+      VUE_APP_AUTH_DOMAIN=
+      VUE_APP_DATABASE_URL=
+      VUE_APP_PROJECT_ID=
+      VUE_APP_STORAGE_BUCKET=
+      VUE_APP_MESSAGING_SENDER_ID=
+      VUE_APP_APP_ID=1:
+      VUE_APP_MEASUREMENT_ID=
+     ```
+     Please refer to the config.js file to assign the variables correctly.
 
 6. **Starting the Deployment**
-   - We clicked **"Deploy Site"** to initiate the deployment. Netlify then built the project based on the configurations we provided and deployed the site.
-   - The deployment process took a few minutes, during which Netlify automatically built and optimized our project.
+   -  Click **"Deploy Site"** to initiate the deployment. Netlify then built the project based on the configurations we provided and deployed the site.
 
 7. **Accessing the Deployed Site**
-   - After deployment, Netlify provided us with a live URL (e.g., `your-app-name.netlify.app`), which we used to access the app online.
+   - After deployment, Netlify will provide a live URL (e.g., `your-app-name.netlify.app`), which we used to access the app online.
 
 8. **Continuous Deployment Setup**
-   - Netlify set up **Continuous Deployment** automatically. Now, every time we push changes to our GitHub repository, Netlify detects the updates, rebuilds the project, and redeploys the site with the latest changes.
+   - Netlify set up **Continuous Deployment** automatically. Now, every time you push changes to our GitHub repository, Netlify detects the updates, rebuilds the project, and redeploys the site with the latest changes.
 
 Netlify handled the DNS setup and provided an SSL certificate, ensuring our app is secure.
 
-This deployment process on Netlify allows us to easily manage updates, environment variables, and custom domains, making it an ideal solution for hosting **Volunteer Connect**.
+This deployment process on Netlify allows you to easily manage updates, environment variables, and custom domains, making it an ideal solution for hosting **Volunteer Connect**.
 
 ## **Usage**
 
