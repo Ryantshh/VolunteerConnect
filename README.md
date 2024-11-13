@@ -58,7 +58,6 @@ The **Volunteer Connect** web app was deployed on **Netlify** to ensure a seamle
 
 3. **Connecting the Repository**
    - In Netlify, link your GitHub repository where **Public folder** is hosted.
-   - Netlify then prompted us to select the specific repository for deployment.
 
 4. **Configuring Build Settings**
    - For the deployment configuration:
