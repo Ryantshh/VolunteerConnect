@@ -184,10 +184,10 @@
 			<div v-if="userPosting.length" class="mb-5 filters-container">
 				<div class="skills-filter-section">
 				  <h3>Your Events</h3>
-				  <div class="container">
-					<div class="row">
-					  <div v-for="(listing, index) in userPosting" :key="index" class="col-12 col-sm-12 col-md-6 col-lg-6 d-flex justify-content-center mb-4">
-						<div class="card" style="width: 100%; max-width: 300px;">
+				  <div class="container px-2">
+					<div class="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-0">
+					  <div v-for="(listing, index) in userPosting" :key="index" class="col">
+						<div class="card h-100">
 						  <img :src="listing.imageUrl" class="card-img-top" alt="Listing image" style="height: 180px; object-fit: cover" />
 						  <div class="card-body">
 							<h5 class="card-title">{{ listing.title }}</h5>
@@ -203,21 +203,21 @@
 								{{ listing.expanded ? '▲' : '▼' }}
 							  </button>
 							</div>
-							<p class="card-text">
+							<p class="card-text mt-3">
 							  <strong>Location:</strong> {{ listing.location }}
 							</p>
 							<p class="card-text">
 							  <strong>Skills:</strong> {{ listing.skills?.join(', ') || "No skills listed" }}
 							</p>
 							<p class="card-text">
-							  <strong>Days Required:</strong> {{ listing.daysOfWeek?.join(',') || "No days listed" }}
+							  <strong>Days Required:</strong> {{ listing.daysOfWeek?.join(', ') || "No days listed" }}
 							</p>
 						  </div>
 						  <div class="card-footer text-center">
-							<button @click="removeListing(index, listing.id)" class="btn btn-danger">
+							<button @click="removeListing(index, listing.id)" class="btn btn-danger me-2">
 							  Delete Post
 							</button>
-							<button @click="editListing(listing.id)" class="btn btn-primary mx-2">
+							<button @click="editListing(listing.id)" class="btn btn-primary">
 							  Edit Post
 							</button>
 						  </div>
