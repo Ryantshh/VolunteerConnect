@@ -15,6 +15,32 @@ html {
     overscroll-behavior-y: none;
 }
 
+#body {
+    position: relative;
+    min-height: 100vh;  /* Ensure it covers full viewport height */
+    background-image: url('./volunteerbackground.jpg');
+    background-size: cover;  /* Make background image cover the container */
+    background-position: center;
+    background-attachment: fixed;  /* Optional: makes background fixed while scrolling */
+}
+
+#body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);  /* White overlay with 0.9 opacity */
+    z-index: 0;  /* Changed from -1 to ensure the blur effect is visible */
+}
+
+/* Make sure content appears above the blur */
+#body > * {
+    position: relative;
+    z-index: 1;
+}
+
 /* Navbar base styles */
 .navbar {
     border-bottom: 2px solid rgba(255, 0, 0, 0.1);
