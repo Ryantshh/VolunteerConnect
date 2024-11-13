@@ -415,3 +415,39 @@ hr {
 .skills-filter-section:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.description-text {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    transition: all 0.3s ease;
+  }
+  
+  .description-text.clamp {
+    -webkit-line-clamp: 4;
+  }
+  
+  .expand-button {
+    color: #2193b0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    transition: color 0.3s ease;
+    margin-top: 0.5rem;
+  }
+  
+  .expand-button:hover {
+    color: #1a7285;
+  }
+  
+  .expand-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+  
+  .expand-icon.rotate {
+    transform: rotate(180deg);
+  }

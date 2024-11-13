@@ -183,43 +183,58 @@
 
 			<div v-if="userPosting.length" class="mb-5 filters-container">
 				<div class="skills-filter-section">
-					<h3>Your Events</h3>
-					<div class="container">
-						<div class="row">
-							<div v-for="(listing, index) in userPosting" :key="index"
-								class="col-12 col-sm-12 col-md-6 col-lg-6 d-flex justify-content-center mb-4">
-								<div class="card" style="width: 100%; max-width: 300px;">
-									<img :src="listing.imageUrl" class="card-img-top" alt="Listing image"
-										style="height: 180px; object-fit: cover" />
-									<div class="card-body">
-										<h5 class="card-title">{{ listing.title }}</h5>
-										<p class="card-text">{{ listing.description }}</p>
-										<p class="card-text">
-											<strong>Location:</strong> {{ listing.location }}
-										</p>
-										<p class="card-text">
-											<strong>Skills:</strong> {{ listing.skills?.join(', ') || "No skills listed" }}
-										</p>
-										<p class="card-text">
-											<strong>Days Required:</strong> {{ listing.daysOfWeek?.join(',') || "No days listed" }}
-										</p>
-									</div>
-									<div class="card-footer text-center">
-										<button @click="removeListing(index, listing.id)" class="btn btn-danger">
-											Delete Post
-										</button>
-
-										<button @click="editListing(listing.id)" class="btn btn-primary mx-2">
-											Edit Post
-										</button>
-									</div>
-								</div>
+				  <h3>Your Events</h3>
+				  <div class="container">
+					<div class="row">
+					  <div v-for="(listing, index) in userPosting" :key="index" class="col-12 col-sm-12 col-md-6 col-lg-6 d-flex justify-content-center mb-4">
+						<div class="card" style="width: 100%; max-width: 300px;">
+						  <img :src="listing.imageUrl" class="card-img-top" alt="Listing image" style="height: 180px; object-fit: cover" />
+						  <div class="card-body">
+							<h5 class="card-title">{{ listing.title }}</h5>
+							<div>
+							  <p :class="['description-text', { 'clamp': !listing.expanded }]">{{ listing.description }}</p>
+							  <button 
+								v-if="listing.description.length > 100"
+								@click="listing.expanded = !listing.expanded"
+								class="expand-button"
+							  >
+								{{ listing.expanded ? 'Show Less' : 'Show More' }}
+								<svg 
+								  :class="['expand-icon', { 'rotate': listing.expanded }]"
+								  viewBox="0 0 24 24" 
+								  fill="none" 
+								  stroke="currentColor" 
+								  stroke-width="2"
+								>
+								  <polyline points="6 9 12 15 18 9"></polyline>
+								</svg>
+							  </button>
 							</div>
+							<p class="card-text">
+							  <strong>Location:</strong> {{ listing.location }}
+							</p>
+							<p class="card-text">
+							  <strong>Skills:</strong> {{ listing.skills?.join(', ') || "No skills listed" }}
+							</p>
+							<p class="card-text">
+							  <strong>Days Required:</strong> {{ listing.daysOfWeek?.join(',') || "No days listed" }}
+							</p>
+						  </div>
+						  <div class="card-footer text-center">
+							<button @click="removeListing(index, listing.id)" class="btn btn-danger">
+							  Delete Post
+							</button>
+							<button @click="editListing(listing.id)" class="btn btn-primary mx-2">
+							  Edit Post
+							</button>
+						  </div>
 						</div>
+					  </div>
 					</div>
+				  </div>
 				</div>
+			  </div>
 				
-			</div>
 
 			<!-- Only show this button in editing mode -->
 			<button v-if="isEditing" @click="submitProfile" class="action-button">
