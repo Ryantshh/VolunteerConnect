@@ -80,15 +80,15 @@
 					<a v-if="! isEditing" @click="isEditing = !isEditing" class="edit">
 						<img src="images/edit.png" style="width: 25px;height: 25px;">
 					</a>
-				
+
 				</h1>
-				
-				
+
+
 			</div>
-			
-			
-				
-			
+
+
+
+
 			<div class="mb-3 text-center">
 				<label for="name" class="form-label">
 					<h3>Name:</h3>
@@ -111,8 +111,9 @@
 				</div>
 			</div>
 
-			<div class="mb-4">
-				<h3>Interests</h3>
+			<div class="mb-4 filters-container" >
+				<div class="skills-filter-section">
+					<h3>Interests</h3>
 				<div id="interestsDisplay" class="mb-3">
 					<button v-for="interest in userProfile.interests" :key="interest"
 						class="btn btn-outline-primary btn-sm me-2 mb-2">
@@ -130,10 +131,13 @@
 						Add Interest
 					</button>
 				</div>
+				</div>
+				
 			</div>
 
-			<div class="mb-4">
-				<h3>Skills</h3>
+			<div class="mb-4 filters-container">
+				<div class="skills-filter-section">
+					<h3>Skills</h3>
 				<div id="skillsDisplay" class="mb-3">
 					<button v-for="skill in userProfile.skills" :key="skill"
 						class="btn btn-outline-secondary btn-sm me-2 mb-2">
@@ -151,60 +155,70 @@
 						Add Skill
 					</button>
 				</div>
+				</div>
+				
 			</div>
 
-			<div class="mb-4">
-				<h3>Available Days</h3>
-				<div id="availableDaysDisplay" class="mb-3">
-					<button v-for="day in userProfile.availability" :key="day"
-						class="btn btn-outline-info btn-sm me-2 mb-2">
-						{{ day }}
-						<span class="removeButton" v-if="isEditing" @click="removeAvailableDay(day)">✖</span>
-					</button>
-				</div>
-				<div class="input-group mb-3" v-if="isEditing">
-					<select v-model="selectedDay" class="form-select" aria-label="Select a day">
-						<option v-for="day in daysOfWeek" :key="day" :value="day">
+			<div class="mb-4 filters-container">
+				<div class="skills-filter-section"><h3>Available Days</h3>
+					<div id="availableDaysDisplay" class="mb-3">
+						<button v-for="day in userProfile.availability" :key="day"
+							class="btn btn-outline-info btn-sm me-2 mb-2">
 							{{ day }}
-						</option>
-					</select>
-					<button @click="addAvailableDay" class="btn btn-info">
-						Add Day
-					</button>
-				</div>
+							<span class="removeButton" v-if="isEditing" @click="removeAvailableDay(day)">✖</span>
+						</button>
+					</div>
+					<div class="input-group mb-3" v-if="isEditing">
+						<select v-model="selectedDay" class="form-select" aria-label="Select a day">
+							<option v-for="day in daysOfWeek" :key="day" :value="day">
+								{{ day }}
+							</option>
+						</select>
+						<button @click="addAvailableDay" class="btn btn-info">
+							Add Day
+						</button>
+					</div></div>
+				
 			</div>
 
 			<div v-if="userPosting.length" class="mb-5">
-				<h3>Your Events</h3>
-				<div class="container">
-					<div class="row justify-content-center">
-						<div v-for="(listing, index) in userPosting" :key="index"
-							class="col-12 col-sm-12 col-md-6 col-lg-6 d-flex justify-content-center mb-4">
-							<div class="card" style="width: 100%; max-width: 300px;">
-								<img :src="listing.imageUrl" class="card-img-top" alt="Listing image"
-									style="height: 180px; object-fit: cover" />
-								<div class="card-body">
-									<h5 class="card-title">{{ listing.title }}</h5>
-									<p class="card-text">{{ listing.description }}</p>
-									<p class="card-text">
-										<strong>Location:</strong> {{ listing.location }}
-									</p>
-									<p class="card-text">
-										<strong>Skills:</strong> {{ listing.skills?.join(', ') || "No skills listed" }}
-									</p>
-									<p class="card-text">
-										<strong>Days Required:</strong> {{ listing.daysOfWeek?.join(',') || "No days listed" }}
-									</p>
-								</div>
-								<div class="card-footer text-center">
-									<button @click="removeListing(index, listing.id)" class="btn btn-danger">
-										Delete Post
-									</button>
+				<div class="skills-filter-section">
+					<h3>Your Events</h3>
+					<div class="container">
+						<div class="row justify-content-center">
+							<div v-for="(listing, index) in userPosting" :key="index"
+								class="col-12 col-sm-12 col-md-6 col-lg-6 d-flex justify-content-center mb-4">
+								<div class="card" style="width: 100%; max-width: 300px;">
+									<img :src="listing.imageUrl" class="card-img-top" alt="Listing image"
+										style="height: 180px; object-fit: cover" />
+									<div class="card-body">
+										<h5 class="card-title">{{ listing.title }}</h5>
+										<p class="card-text">{{ listing.description }}</p>
+										<p class="card-text">
+											<strong>Location:</strong> {{ listing.location }}
+										</p>
+										<p class="card-text">
+											<strong>Skills:</strong> {{ listing.skills?.join(', ') || "No skills listed" }}
+										</p>
+										<p class="card-text">
+											<strong>Days Required:</strong> {{ listing.daysOfWeek?.join(',') || "No days listed" }}
+										</p>
+									</div>
+									<div class="card-footer text-center">
+										<button @click="removeListing(index, listing.id)" class="btn btn-danger">
+											Delete Post
+										</button>
+
+										<button @click="editListing(listing.id)" class="btn btn-primary mx-2">
+											Edit Post
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				
 			</div>
 
 			<!-- Only show this button in editing mode -->
@@ -431,6 +445,10 @@
 				},
 				goToProfile() {
 					console.log("Profile button clicked");
+				},
+				editListing(docId) {
+					// Redirect to the edit page with docId as a query parameter
+					window.location.href = `../Posting/updateposting.html?docId=${docId}`;
 				},
 			},
 		}).mount("#app");
