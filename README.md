@@ -6,8 +6,9 @@
 
 1. [Features](#features)
 2. [Project Structure](#project-structure)
-3. [Deployment](#deployment)
-4. [Usage](#usage)
+3. [Local Hosting](#local-host)
+4. [Deployment](#deployment)
+5. [Usage](#usage)
 
 
 
@@ -38,6 +39,12 @@ volunteer-connect/
 ├── .gitignore                # Files and directories to ignore in Git
 └── README.md                 # Project documentation.
 ```
+## **Local Hosting**
+
+1. **Remove-Files**
+   - Remove **build-config.js** and **package.json** from public folder
+   - Add config.js to public folder provided in the zip folder
+2. Open via localhost/public on your browser with WAMP/MAMP server turned on
 
 ## **Deployment**
 
