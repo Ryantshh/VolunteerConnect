@@ -77,8 +77,8 @@
 		<div v-else class="profile container-fluid">
 			<div class="profile-header">
 				<h1>User Profile</h1>
-				<div>
-					<button v-if="! isEditing" @click="isEditing = !isEditing" class="action-button mx-2">
+				<div class="button-container">
+					<button v-if="!isEditing" @click="isEditing = !isEditing" class="action-button mx-2">
 						Edit Profile
 					</button>
 				</div>

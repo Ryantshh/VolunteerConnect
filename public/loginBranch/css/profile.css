@@ -235,6 +235,7 @@ button:not(#signin):not(.navbar-toggler):hover::after {
 }
 
 .profile-header {
+    flex-direction: column; /* Stack items vertically */
     display: flex;
     gap: 10px;
     justify-content: center;
