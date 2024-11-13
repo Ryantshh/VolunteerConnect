@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nonprofit Listings</title>
+    <!-- Vue.js -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="./posting.css">
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.0.1/firebase-storage-compat.js"></script>
+    <script src="../config.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <!-- Navbar Brand -->
+            <a class="navbar-brand" href="#">
+                <img src="../loginBranch/images/Volunteer.png" alt="logo" />
+            </a>
+
+            <!-- Toggler for mobile view -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links-->
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="../loginBranch/homepageafterlogin.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../explore/exploreafterlogin.html">Explore</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../calendar/calendar.html">Calendar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../donation/donateaftlogin.html">Donate</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Sign In Button on the far right -->
+            <div class="d-flex">
+                <button id="signin" class="btn" type="button"
+                    onclick="window.location.href='../loginBranch/profile.html'">My Profile</button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="app">
+        <div id="post" class="container fluid">
+            <div class="form-container">
+                <div class="success-bar" v-if="successMessage">Event Edited Successfuly!</div>
+                <h2 class="form-title">Edit Volunteer Event</h2>
+
+                <!-- Form submission handled by handleSubmit method -->
+                <form @submit.prevent="handleSubmit" id="listing-form" class="listing-form">
+
+                    <div class="form-group">
+                        <label for="listing-name">Event Name</label>
+                        <input v-model="newListing.title" type="text" id="listing-name" class="form-control" required
+                            placeholder="Enter listing name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="listing-description">Description</label>
+                        <textarea v-model="newListing.description" id="listing-description" class="form-control"
+                            rows="4" required placeholder="Describe the volunteer opportunity..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Event Frequency</label>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" v-model="newListing.isRecurring" :value="false" name="eventType">
+                                <span> One-time Event</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" v-model="newListing.isRecurring" :value="true" name="eventType">
+                                <span> Recurring Event</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Show date input for one-time events -->
+                    <div class="form-group" v-if="!newListing.isRecurring">
+                        <label for="event-date">Event Date</label>
+                        <input v-model="newListing.date" type="date" id="event-date" class="form-control" required>
+                    </div>
+
+                    <!-- Show days selection for recurring events -->
+                    <div class="form-group" v-if="newListing.isRecurring">
+                        <label>Select Recurring Days</label>
+                        <div class="btn-group d-flex flex-wrap">
+                            <div v-for="day in days" :key="day" class="form-check">
+                                <input type="checkbox" :id="'day-' + day" v-model="newListing.recurringDays"
+                                    :value="day" class="btn-custom">
+                                <label :for="'day-' + day" class="btn-custom">{{ day }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" v-if="newListing.isRecurring">
+                        <label for="eventstartdate">Event Start Date</label>
+                        <input v-model="newListing.recurringStartDate" type="date" id="eventstartdate"
+                            class="form-control" required>
+                    </div>
+
+                    <div class="form-group" v-if="newListing.isRecurring">
+                        <label for="eventenddate">Event End Date</label>
+                        <input v-model="newListing.recurringEndDate" type="date" id="eventenddate" class="form-control"
+                            required>
+                    </div>
+
+                    <div class="form-group time-group">
+                        <label for="listing-time">Event Time</label>
+                        <div class="time-inputs">
+                            <input v-model="newListing.startTime" type="time" id="listing-start-time"
+                                class="form-control" required>
+                            <span class="time-separator">to</span>
+                            <input v-model="newListing.endTime" type="time" id="listing-end-time" class="form-control"
+                                required>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <div class="form-group">
+                        <label>Event Categories</label><br />
+                        <div class="btn-group d-flex flex-wrap">
+                            <div v-for="category in interestsList" :key="category" class="form-check">
+                                <input type="checkbox" :id="category" v-model="newListing.category" :value="category"
+                                    class="btn-custom" />
+                                <label :for="category" class="btn-custom">{{ category }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Skills Required</label><br />
+                        <div class="btn-group d-flex flex-wrap">
+                            <div v-for="skill in skillsList" :key="skill" class="form-check">
+                                <input type="checkbox" :id="skill" v-model="newListing.skills" :value="skill"
+                                    class="btn-custom" />
+                                <label :for="skill" class="btn-custom">{{ skill }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="location-input">Event Location Postal Code</label>
+                        <input v-model="newListing.location" type="text" id="location-input" class="form-control"
+                            placeholder="Enter Postal Code" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location-input">Main Website/Social Link</label>
+                        <input v-model="newListing.mainurl" type="text" id="location-input" class="form-control"
+                            placeholder="Enter your url" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location-input">Contact Email</label>
+                        <input v-model="newListing.email" type="text" id="email-input" class="form-control"
+                            placeholder="Enter your contact email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="listing-photo">Upload Photo</label>
+                        <div class="file-upload">
+                            <!-- File input with Vue's change handler and ref -->
+                            <input type="file" id="listing-photo" class="file-input" accept="image/*"
+                                @change="handleImageUpload" ref="fileInput">
+                            <label for="listing-photo" class="file-label">
+                                <span class="upload-icon">📷</span>
+                                <span class="upload-text">{{ uploadText }}</span>
+                            </label>
+                            <!-- Display error message if no image is selected -->
+                            <span v-if="noImage" style="color: red;">Please upload a photo!</span>
+                            <!-- Image preview area -->
+                            <div class="file-preview" v-if="imagePreviewUrl">
+                                <img :src="imagePreviewUrl" alt="Image Preview"
+                                    style="max-width: 100%; max-height: 200px; margin-top: 10px; border-radius: 8px;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        Edit Volunteer Event
+                        <span class="btn-overlay"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="posting.js">
+
+        // Add this JavaScript to create the floating hearts
+    </script>
+
+    <script>
+        // Extract docId from the query parameter
+        const params = new URLSearchParams(window.location.search);
+        const docId = params.get("docId");
+
+        // Use docId to fetch data from Firestore or another source
+        if (docId) {
+            console.log("Document ID:", docId);
+            // Your code to fetch and display the document data goes here
+        }
+        const app = Vue.createApp({
+            data() {
+                return {
+                    days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                    interestsList: [
+                        "Environmental", "Community Development", "Education", "Healthcare", "Animal Welfare",
+                        "Disaster Relief", "Youth Services", "Senior Care", "Human Rights", "Sports Coaching",
+                        "Poverty Alleviation", "Homelessness", "Cultural Heritage", "Mental Health", "Advocacy",
+                    ],
+                    skillsList: [
+                        "First Aid/CPR", "Teaching", "Public Speaking", "Fundraising", "Event Planning",
+                        "Communication", "Leadership", "Project Management", "Mentoring/Coaching", "Social Media Management",
+                        "Grant Writing", "Graphic Design", "Web Development", "Data Analysis", "Tutoring",
+                        "Photography/Videography", "Technical Support", "Healthcare Assistance", "Food Preparation", "Marketing",
+                    ],
+                    newListing: {
+                        title: '',
+                        description: '',
+                        date: '',
+                        startTime: '',
+                        endTime: '',
+                        category: [],
+                        skills: [],
+                        location: '',
+                        imageUrl: '', // File input for image upload
+                        mainurl: '',
+                        isRecurring: false,
+                        recurringDays: [],
+                        userId: '',
+                        email: '',
+                        recurringStartDate: '',
+                        recurringEndDate: '',
+                    },
+                    imageFile: null,         // Temporarily store the selected image file
+                    imagePreviewUrl: '',     // Store the preview URL for the image file
+                    uploadText: 'Choose a file', // Text to show on upload button
+                    noImage: false,          // Tracks if an image was not selected
+                    successMessage: false, // Tracks if the success message should be shown
+                };
+            },
+            methods: {
+                //fetch prefill form data
+                async fetchListingData() {
+                    if (docId) {
+                        try {
+                            // Query Firestore for the document with matching 'id' field
+                            const querySnapshot = await db.collection("listings")
+                                .where("id", "==", docId)
+                                .get();
+
+                            if (!querySnapshot.empty) {
+                                const doc = querySnapshot.docs[0]; // Assuming `id` is unique, take the first match
+                                const data = doc.data();
+                                this.newListing = { ...this.newListing, ...data };
+
+                                // Set the image preview if imageUrl exists
+                                if (data.imageUrl) {
+                                    this.imagePreviewUrl = data.imageUrl;
+                                    this.uploadText = "Change File";
+                                }
+                            } else {
+                                console.log("Document with specified id not found!");
+                            }
+                        } catch (error) {
+                            console.error("Error fetching listing:", error);
+                        }
+                    }
+                },
+
+                // Method to handle file input and display preview
+                handleImageUpload(event) {
+                    const file = event.target.files[0]; // Get the selected file
+
+                    if (file) {
+                        this.noImage = false; // Clear any previous no-image error
+                        this.imageFile = file; // Store the file for later upload
+                        this.uploadText = file.name; // Display the file name
+
+                        // Generate a preview URL
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.imagePreviewUrl = e.target.result; // Set the preview URL
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        // Reset everything if no file is selected
+                        this.uploadText = 'Choose a file';
+                        this.imagePreviewUrl = '';
+                    }
+                },
+                getDayOfWeek(dateString) {
+                    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                    const date = new Date(dateString);
+                    return daysOfWeek[date.getDay()];
+                },
+
+                async handleSubmit(event) {
+                    event.preventDefault();
+
+
+
+                    // Validate recurring events have at least one day selected
+                    if (this.newListing.isRecurring && this.newListing.recurringDays.length === 0) {
+                        alert("Please select at least one day for recurring events");
+                        return;
+                    }
+
+                    try {
+                        // Generate a unique file name
+                        // Check if an image file is selected
+                        if (this.imageFile) {
+
+                            const uniqueFileName = `${Date.now()}_${this.imageFile.name}`;
+
+                            // Upload the image to Firebase Storage
+                            const storageRef = firebase.storage().ref(`images/${uniqueFileName}`);
+                            const snapshot = await storageRef.put(this.imageFile);
+
+                            // Get the download URL
+                            this.newListing.imageUrl = await snapshot.ref.getDownloadURL();
+                        }
+                        const user = firebase.auth().currentUser;
+                        if (user) {
+                            this.newListing.userId = user.uid; // Store the UID in newListing
+                        }
+
+
+                        // Set the days of week based on whether it's recurring or one-time
+                        if (this.newListing.isRecurring) {
+                            this.newListing.daysOfWeek = this.newListing.recurringDays;
+                        } else {
+                            const dayOfWeek = this.getDayOfWeek(this.newListing.date);
+                            this.newListing.daysOfWeek = [dayOfWeek];
+                        }
+
+
+                        // Query the `listings` collection to find the document with the matching `id` field
+                        const querySnapshot = await db.collection("listings").where("id", "==", docId).get();
+
+                        if (!querySnapshot.empty) {
+                            // Assume `id` is unique and take the first matching document
+                            const docRef = querySnapshot.docs[0].ref;
+
+                            // Update the document with the data in `this.newListing`
+                            await docRef.update(this.newListing);
+
+                            console.log("Document updated successfully");
+                        } else {
+                            console.log("No document found with the specified custom ID.");
+                        }
+
+                        // Clear form data after submission
+                        Object.keys(this.newListing).forEach((key) => {
+                            if (key !== 'imageUrl' && key !== "skills" && key != "category") this.newListing[key] = '';
+                        });
+
+                        // Reset file-related fields
+                        this.newListing.skills = [];
+                        this.newListing.category = [];
+                        this.newListing.recurringDays = [];
+                        this.imageFile = null;
+                        this.imagePreviewUrl = '';
+                        this.$refs.fileInput.value = ''; // Clear file input element
+                        this.uploadText = 'Choose a file';
+                        this.noImage = false; // Reset the noImage flag after a successful upload
+                        // Scroll to the top of the page to show the success message
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        // Set successMessage to true to show the success bar
+                        this.successMessage = true;
+
+                        // Show success message
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        this.successMessage = true;
+
+                        // Hide success message after 3 seconds
+                        setTimeout(() => {
+                            this.successMessage = false;
+                            console.log("Redirecting to profile page...");
+                            window.location.href="../loginBranch/profile.html"
+                        }, 1000);
+                    } catch (error) {
+                        console.error("Error uploading image or writing to Firestore:", error);
+                    }
+                },
+
+            },
+            mounted() {
+                this.fetchListingData(); // Fetch listing data on component mount
+            },
+        });
+
+        // Mount the Vue instance to the #app element
+        vm = app.mount('#app');
+
+    </script>
+
+
+
+
+</body>
+
+</html>
