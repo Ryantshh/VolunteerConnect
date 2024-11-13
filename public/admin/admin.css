@@ -148,12 +148,8 @@ html {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background-image: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('volunteerbackground.jpg');
-    background-blend-mode: overlay;
-    background-attachment: fixed;
-    background-size: cover;
-    background-position: center;
     padding: 20px;
+    background: none; /* Remove the duplicate background */
 }
 
 /* Header styles */
@@ -360,11 +356,8 @@ html {
 }
 
 @media (max-width: 768px) {
-    #app {
-        background-image: linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)), url('volunteerbackground.jpg');
-        background-blend-mode: overlay;
-        background-size: cover;
-        background-position: center;
+    body {
+        background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('volunteerbackground.jpg');
     }
     
     .header {
@@ -374,10 +367,7 @@ html {
 }
 
 @media (max-width: 576px) {
-    #app {
-        background-image: linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)), url('volunteerbackground.jpg');
-        background-blend-mode: overlay;
-        background-size: cover;
-        background-position: center;
+    body {
+        background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), url('volunteerbackground.jpg');
     }
 }
