@@ -56,7 +56,7 @@ The **Volunteer Connect** web app was deployed on **Netlify** to ensure a seamle
 4. **Configuring Build Settings**
    - For the deployment configuration:
      - **Build Command** was set to `npm run build` to create an optimized production build.
-     - **Publish Directory** was set to `public`, as this is where our built files are located and ready for deployment.
+     - **Base directory** was set to `/public`, as this is where our built files are located and ready for deployment.
    - These settings ensured that Netlify would correctly build and deploy the application from the specified directory.
 
 5. **Adding Environment Variables**
