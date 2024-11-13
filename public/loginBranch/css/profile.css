@@ -428,26 +428,18 @@ hr {
   }
   
   .expand-button {
-    color: #2193b0;
+    background: none;
+    border: none;
+    color: #6c757d;
+    padding: 2px;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 4px;
-    cursor: pointer;
-    font-size: 0.875rem;
-    transition: color 0.3s ease;
-    margin-top: 0.5rem;
+    margin-left: auto;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
   }
   
   .expand-button:hover {
-    color: #1a7285;
-  }
-  
-  .expand-icon {
-    width: 20px;
-    height: 20px;
-    transition: transform 0.3s ease;
-  }
-  
-  .expand-icon.rotate {
-    transform: rotate(180deg);
+    color: #495057;
   }
